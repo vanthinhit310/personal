@@ -1,9 +1,19 @@
-require("./bootstrap.js");
-require("./vendor/global.js");
-require("./vendor/import.js");
+require("./bootstrap");
+
+require("./vendor/import");
+
 require("./vendor/validate");
 
-import Vue from 'vue'
+require("./vendor/global");
+
+import Vue from "vue";
+
+
+/* Import lodash */
+import _ from 'lodash'
+Vue.prototype._ = _
+/* Import lodash */
+
 /* Import route and store main file */
 import router from "./router/index";
 import store from "./store/index";

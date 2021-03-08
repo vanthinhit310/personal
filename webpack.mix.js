@@ -21,7 +21,7 @@ mix.version().webpackConfig({
 });
 
 mix.setPublicPath("public")
-    .js("platform/themes/main/vue/core/app.js", "public/themes/main/js/app.js")
+    .js("platform/themes/main/vue/core/app.js", "public/themes/main/js/app.js").vue()
     .sass(
         "platform/themes/main/public/sass/app.scss",
         "public/themes/main/css/app.css"

@@ -1,6 +1,6 @@
 <template>
     <section class="application">
-        <a-spin>
+        <a-spin tip="Đang xử lý...">
             <a-icon slot="indicator" type="loading" style="font-size: 24px" spin />
             <transition name="slide-fade">
                 <router-view />
@@ -10,9 +10,7 @@
 </template>
 
 <script>
-export default {
-
-};
+export default {};
 </script>
 
 <style lang="scss" scoped></style>
