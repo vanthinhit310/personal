@@ -42,7 +42,7 @@ function generateRoutes(o, pathPrefix = "") {
     if (!!authorize) {
         orginal = {
             ...orginal,
-            meta: { authorize }
+            meta: authorize
         };
     }
     return orginal;
