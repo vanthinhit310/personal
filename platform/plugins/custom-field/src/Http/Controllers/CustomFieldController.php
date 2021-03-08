@@ -23,6 +23,7 @@ use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\View\View;
 use Throwable;
 
@@ -97,7 +98,7 @@ class CustomFieldController extends BaseController
         $message = trans('core/base::notices.create_success_message');
         if ($result['error']) {
             $hasError = true;
-            $message = $result['message'];
+            $message = Arr::first($result['messages']);
         }
 
         return $response
@@ -152,7 +153,7 @@ class CustomFieldController extends BaseController
         $message = trans('core/base::notices.update_success_message');
         if ($result['error']) {
             $response->setError(true);
-            $message = $result['message'];
+            $message = Arr::first($result['messages']);
         }
 
         return $response
