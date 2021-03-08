@@ -1,23 +1,28 @@
-let mix = require('laravel-mix');
-let glob = require('glob');
+let mix = require("laravel-mix");
 
-mix.options({
-    processCssUrls: false,
-    clearConsole: true,
-    terser: {
-        extractComments: false,
+mix.webpackConfig({
+    resolve: {
+        extensions: [".js", ".vue", ".json"],
+        alias: {
+            "@": __dirname + "/platform/themes/main/vue",
+            "@core": __dirname + "/platform/themes/main/vue/core",
+            "@modules": __dirname + "/platform/themes/main/vue/modules"
+        }
     }
 });
 
-// Run all webpack.mix.js in app
-glob.sync('./platform/**/**/webpack.mix.js').forEach(item => require(item));
+mix.version().webpackConfig({
+    output: {
+        chunkFilename: "js/chunks/[name].[hash].js"
+    },
+    module: {
+        rules: [{ test: /\.txt$/, use: "raw-loader" }]
+    }
+});
 
-// Run only for a package, replace [package] by the name of package you want to compile assets
-// require('./platform/packages/[package]/webpack.mix.js');
-
-// Run only for a plugin, replace [plugin] by the name of plugin you want to compile assets
-// require('./platform/plugins/[plugin]/webpack.mix.js');
-
-// Run only for themes, you shouldn't modify below config, just uncomment if you want to compile only theme's assets
-// glob.sync('./platform/themes/**/webpack.mix.js').forEach(item => require(item));
-
+mix.setPublicPath("public")
+    .js("platform/themes/main/vue/core/app.js", "public/themes/main/js/app.js")
+    .sass(
+        "platform/themes/main/public/sass/app.scss",
+        "public/themes/main/css/app.css"
+    );

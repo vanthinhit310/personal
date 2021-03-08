@@ -51,8 +51,8 @@ return [
             // });
 
             // You may use this event to set up your assets.
-            $theme->asset()->usePath()->add('style', 'css/style.css');
-            $theme->asset()->container('footer')->usePath()->add('script', 'js/script.js');
+            $theme->asset()->usePath()->add('style', 'css/app.css',[],[],time());
+            $theme->asset()->container('footer')->usePath()->add('script', 'js/app.js',[],[],time());
 
             if (function_exists('shortcode')) {
                 $theme->composer(['index', 'page', 'post'], function (\Platform\Shortcode\View\View $view) {

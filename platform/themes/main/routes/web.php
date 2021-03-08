@@ -6,12 +6,12 @@ Route::group(['namespace' => 'Theme\Main\Http\Controllers', 'middleware' => ['we
     Route::group(apply_filters(BASE_FILTER_GROUP_PUBLIC_ROUTE, []), function () {
 
         // Add your custom route here
-        // Ex: Route::get('hello', 'MainController@getHello');
+        Route::any('{any}', 'MainController@index')->where('any','.*');
 
     });
 });
 
-Theme::routes();
+// Theme::routes();
 
 Route::group(['namespace' => 'Theme\Main\Http\Controllers', 'middleware' => ['web', 'core']], function () {
     Route::group(apply_filters(BASE_FILTER_GROUP_PUBLIC_ROUTE, []), function () {
