@@ -1,8 +1,6 @@
 <template>
     <section class="application h100">
-        <transition name="slide-fade">
-            <router-view />
-        </transition>
+        <router-view />
     </section>
 </template>
 
@@ -17,16 +15,10 @@ export default {
     methods: {
         ...mapMutations({
             setLoadingState: 'dashboard/setLoadingState',
-        })
+        }),
     },
     mounted() {},
 };
 </script>
 
-<style lang="scss" scoped>
-#components-layout-demo-responsive .logo {
-    height: 32px;
-    background: rgba(255, 255, 255, 0.2);
-    margin: 16px;
-}
-</style>
+<style lang="scss" scoped></style>

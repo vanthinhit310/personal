@@ -1,10 +1,10 @@
 <template>
     <a-layout id="components-layout-demo-responsive">
-        <sidebar></sidebar>
+        <Sidebar />
         <a-layout>
-            <header></header>
-            <content></content>
-            <footer></footer>
+            <Header />
+            <slot/>
+            <Footer />
         </a-layout>
     </a-layout>
 </template>

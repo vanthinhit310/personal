@@ -1,6 +1,6 @@
 <template>
     <div class="sidebar">
-        <a-layout-sider breakpoint="lg" collapsed-width="0">
+        <a-layout-sider :style="{ height: '100%' }" breakpoint="lg" collapsed-width="0">
             <div class="logo" />
             <a-menu theme="dark" mode="inline" :default-selected-keys="['1']">
                 <a-menu-item key="1">
@@ -28,4 +28,10 @@
 export default {};
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.logo {
+    height: 32px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 16px;
+}
+</style>

@@ -1,15 +1,16 @@
 <template>
-    <div>
-        <h1>Đây là trang login</h1>
-    </div>
+    <no-sidebar-layout>
+        <h1>Login</h1>
+    </no-sidebar-layout>
 </template>
 
 <script>
-    export default {
-
-    }
+import NoSidebarLayout from '@core/layouts/NoSidebarLayout';
+export default {
+    components: {
+        NoSidebarLayout,
+    },
+};
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

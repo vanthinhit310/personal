@@ -1,6 +1,6 @@
 <template>
     <a-layout>
-        <content />
+        <slot />
     </a-layout>
 </template>
 
