@@ -15,8 +15,8 @@ Vue.prototype._ = _
 /* Import lodash */
 
 /* Import route and store main file */
-import router from "./router/index";
-import store from "./store/index";
+import router from "@core/router/index";
+import store from "@core/store/index";
 /* Import route and store main file */
 
 const app = new Vue({

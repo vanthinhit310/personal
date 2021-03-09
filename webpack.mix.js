@@ -14,9 +14,6 @@ mix.webpackConfig({
 mix.version().webpackConfig({
     output: {
         chunkFilename: "js/chunks/[name].[hash].js"
-    },
-    module: {
-        rules: [{ test: /\.txt$/, use: "raw-loader" }]
     }
 });
 
