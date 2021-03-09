@@ -29,4 +29,4 @@
         {!! Theme::header() !!}
     </head>
 
-    <body @if (BaseHelper::siteLanguageDirection()=='rtl' ) dir="rtl" @endif>
+    <body @if (BaseHelper::siteLanguageDirection()=='rtl' ) dir="rtl" @endif class="hfull">

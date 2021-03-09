@@ -1,16 +1,32 @@
 <template>
-    <section class="application">
-        <a-spin tip="Đang xử lý...">
-            <a-icon slot="indicator" type="loading" style="font-size: 24px" spin />
-            <transition name="slide-fade">
-                <router-view />
-            </transition>
-        </a-spin>
+    <section class="application h100">
+        <transition name="slide-fade">
+            <router-view />
+        </transition>
     </section>
 </template>
 
 <script>
-export default {};
+import { mapGetters, mapMutations } from 'vuex';
+export default {
+    computed: {
+        ...mapGetters({
+            loading: 'dashboard/getLoadingState',
+        }),
+    },
+    methods: {
+        ...mapMutations({
+            setLoadingState: 'dashboard/setLoadingState',
+        })
+    },
+    mounted() {},
+};
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+#components-layout-demo-responsive .logo {
+    height: 32px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 16px;
+}
+</style>

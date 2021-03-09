@@ -1,1 +1,12 @@
+body {
+  font-size: 12px;
+  overflow: hidden;
+}
 
+.hfull {
+  height: 100vh;
+}
+
+.h100 {
+  height: 100%;
+}

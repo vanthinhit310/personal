@@ -1,3 +1,3 @@
-<div id="app">
+<div id="app" class="h100">
     <application></application>
 </div>
