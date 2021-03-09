@@ -1,3 +1,9 @@
 export default {
-    loading : false
+    loading : false,
+    menu : [
+        {
+            icon : 'user',
+            label : ''
+        }
+    ]
 }
