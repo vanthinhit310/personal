@@ -20,5 +20,12 @@ export default {
         }
 
         return response;
+    },
+    async logout({ dispatch, state, commit }) {
+        if (!localStorage.getItem("accessToken")) return;
+        const response = await AuthRepository.logout();
+        commit("setCurrentUser", "");
+        localStorage.removeItem("accessToken");
+        return response;
     }
 };

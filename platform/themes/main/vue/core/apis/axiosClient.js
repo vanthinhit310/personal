@@ -22,14 +22,14 @@ axiosClient.interceptors.request.use(async config => {
         });
     }
     config.headers["Authorization"] = `Bearer ${localStorage.getItem("accessToken")}`;
-    app.$Progress.start();
+    // app.$Progress.start();
     return {
         ...config
     };
 });
 axiosClient.interceptors.response.use(
     response => {
-        app.$Progress.finish();
+        // app.$Progress.finish();
         if (response && response.data) {
             const message = _.get(response, "data.message");
 
@@ -65,10 +65,10 @@ axiosClient.interceptors.response.use(
                         app.$router.push({
                             name: "login",
                             query: {
-                                returnUrl:
+                                redirect:
                                     app.$route.name == "login"
                                         ? "/"
-                                        : app.$route.path
+                                        : app.$route.fullpath
                             }
                         });
                         break;
@@ -85,7 +85,6 @@ axiosClient.interceptors.response.use(
 
                     case 422:
                         const errors = _.get(error, "response.data.errors", "");
-                        const message = _.get(error, "response.data.message", "");
                         if (!!message)
                             app.$notification.error({
                                 message: "Notification System",

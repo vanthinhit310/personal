@@ -4,7 +4,7 @@ export default {
         return axiosClient.post("login", formData);
     },
     logout() {
-        return axiosClient.delete("logout", {
+        return axiosClient.get("logout", {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("accessToken")
             }

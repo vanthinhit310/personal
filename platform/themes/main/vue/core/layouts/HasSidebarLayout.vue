@@ -3,7 +3,10 @@
         <left-sidebar></left-sidebar>
         <a-layout>
             <Header />
-            <slot/>
+            <a-spin tip="Processing..." :wrapperClassName="'page-loading'" size="large" :spinning="loading" :delay="100">
+                <a-icon slot="indicator" type="loading" spin />
+                <slot />
+            </a-spin>
             <Footer />
         </a-layout>
     </a-layout>
@@ -14,12 +17,18 @@ import Header from '@core/layouts/Header';
 import Footer from '@core/layouts/Footer';
 import Content from '@core/layouts/Content';
 import LeftSidebar from '@core/layouts/LeftSidebar';
+import { mapGetters } from 'vuex';
 export default {
     components: {
         Header,
         Footer,
         Content,
-        LeftSidebar
+        LeftSidebar,
+    },
+    computed: {
+        ...mapGetters({
+            loading: 'dashboard/getLoadingState',
+        }),
     },
 };
 </script>

@@ -80,7 +80,6 @@ export default {
         handleAfterLogin() {
             this.formData = { email: 'trump@demo.com', password: '' };
             const { redirect } = this.$route.query;
-            console.log(redirect);
             this.$router.push({ path: !redirect ? '/' : redirect });
         },
     },

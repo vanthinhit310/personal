@@ -2,6 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import routes from "./web";
 import store from "@core/store/index";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 Vue.use(VueRouter);
 
 const router = new VueRouter({
@@ -16,11 +18,13 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
+    const { getters, dispatch } = store;
+    NProgress.start();
+    await dispatch("dashboard/handleLoading", true);
     //chuyển hướng đến trang đăng nhập nếu chưa đăng nhập và cố gắng truy cập trang bị hạn chế
     let { requiredAuth } = to.meta;
 
     if (requiredAuth) {
-        const { getters, dispatch } = store;
         let isAuthentication = false;
 
         if (!localStorage.getItem("accessToken")) {
@@ -42,6 +46,11 @@ router.beforeEach(async (to, from, next) => {
     }
 
     next();
+});
+router.afterEach(async () => {
+    const { dispatch } = store;
+    await dispatch("dashboard/handleLoading", false);
+    NProgress.done();
 });
 
 export default router;

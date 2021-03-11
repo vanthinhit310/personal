@@ -12,7 +12,7 @@
                             <a href="javascript:;"><a-icon type="profile" /> Profile</a>
                         </a-menu-item>
                         <a-menu-item>
-                            <a href="javascript:;"><a-icon type="logout" /> Logout</a>
+                            <a href="javascript:;" @click="handleLogout"><a-icon type="logout" /> Logout</a>
                         </a-menu-item>
                     </a-menu>
                 </a-dropdown>
@@ -22,13 +22,24 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 export default {
     computed: {
         ...mapGetters({
             user: 'auth/getCurrentUser',
             avatar: 'auth/getAvatar',
         }),
+    },
+    methods: {
+        ...mapActions('auth', ['logout']),
+        async handleLogout() {
+            try {
+                await this.logout();
+                this.$router.push({ name: 'login', query: { redirect: this.$route.fullpath } });
+            } catch (err) {
+                console.log(err);
+            }
+        },
     },
 };
 </script>
