@@ -1,6 +1,9 @@
 <template>
     <div class="sidebar">
-        <a-layout-sider :style="{ height: '100%' }" breakpoint="lg" collapsed-width="0">
+        <a-layout-sider :style="{ height: '100%', width: '250px', maxWidth: '250px', minWidth: '250px' }" breakpoint="lg" collapsed-width="0">
+            <div class="logo">
+                <router-link :to="{ name: 'dashboard' }"><img src="/themes/main/imgs/logo.png" alt="Logo" /></router-link>
+            </div>
             <a-menu theme="dark" mode="inline" :default-selected-keys="[0]">
                 <template v-for="(menu, index) in menus">
                     <a-menu-item v-if="!menu.subs" :key="index">
