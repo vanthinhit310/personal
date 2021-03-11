@@ -1,0 +1,15 @@
+.header-content{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    .notification-icon{
+        margin-right: 30px;
+        margin-top: 10px;
+    }
+    .user-dropdown{
+        display: flex;
+        align-items: center;
+    }
+}

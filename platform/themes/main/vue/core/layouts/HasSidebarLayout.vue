@@ -1,6 +1,6 @@
 <template>
     <a-layout id="components-layout-demo-responsive">
-        <Sidebar />
+        <left-sidebar></left-sidebar>
         <a-layout>
             <Header />
             <slot/>
@@ -12,14 +12,14 @@
 <script>
 import Header from '@core/layouts/Header';
 import Footer from '@core/layouts/Footer';
-import Sidebar from '@core/layouts/Sidebar';
 import Content from '@core/layouts/Content';
+import LeftSidebar from '@core/layouts/LeftSidebar';
 export default {
     components: {
         Header,
         Footer,
-        Sidebar,
         Content,
+        LeftSidebar
     },
 };
 </script>

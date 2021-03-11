@@ -1,0 +1,38 @@
+<template>
+    <div class="sidebar">
+        <a-layout-sider :style="{ height: '100%' }" breakpoint="lg" collapsed-width="0">
+            <a-menu theme="dark" mode="inline" :default-selected-keys="[0]">
+                <template v-for="(menu, index) in menus">
+                    <a-menu-item v-if="!menu.subs" :key="index">
+                        <router-link :to="_.get(menu, 'link')">
+                            <a-icon v-if="menu.icon" :type="_.get(menu, 'icon')" /><span class="nav-text">{{ _.get(menu, 'title') }}</span>
+                        </router-link>
+                    </a-menu-item>
+                    <a-sub-menu v-else :key="index">
+                        <span slot="title">
+                            <a-icon v-if="menu.icon" :type="_.get(menu, 'icon')" /><span>{{ _.get(menu, 'title') }}</span>
+                        </span>
+                        <a-menu-item v-for="(sub, i) in menu.subs" :key="`sub${i}`">
+                            <router-link :to="_.get(sub, 'link')">
+                                <a-icon v-if="sub.icon" :type="_.get(sub, 'icon')" /><span class="nav-text">{{ _.get(sub, 'title') }}</span>
+                            </router-link>
+                        </a-menu-item>
+                    </a-sub-menu>
+                </template>
+            </a-menu>
+        </a-layout-sider>
+    </div>
+</template>
+
+<script>
+import { mapGetters } from 'vuex';
+export default {
+    computed: {
+        ...mapGetters({
+            menus: 'dashboard/getSidebarMenu',
+        }),
+    },
+};
+</script>
+
+<style lang="scss" scoped></style>

@@ -10,3 +10,18 @@ body {
 .h100 {
   height: 100%;
 }
+
+.header-content {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.header-content .notification-icon {
+  margin-right: 30px;
+  margin-top: 10px;
+}
+.header-content .user-dropdown {
+  display: flex;
+  align-items: center;
+}
