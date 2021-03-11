@@ -14,5 +14,8 @@ export default {
             }
         }
         return "https://api.hubspot.com/userpreferences/v1/avatar/6c5f94576c1935a0cdd08eccab2ea50e/100";
+    },
+    isAuthentication: state => {
+        return !!state.currentUser;
     }
 };

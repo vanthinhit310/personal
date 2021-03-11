@@ -23353,6 +23353,10 @@ body {
 .header-content .user-dropdown {
   display: flex;
   align-items: center;
+  cursor: pointer;
+}
+.header-content .user-dropdown .ant-avatar-image {
+  margin-right: 10px;
 }
 
 .logo img {

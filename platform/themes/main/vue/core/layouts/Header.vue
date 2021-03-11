@@ -6,7 +6,7 @@
                     <a-icon type="bell" :style="{ fontSize: '20px' }" />
                 </a-badge>
                 <a-dropdown class="user-dropdown">
-                    <span><a-avatar :size="40" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" /> Anonymous</span>
+                    <span><a-avatar :size="40" :src="avatar" /> {{ _.get(user, 'fullname', '') }}</span>
                     <a-menu slot="overlay">
                         <a-menu-item>
                             <a href="javascript:;"><a-icon type="profile" /> Profile</a>
@@ -22,7 +22,15 @@
 </template>
 
 <script>
-export default {};
+import { mapGetters } from 'vuex';
+export default {
+    computed: {
+        ...mapGetters({
+            user: 'auth/getCurrentUser',
+            avatar: 'auth/getAvatar',
+        }),
+    },
+};
 </script>
 
 <style lang="scss" scoped></style>
