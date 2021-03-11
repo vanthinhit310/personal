@@ -3,7 +3,7 @@ const routes = [
         path: "/",
         component: "Dashboard/Index.vue",
         name: "dashboard",
-        authorize: { requiredAuth: false }
+        authorize: { requiredAuth: true }
     }
 ];
 

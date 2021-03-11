@@ -1,12 +1,63 @@
-body{
-    font-size: 12px;
-    overflow: hidden;
-}
-
 .hfull{
     height: 100vh;
 }
 
 .h100{
     height: 100%;
+}
+
+.form{
+    display: grid;
+    grid-template-columns: repeat(1,1fr);
+    background-color: $WHITE;
+    row-gap: 1rem;
+    padding: 20px;
+    &__title{
+        font-size: 30px;
+        font-weight: 800;
+        text-transform: uppercase;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+    &__group{
+        display: grid;
+        grid-template-columns: repeat(1,1fr);
+        &-label{
+            font-size: 14px;
+            margin-bottom: 5px;
+            position: relative;
+            span{
+                display: inline-block;
+                line-height: 1;
+            }
+        }
+        &-input{
+            width: 100%;
+        }
+
+        .required{
+            span{
+                position: relative;
+                &::after{
+                    content: '*';
+                    position: absolute;
+                    top: 0;
+                    right: -8px;
+                    z-index: 1;
+                    color: red;
+                }
+            }
+        }
+    }
+    &__hyperlink{
+        display: inline-flex;
+        justify-content: space-between;
+        column-gap: 15px;
+    }
+    &__action{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        column-gap: 10px;
+    }
 }

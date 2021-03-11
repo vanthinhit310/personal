@@ -9,22 +9,9 @@
         <meta name="pusher_app_key" content="{{ theme_option('pusher_key','') }}">
         <meta name="pusher_app_cluster" content="{{ theme_option('pusher_cluster','') }}">
         <!-- Fonts-->
-        <link href="https://fonts.googleapis.com/css?family={{ urlencode(theme_option('primary_font', 'Roboto')) }}" rel="stylesheet" type="text/css">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
         <!-- CSS Library-->
-
-        <style>
-            :root {
-                --color-1st: {
-                        {
-                        theme_option('primary_color', '#ff2b4a')
-                    }
-                }
-
-                ;
-                --primary-font: '{{ theme_option('primary_font', 'Roboto') }}',
-                sans-serif;
-            }
-        </style>
 
         {!! Theme::header() !!}
     </head>

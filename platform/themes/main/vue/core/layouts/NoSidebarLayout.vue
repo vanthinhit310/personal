@@ -1,5 +1,5 @@
 <template>
-    <a-layout>
+    <a-layout class="h100">
         <slot />
     </a-layout>
 </template>
