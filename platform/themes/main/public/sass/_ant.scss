@@ -1,4 +1,30 @@
-.ant-layout{
+.ant-layout {
     background: unset;
     background-color: $BACKGROUND;
+}
+.ant-menu-item-selected {
+    background-color: unset;
+}
+
+.sidebar {
+    .ant-menu-inline .ant-menu-item {
+        padding-right: 0;
+    }
+    .ant-menu-item {
+        a {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+    }
+    .ant-menu-sub {
+        .ant-menu-item {
+            a {
+                padding-left: 30px;
+                padding-right: 30px;
+            }
+        }
+    }
+    span.sub-menu-title{
+        padding-left: 15px;
+    }
 }

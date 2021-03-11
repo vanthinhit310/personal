@@ -7,6 +7,11 @@ export default {
             link: { name: "dashboard" }
         },
         {
+            icon: "message",
+            title: "Message",
+            link: { name: "message" }
+        },
+        {
             icon: "user",
             title: "User",
             link: "javascript:void(0)",

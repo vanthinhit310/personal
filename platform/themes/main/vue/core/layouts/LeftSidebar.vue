@@ -4,18 +4,18 @@
             <div class="logo">
                 <router-link :to="{ name: 'dashboard' }"><img src="/themes/main/imgs/logo.png" alt="Logo" /></router-link>
             </div>
-            <a-menu theme="dark" mode="inline" :default-selected-keys="[0]">
+            <a-menu theme="dark" mode="inline" :inlineIndent="0">
                 <template v-for="(menu, index) in menus">
-                    <a-menu-item v-if="!menu.subs" :key="index">
+                    <a-menu-item v-if="!menu.subs" :key="index + 1">
                         <router-link :to="_.get(menu, 'link')">
                             <a-icon v-if="menu.icon" :type="_.get(menu, 'icon')" /><span class="nav-text">{{ _.get(menu, 'title') }}</span>
                         </router-link>
                     </a-menu-item>
-                    <a-sub-menu v-else :key="index">
-                        <span slot="title">
+                    <a-sub-menu v-else :key="`sub${index}`">
+                        <span class="sub-menu-title" slot="title">
                             <a-icon v-if="menu.icon" :type="_.get(menu, 'icon')" /><span>{{ _.get(menu, 'title') }}</span>
                         </span>
-                        <a-menu-item v-for="(sub, i) in menu.subs" :key="`sub${i}`">
+                        <a-menu-item v-for="(sub, i) in menu.subs" :key="`${i + 1}`">
                             <router-link :to="_.get(sub, 'link')">
                                 <a-icon v-if="sub.icon" :type="_.get(sub, 'icon')" /><span class="nav-text">{{ _.get(sub, 'title') }}</span>
                             </router-link>
@@ -30,10 +30,21 @@
 <script>
 import { mapGetters } from 'vuex';
 export default {
+    data() {
+        return {
+            menuSelected: 1,
+        };
+    },
     computed: {
         ...mapGetters({
             menus: 'dashboard/getSidebarMenu',
         }),
+    },
+    methods: {
+        handleMenuSelected({ item, key, keyPath }) {
+            console.log(key);
+            this.menuSelected = key;
+        },
     },
 };
 </script>

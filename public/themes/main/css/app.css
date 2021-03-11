@@ -23252,6 +23252,25 @@ li.ant-tree-treenode-disabled > .ant-tree-node-content-wrapper:hover {
   background-color: #f5f3f1;
 }
 
+.ant-menu-item-selected {
+  background-color: unset;
+}
+
+.sidebar .ant-menu-inline .ant-menu-item {
+  padding-right: 0;
+}
+.sidebar .ant-menu-item a {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.sidebar .ant-menu-sub .ant-menu-item a {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+.sidebar span.sub-menu-title {
+  padding-left: 15px;
+}
+
 body {
   font-family: "Nunito", sans-serif !important;
   font-size: 15px;
@@ -23269,6 +23288,11 @@ body {
 }
 .page-loading .ant-spin-container {
   height: 100%;
+}
+
+.sidebar a.exact-active {
+  background-color: #1890ff;
+  color: #FFF !important;
 }
 
 .hfull {
