@@ -19,12 +19,16 @@ router.beforeEach(async (to, from, next) => {
     let { requiredAuth } = to.meta;
 
     if (requiredAuth) {
-        if (!localStorage.getItem("access_token")) {
+        if (!localStorage.getItem("accessToken")) {
             //chưa đăng nhập nên chuyển hướng đến trang đăng nhập với url trả về
             return next({ name: "login", query: { redirect: to.fullPath } });
         }
-
-        return next({ name: "dashboard" });
+    }
+    if(requiredAuth == false){
+        if (localStorage.getItem("accessToken")) {
+            //nếu đã đăng nhập rồi mà lại vào các url không yêu cầu auth thì sẽ redirect về dashboard
+            return next({ name: "dashboard" });
+        }
     }
     next();
 });

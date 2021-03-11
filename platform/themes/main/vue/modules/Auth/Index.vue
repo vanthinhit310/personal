@@ -1,8 +1,8 @@
 <template>
     <no-sidebar-layout>
         <div class="login-wrapper">
-            <ValidationObserver v-slot="{ handleSubmit }">
-                <form @submit.prevent="handleSubmit(handleLogin)">
+            <ValidationObserver ref="form">
+                <form @submit.prevent="handleLogin">
                     <div class="form login__form">
                         <div class="form__title">Login</div>
                         <div class="form__group">
@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { mapActions, mapMutations } from 'vuex';
 import NoSidebarLayout from '@core/layouts/NoSidebarLayout';
 export default {
     components: {
@@ -46,18 +47,41 @@ export default {
     data() {
         return {
             loading: false,
-            formData:{
-                email : '',
-                password : ''
-            }
+            formData: {
+                email: 'trump@demo.com',
+                password: '',
+            },
         };
     },
     methods: {
-        handleLogin() {
-            this.loading = true;
-            setTimeout(() => {
+        ...mapActions('auth', ['login', 'me']),
+        ...mapMutations({
+            setLoadingState: 'dashboard/setLoadingState',
+        }),
+        async handleLogin() {
+            this.$refs.form.validate().then(async (validated) => {
+                if (!validated) return false;
+                try {
+                    this.setLoadingState(true);
+                    this.loading = true;
+                    const response = await this.login(this.formData);
+                    const { error } = response.data;
+                    if (!error) {
+                        await this.me();
+                        this.handleAfterLogin();
+                    }
+                } catch (err) {
+                    console.log(err);
+                }
                 this.loading = false;
-            }, 3000);
+                this.setLoadingState(false);
+            });
+        },
+        handleAfterLogin() {
+            this.formData = { email: 'trump@demo.com', password: '' };
+            const { redirect } = this.$route.query;
+            console.log(redirect);
+            this.$router.push({ path: !redirect ? '/' : redirect });
         },
     },
 };

@@ -1,5 +1,6 @@
 <template>
     <section class="application h100">
+        <vue-progress-bar />
         <router-view />
     </section>
 </template>

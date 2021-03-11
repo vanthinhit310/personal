@@ -23261,6 +23261,16 @@ body {
   background-color: #f5f3f1;
 }
 
+.page-loading {
+  height: 100%;
+}
+.page-loading > div .ant-spin {
+  max-height: 100%;
+}
+.page-loading .ant-spin-container {
+  height: 100%;
+}
+
 .hfull {
   height: 100vh;
 }
