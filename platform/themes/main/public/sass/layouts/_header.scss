@@ -1,0 +1,30 @@
+.header-content {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    .notification-icon {
+        margin-right: 30px;
+        margin-top: 10px;
+    }
+    .user-dropdown {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        .ant-avatar-image{
+            margin-right: 10px;
+        }
+    }
+}
+.logo {
+    img {
+        height: auto;
+        max-width: 35%;
+        display: block;
+        margin: 0 auto;
+        padding: 1rem;
+        cursor: pointer;
+    }
+}

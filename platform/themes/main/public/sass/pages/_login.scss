@@ -1,0 +1,12 @@
+.login-wrapper{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.login__form{
+    width: 500px;
+    border: solid 1px $BORDER;
+    border-radius: $BORDER-RADIUS;
+    box-shadow: $BOX-SHADOW;
+}
