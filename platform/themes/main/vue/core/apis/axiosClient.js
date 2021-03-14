@@ -21,7 +21,9 @@ axiosClient.interceptors.request.use(async config => {
             cancel[requestName].cancel = c;
         });
     }
-    config.headers["Authorization"] = `Bearer ${localStorage.getItem("accessToken")}`;
+    config.headers["Authorization"] = `Bearer ${localStorage.getItem(
+        "accessToken"
+    )}`;
     // app.$Progress.start();
     return {
         ...config
@@ -34,9 +36,9 @@ axiosClient.interceptors.response.use(
             const message = _.get(response, "data.message");
 
             if (!!message) {
-                app.$notification.success({
-                    message: "Notification System",
-                    description: message
+                app.$notify.success({
+                    title: "Notification System",
+                    message: message
                 });
             }
             return response.data;
@@ -55,9 +57,9 @@ axiosClient.interceptors.response.use(
                     case 401:
                         if (!localStorage.getItem("accessToken")) break;
 
-                        app.$notification.error({
-                            message: "Notification System",
-                            description: message
+                        app.$notify.error({
+                            title: "Notification System",
+                            message: message
                         });
 
                         localStorage.setItem("accessToken", "");
@@ -77,33 +79,33 @@ axiosClient.interceptors.response.use(
                         app.$router.push({
                             name: "dashboard"
                         });
-                        app.$notification.error({
-                            message: "Notification System",
-                            description: message
+                        app.$notify.error({
+                            title: "Notification System",
+                            message: message
                         });
                         break;
 
                     case 422:
                         const errors = _.get(error, "response.data.errors", "");
                         if (!!message)
-                            app.$notification.error({
-                                message: "Notification System",
-                                description: message
+                            app.$notify.error({
+                                title: "Notification System",
+                                message: message
                             });
 
                         if (!!errors)
-                            app.$notification.error({
-                                message: "Notification System",
-                                description:
+                            app.$notify.error({
+                                title: "Notification System",
+                                message:
                                     Object.values(errors)[0][0] ||
                                     "Validator errors!"
                             });
                         break;
 
                     default:
-                        app.$notification.error({
-                            message: "Notification System",
-                            description: message
+                        app.$notify.error({
+                            title: "Notification System",
+                            message: message
                         });
                         break;
                 }

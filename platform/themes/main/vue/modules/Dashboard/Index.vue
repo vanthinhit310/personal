@@ -1,19 +1,19 @@
 <template>
-    <has-sidebar-layout>
+    <main-layout>
         <Content>
             <template v-slot:content>
                 <h1>Here might be a page title</h1>
             </template>
         </Content>
-    </has-sidebar-layout>
+    </main-layout>
 </template>
 
 <script>
-import HasSidebarLayout from '@core/layouts/HasSidebarLayout.vue';
+import MainLayout from '@core/layouts/MainLayout.vue';
 import Content from '@core/layouts/Content.vue';
 export default {
     components: {
-        HasSidebarLayout,
+        MainLayout,
         Content,
     },
 };

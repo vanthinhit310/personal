@@ -1,5 +1,5 @@
 <template>
-    <no-sidebar-layout>
+    <single-layout>
         <div class="login-wrapper">
             <ValidationObserver ref="form">
                 <form @submit.prevent="handleLogin">
@@ -9,7 +9,7 @@
                             <div class="form__group-label required"><span>Email</span></div>
                             <div class="form__group-input">
                                 <ValidationProvider name="Email" rules="required|email" v-slot="{ errors }">
-                                    <a-input v-model="formData.email" size="large" placeholder="Email" />
+                                    <el-input placeholder="Email" v-model="formData.email"></el-input>
                                     <span class="error-message" v-show="errors[0]">{{ errors[0] }}</span>
                                 </ValidationProvider>
                             </div>
@@ -18,31 +18,31 @@
                             <div class="form__group-label required"><span>Password</span></div>
                             <div class="form__group-input">
                                 <ValidationProvider name="Password" rules="required" v-slot="{ errors }">
-                                    <a-input-password v-model="formData.password" size="large" placeholder="Password" />
+                                    <el-input placeholder="Password" v-model="formData.password" show-password></el-input>
                                     <span class="error-message" v-show="errors[0]">{{ errors[0] }}</span>
                                 </ValidationProvider>
                             </div>
                         </div>
                         <div class="form__hyperlink">
-                            <router-link :to="{ name: 'login' }"><a-icon type="user-add" /> Register</router-link>
-                            <router-link :to="{ name: 'login' }"><a-icon type="lock" /> Forgot password?</router-link>
+                            <router-link :to="{ name: 'login' }"><i class="el-icon-user"></i> Register</router-link>
+                            <router-link :to="{ name: 'login' }"><i class="el-icon-unlock"></i> Forgot password?</router-link>
                         </div>
                         <div class="form__action">
-                            <a-button :htmlType="'submit'" size="large" icon="login" :loading="loading" type="primary">Login</a-button>
+                            <el-button type="primary" :loading="loading" native-type="submit" icon="el-icon-right">Login</el-button>
                         </div>
                     </div>
                 </form>
             </ValidationObserver>
         </div>
-    </no-sidebar-layout>
+    </single-layout>
 </template>
 
 <script>
 import { mapActions, mapMutations } from 'vuex';
-import NoSidebarLayout from '@core/layouts/NoSidebarLayout';
+import SingleLayout from '@core/layouts/SingleLayout';
 export default {
     components: {
-        NoSidebarLayout,
+        SingleLayout,
     },
     data() {
         return {
