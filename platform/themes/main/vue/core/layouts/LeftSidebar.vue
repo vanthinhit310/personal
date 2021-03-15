@@ -1,28 +1,27 @@
 <template>
     <div class="sidebar">
-        <a-layout-sider :style="{ height: '100%', width: '250px', maxWidth: '250px', minWidth: '250px' }" breakpoint="lg" collapsed-width="0">
+        <a-layout-sider :style="{ height: '100%', width: '250px', maxWidth: '250px', minWidth: '250px', backgroundColor: '#1a4463' }" breakpoint="lg" collapsed-width="0">
             <div class="logo">
                 <router-link :to="{ name: 'dashboard' }"><img src="/themes/main/imgs/logo.png" alt="Logo" /></router-link>
             </div>
-            <a-menu theme="dark" mode="inline" :inlineIndent="0">
+            <el-menu router :default-active="$route.path" class="el-menu-vertical-demo">
                 <template v-for="(menu, index) in menus">
-                    <a-menu-item v-if="!menu.subs" :key="index + 1">
-                        <router-link :to="_.get(menu, 'link')">
-                            <a-icon v-if="menu.icon" :type="_.get(menu, 'icon')" /><span class="nav-text">{{ _.get(menu, 'title') }}</span>
-                        </router-link>
-                    </a-menu-item>
-                    <a-sub-menu v-else :key="`sub${index}`">
-                        <span class="sub-menu-title" slot="title">
-                            <a-icon v-if="menu.icon" :type="_.get(menu, 'icon')" /><span>{{ _.get(menu, 'title') }}</span>
-                        </span>
-                        <a-menu-item v-for="(sub, i) in menu.subs" :key="`${i + 1}`">
-                            <router-link :to="_.get(sub, 'link')">
-                                <a-icon v-if="sub.icon" :type="_.get(sub, 'icon')" /><span class="nav-text">{{ _.get(sub, 'title') }}</span>
-                            </router-link>
-                        </a-menu-item>
-                    </a-sub-menu>
+                    <el-menu-item v-if="!menu.subs" :key="index + 1" :route="_.get(menu,'link', {})" :index="`${_.get(menu, 'path', '/')}`">
+                        <i v-if="menu.icon" :class="_.get(menu, 'icon')"></i>
+                        <span>{{ _.get(menu, 'title') }}</span>
+                    </el-menu-item>
+                    <el-submenu v-else :key="index + 1" :index="`${index + 1}`">
+                        <template slot="title">
+                            <i v-if="menu.icon" :class="_.get(menu, 'icon')"></i>
+                            <span>{{ _.get(menu, 'title') }}</span>
+                        </template>
+                        <el-menu-item v-for="(sub, i) in menu.subs" :route="_.get(sub,'link', {})" :key="`sub${i + 1}`" :index="`${_.get(sub, 'path', '/')}`">
+                            <i v-if="sub.icon" :class="_.get(sub, 'icon')"></i>
+                            <span>{{ _.get(sub, 'title') }}</span>
+                        </el-menu-item>
+                    </el-submenu>
                 </template>
-            </a-menu>
+            </el-menu>
         </a-layout-sider>
     </div>
 </template>

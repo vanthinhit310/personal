@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <a-layout-header :style="{ background: '#FFF', padding: '5px 15px' }">
+        <a-layout-header :style="{ background: '#f1f3f4'}">
             <div class="header-content">
                 <a-badge count="0" show-zero class="notification-icon">
                     <a-icon type="bell" :style="{ fontSize: '20px' }" />

@@ -7,7 +7,6 @@
                 <a-icon slot="indicator" type="loading" spin />
                 <slot />
             </a-spin>
-            <Footer />
         </a-layout>
     </a-layout>
 </template>
