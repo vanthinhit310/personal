@@ -26,6 +26,8 @@
     },
     "dependencies": {
         "@fullhuman/postcss-purgecss": "^4.0.0",
+        "ag-grid-community": "^25.1.0",
+        "ag-grid-vue": "^25.1.0",
         "ant-design-vue": "^1.7.4",
         "bootstrap-vue": "^2.21.1",
         "element-ui": "^2.15.1",
@@ -36,6 +38,7 @@
         "sanitize-html": "^1.27.5",
         "vee-validate": "^3.4.5",
         "vue-progressbar": "^0.7.5",
+        "vue-property-decorator": "^8.5.1",
         "vue-router": "^3.5.1",
         "vue-template-compiler": "^2.6.12",
         "vuex": "^3.6.2"

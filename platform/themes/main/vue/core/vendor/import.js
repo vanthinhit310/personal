@@ -9,9 +9,7 @@ Vue.use(Antd);
 /* import Ant Design Vue */
 
 import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI, { size: 'default', zIndex: 15 });
-
 
 import VueProgressBar from 'vue-progressbar'
 Vue.use(VueProgressBar, {

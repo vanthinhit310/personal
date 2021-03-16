@@ -1,0 +1,9 @@
+{
+    "name": "TodoList",
+    "namespace": "Platform\\TodoList\\",
+    "provider": "Platform\\TodoList\\Providers\\TodoListServiceProvider",
+    "author": "N/A",
+    "url": "N/A",
+    "version": "1.0",
+    "description": "The description for module todo_list"
+}

@@ -1,0 +1,16 @@
+.sidebar {
+    .el-menu-item {
+        font-size: 16px;
+        padding: 0 10px;
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.02) !important;
+        }
+    }
+    .el-menu-item.is-active {
+        background-color: hsla(0, 0%, 100%, 0.3) !important;
+    }
+
+    .el-menu-vertical-demo {
+        border: none;
+    }
+}

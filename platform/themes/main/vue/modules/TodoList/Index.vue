@@ -11,10 +11,13 @@
 <script>
 import MainLayout from '@core/layouts/MainLayout.vue';
 import Content from '@core/layouts/Content.vue';
+import { AgGridVue } from 'ag-grid-vue';
+
 export default {
     components: {
         MainLayout,
         Content,
+        AgGridVue
     },
 };
 </script>

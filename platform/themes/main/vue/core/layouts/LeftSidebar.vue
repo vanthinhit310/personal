@@ -4,7 +4,7 @@
             <div class="logo">
                 <router-link :to="{ name: 'dashboard' }"><img src="/themes/main/imgs/logo.png" alt="Logo" /></router-link>
             </div>
-            <el-menu router :default-active="$route.path" class="el-menu-vertical-demo">
+            <el-menu router :default-active="$route.path" :text-color="'#c7c7c7'" :active-text-color="'#fff'" :background-color="'#1a4463'" class="el-menu-vertical-demo">
                 <template v-for="(menu, index) in menus">
                     <el-menu-item v-if="!menu.subs" :key="index + 1" :route="_.get(menu,'link', {})" :index="`${_.get(menu, 'path', '/')}`">
                         <i v-if="menu.icon" :class="_.get(menu, 'icon')"></i>
