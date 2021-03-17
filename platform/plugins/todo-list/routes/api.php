@@ -12,5 +12,6 @@ Route::group([
         'middleware' => ['auth:member-api']
     ], function () {
         Route::resource('todo', 'TodoListController')->except('create')->parameters('todo');
+        Route::post('todo/bulk-delete', 'TodoListController@bulkDelete')->name('todo.bulkDelete');
     });
 });

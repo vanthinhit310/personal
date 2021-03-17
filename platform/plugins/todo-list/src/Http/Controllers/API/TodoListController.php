@@ -101,6 +101,32 @@ class TodoListController extends Controller
 
     public function destroy($id)
     {
-        dd('destroy');
+        try {
+            $result = $this->service->destroy($id);
+            if ($result instanceof $this->baseHttpResponse) {
+                return $result;
+            }
+            return $this->baseHttpResponse
+                ->setMessage(Constant::DESTROY_SUCCESS_MESSAGE)
+                ->setCode(Response::HTTP_OK);
+        } catch (Throwable $exception) {
+            return $this->response->internalServerResponse($exception, __CLASS__, __FUNCTION__);
+        }
+    }
+
+    public function bulkDelete()
+    {
+        $ids = $this->request->get('ids', []);
+        try {
+            $result = $this->service->bulkDelete($ids);
+            if ($result instanceof $this->baseHttpResponse) {
+                return $result;
+            }
+            return $this->baseHttpResponse
+                ->setMessage(Constant::DESTROY_SUCCESS_MESSAGE)
+                ->setCode(Response::HTTP_OK);
+        } catch (Throwable $exception) {
+            return $this->response->internalServerResponse($exception, __CLASS__, __FUNCTION__);
+        }
     }
 }
