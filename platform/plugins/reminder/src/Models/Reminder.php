@@ -22,6 +22,9 @@ class Reminder extends BaseModel
      */
     protected $fillable = [
         'name',
+        'description',
+        'date',
+        'time',
         'status',
     ];
 

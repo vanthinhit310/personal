@@ -15,7 +15,10 @@ class ReminderCreateReminderTable extends Migration
         Schema::create('reminders', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255);
-            $table->string('status', 60)->default('published');
+            $table->text('description')->nullable();
+            $table->dateTime('date')->nullable();
+            $table->dateTime('time')->nullable();
+            $table->enum('status', ['NORMAL', 'URGENT', 'COMPLETED', 'LATE'])->default('NORMAL');
             $table->timestamps();
         });
     }
