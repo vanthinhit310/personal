@@ -1,0 +1,9 @@
+{
+    "name": "SpendingDiary",
+    "namespace": "Platform\\SpendingDiary\\",
+    "provider": "Platform\\SpendingDiary\\Providers\\SpendingDiaryServiceProvider",
+    "author": "N/A",
+    "url": "N/A",
+    "version": "1.0",
+    "description": "The description for module spending_diary"
+}
