@@ -17,7 +17,19 @@ class SpendingDiaryRequest extends Request
     public function rules()
     {
         return [
-            'name'   => 'required',
+            'name'   => [
+                'required',
+                'unique:spending_diaries,name'
+            ],
+            'description'   => 'required',
+            'category_id'   => [
+                'required',
+                'exists:spending_diarie_categories,id'
+            ],
+            'amount'   => [
+                'required',
+                'min:10000'
+            ],
             'status' => Rule::in(BaseStatusEnum::values()),
         ];
     }
