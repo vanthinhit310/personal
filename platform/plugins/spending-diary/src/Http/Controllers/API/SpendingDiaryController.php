@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Platform\Base\Http\Responses\BaseHttpResponse;
 use Platform\SpendingDiary\Http\Requests\SpendingDiaryRequest;
+use Platform\SpendingDiary\Http\Resources\DiaryCategoryResource;
 use Platform\SpendingDiary\Http\Resources\DiaryResource;
 use Platform\SpendingDiary\Services\DiaryService;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,6 +43,17 @@ class SpendingDiaryController extends Controller
             $results = $this->service->getList($filter);
             return $this->baseHttpResponse
                 ->setData(['resources' => DiaryResource::collection($results)])
+                ->setCode(Response::HTTP_OK);
+        } catch (Throwable $exception) {
+            return $this->response->internalServerResponse($exception, __CLASS__, __FUNCTION__);
+        }
+    }
+
+    public function getCategories(){
+        try {
+            $results = $this->service->getCategories();
+            return $this->baseHttpResponse
+                ->setData(['resources' => DiaryCategoryResource::collection($results)])
                 ->setCode(Response::HTTP_OK);
         } catch (Throwable $exception) {
             return $this->response->internalServerResponse($exception, __CLASS__, __FUNCTION__);

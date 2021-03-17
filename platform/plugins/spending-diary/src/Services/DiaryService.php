@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Platform\SpendingDiary\Models\SpendingDiary;
+use Platform\SpendingDiary\Models\SpendingDiaryCategory;
 use Platform\SpendingDiary\Repositories\Interfaces\SpendingDiaryInterface;
 use Platform\TodoList\Models\TodoList;
 use Platform\TodoList\Repositories\Interfaces\TodoListInterface;
@@ -114,6 +115,14 @@ class DiaryService
             }
         } catch (Throwable $exception) {
             DB::rollBack();
+            $this->response->internalServerResponse($exception, __CLASS__, __FUNCTION__);
+        }
+    }
+
+    public function getCategories(){
+        try {
+            return SpendingDiaryCategory::orderByDesc('created_at')->get();
+        } catch (Throwable $exception) {
             $this->response->internalServerResponse($exception, __CLASS__, __FUNCTION__);
         }
     }

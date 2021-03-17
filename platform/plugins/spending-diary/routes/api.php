@@ -13,5 +13,6 @@ Route::group([
     ], function () {
         Route::resource('diary', 'SpendingDiaryController')->except('create')->parameters('diary');
         Route::post('diary/bulk-delete', 'SpendingDiaryController@bulkDelete')->name('diary.bulkDelete');
+        Route::get('diary-categories', 'SpendingDiaryController@getCategories')->name('diary.categories');
     });
 });
