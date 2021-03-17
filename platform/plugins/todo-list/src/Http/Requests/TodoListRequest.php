@@ -4,6 +4,7 @@ namespace Platform\TodoList\Http\Requests;
 
 use Platform\Support\Http\Requests\Request;
 use Illuminate\Validation\Rule;
+use Platform\TodoList\Contants\PiorityEnum;
 use Platform\TodoList\Contants\StatusEnum;
 
 class TodoListRequest extends Request
@@ -19,9 +20,21 @@ class TodoListRequest extends Request
         return [
             'name'   => 'required',
             'assignTo'   => [
-                'required'
+                'required',
+                'exists:members,id'
             ],
-            'status' => Rule::in(StatusEnum::values()),
+            'deadline' => [
+                'required',
+                'date_format:d/m/Y H:i'
+            ],
+            'piority' => [
+                'required',
+                Rule::in(PiorityEnum::values())
+            ],
+            'status' => [
+                'required',
+                Rule::in(StatusEnum::values())
+            ],
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace Platform\TodoList\Services;
 
 use App\Handle\ResponseHandle;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Platform\TodoList\Models\TodoList;
@@ -53,12 +54,11 @@ class TodoListService
     public function get($id)
     {
         try {
-            $object = $this->repository->findById($id);
+            $object = $this->repository->findById($id, ['author', 'assigned']);
             if (isset($object) && !blank($object)) {
                 return $object;
             }
             return $this->response->notfoundResponse();
-
         } catch (Throwable $exception) {
             $this->response->internalServerResponse($exception, __CLASS__, __FUNCTION__);
         }
@@ -77,7 +77,6 @@ class TodoListService
             }
             DB::rollBack();
             return $this->response->notfoundResponse();
-
         } catch (Throwable $exception) {
             DB::rollBack();
             $this->response->internalServerResponse($exception, __CLASS__, __FUNCTION__);
@@ -96,7 +95,6 @@ class TodoListService
             }
             DB::rollBack();
             return $this->response->notfoundResponse();
-
         } catch (Throwable $exception) {
             DB::rollBack();
             $this->response->internalServerResponse($exception, __CLASS__, __FUNCTION__);
@@ -112,11 +110,9 @@ class TodoListService
                 DB::commit();
                 return true;
             }
-
         } catch (Throwable $exception) {
             DB::rollBack();
             $this->response->internalServerResponse($exception, __CLASS__, __FUNCTION__);
         }
     }
-
 }

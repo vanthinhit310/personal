@@ -1,53 +1,106 @@
 <?php
+
 namespace Platform\TodoList\Http\Controllers\API;
 
+use App\Handle\Constant;
 use App\Handle\ResponseHandle;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Platform\Base\Http\Responses\BaseHttpResponse;
+use Platform\TodoList\Http\Requests\TodoListRequest;
+use Platform\TodoList\Http\Resources\TodoListResource;
 use Platform\TodoList\Services\TodoListService;
+use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
 class TodoListController extends Controller
 {
     protected $request;
     protected $response;
     protected $service;
+    protected $baseHttpResponse;
 
     /**
      * TodoListController constructor.
      * @param $request
      * @param $response
      * @param $service
+     * @param $baseHttpResponse
      */
-    public function __construct(Request $request, ResponseHandle $response, TodoListService $service)
+    public function __construct(Request $request, BaseHttpResponse $baseHttpResponse, ResponseHandle $response, TodoListService $service)
     {
         $this->request = $request;
         $this->response = $response;
         $this->service = $service;
+        $this->baseHttpResponse = $baseHttpResponse;
     }
 
-    public function index()
+    public function index(array $filter = [])
     {
-        dd('index');
+
+        try {
+            $results = $this->service->getList($filter);
+            return $this->baseHttpResponse
+                ->setData(['resources' => TodoListResource::collection($results)])
+                ->setCode(Response::HTTP_OK);
+        } catch (Throwable $exception) {
+            return $this->response->internalServerResponse($exception, __CLASS__, __FUNCTION__);
+        }
     }
 
-    public function store()
+    public function store(TodoListRequest $request)
     {
-        dd('store');
+        try {
+            $params = $request->all();
+            $params = array_merge($params, ['owner' => $request->user()->id]);
+            $result = $this->service->create($params);
+            if ($result instanceof $this->baseHttpResponse) {
+                return $result;
+            }
+            return $this->baseHttpResponse
+                ->setData(['resource' => new TodoListResource($result)])
+                ->setMessage(Constant::CREATE_SUCCESS_MESSAGE)
+                ->setCode(Response::HTTP_OK);
+        } catch (Throwable $exception) {
+            return $this->response->internalServerResponse($exception, __CLASS__, __FUNCTION__);
+        }
     }
 
     public function edit($id)
     {
-        dd('edit');
+        try {
+            $result = $this->service->get($id);
+            if ($result instanceof $this->baseHttpResponse) {
+                return $result;
+            }
+            return $this->baseHttpResponse
+                ->setData(['resource' => new TodoListResource($result)])
+                ->setCode(Response::HTTP_OK);
+        } catch (Throwable $exception) {
+            return $this->response->internalServerResponse($exception, __CLASS__, __FUNCTION__);
+        }
     }
 
-    public function update($id)
+    public function update($id, TodoListRequest $request)
     {
-        dd('update');
+        try {
+            $params = $request->all();
+            $params = array_merge($params, ['owner' => $request->user()->id]);
+            $result = $this->service->update($id, $params);
+            if ($result instanceof $this->baseHttpResponse) {
+                return $result;
+            }
+            return $this->baseHttpResponse
+                ->setData(['resource' => new TodoListResource($result)])
+                ->setMessage(Constant::UPDATE_SUCCESS_MESSAGE)
+                ->setCode(Response::HTTP_OK);
+        } catch (Throwable $exception) {
+            return $this->response->internalServerResponse($exception, __CLASS__, __FUNCTION__);
+        }
     }
 
     public function destroy($id)
     {
         dd('destroy');
     }
-
 }

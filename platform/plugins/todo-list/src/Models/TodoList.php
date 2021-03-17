@@ -29,7 +29,7 @@ class TodoList extends BaseModel
         'status',
     ];
 
-    public function owner()
+    public function author()
     {
         return $this->belongsTo(Member::class, 'owner', 'id');
     }

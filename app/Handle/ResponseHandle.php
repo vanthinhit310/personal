@@ -14,6 +14,7 @@ class ResponseHandle extends BaseHttpResponse
     {
         Log::error(sprintf('Error on %s@%s with trace %s', $class, $action, $exception));
         return $this->setError()
+            ->setData(['system_message' => $exception->getMessage()])
             ->setMessage('The server encountered an internal error of misconfiuration and was unable to complete your request!')
             ->setCode(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
