@@ -26,7 +26,7 @@ class SpendingDiaryCreateSpendingDiaryTable extends Migration
             $table->text('description')->nullable();
             $table->unsignedBigInteger('member_id')->nullable();
             $table->unsignedBigInteger('category_id')->nullable();
-            $table->decimal('amount', 9, 3)->default(0);
+            $table->decimal('amount', 18, 4)->default(0);
             $table->string('status', 60)->default('published');
             $table->timestamps();
 
@@ -42,7 +42,7 @@ class SpendingDiaryCreateSpendingDiaryTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('spending_diarie_categories');
         Schema::dropIfExists('spending_diaries');
+        Schema::dropIfExists('spending_diarie_categories');
     }
 }

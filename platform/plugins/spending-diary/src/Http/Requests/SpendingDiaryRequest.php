@@ -16,6 +16,23 @@ class SpendingDiaryRequest extends Request
      */
     public function rules()
     {
+        if($this->routeIs('diary.editdiary.update')){
+            return [
+                'name'   => [
+                    'required',
+                    Rule::unique('spending_diaries', 'name')->ignore($this->diary)
+                ],
+                'description'   => 'required',
+                'category_id'   => [
+                    'required',
+                    'exists:spending_diarie_categories,id'
+                ],
+                'amount'   => [
+                    'required',
+                ],
+                'status' => Rule::in(BaseStatusEnum::values()),
+            ];
+        }
         return [
             'name'   => [
                 'required',
@@ -28,7 +45,6 @@ class SpendingDiaryRequest extends Request
             ],
             'amount'   => [
                 'required',
-                'min:10000'
             ],
             'status' => Rule::in(BaseStatusEnum::values()),
         ];
