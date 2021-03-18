@@ -9,7 +9,7 @@ Vue.use(Antd);
 /* import Ant Design Vue */
 
 import ElementUI from 'element-ui';
-Vue.use(ElementUI, { size: 'default', zIndex: 15 });
+Vue.use(ElementUI, { size: 'small', zIndex: 10 });
 
 import VueProgressBar from 'vue-progressbar'
 Vue.use(VueProgressBar, {

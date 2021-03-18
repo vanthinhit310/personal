@@ -1,0 +1,44 @@
+.right-content{
+    height: 100%;
+}
+.wrap{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    &_title{
+        &-text{
+            font-weight: 700;
+            font-size: 25px;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        &-count{
+            font-weight: 500;
+        }
+    }
+
+    &_action{
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        column-gap: 20px;
+        margin: 20px 0;
+        &_left{
+            grid-gap: 15px;
+            display: flex;
+            .searchbox{
+                column-gap: 15px;
+                display: grid;
+                max-width: 350px;
+                grid-template-columns: 90% auto;
+            }
+        }
+        &_right{
+            text-align: right;
+            grid-gap: 10px;
+        }
+    }
+    &_table{
+        height: 100%;
+    }
+}

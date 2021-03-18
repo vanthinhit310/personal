@@ -6,7 +6,7 @@
                     <div class="wrap">
                         <div class="wrap_title">
                             <h1 class="wrap_title-text">Task Management</h1>
-                            <span class="wrap_title-count">Total (15)</span>
+                            <span class="wrap_title-count">Total (15)</span> <i class="el-icon-refresh"></i>
                         </div>
                         <Toolbar></Toolbar>
                         <Table></Table>

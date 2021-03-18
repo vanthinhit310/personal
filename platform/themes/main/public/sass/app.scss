@@ -1,7 +1,8 @@
-@import 'ant-design-vue/dist/antd.css';
-@import 'element-ui/lib/theme-chalk/index.css';
+
 @import "ag-grid-community/dist/styles/ag-grid.css";
 @import "ag-grid-community/dist/styles/ag-theme-alpine.css";
+@import 'ant-design-vue/dist/antd.css';
+@import 'element-ui/lib/theme-chalk/index.css';
 @import 'variables';
 @import 'ant';
 @import 'element_ui';
@@ -10,5 +11,5 @@
 @import 'global';
 @import 'layouts/header';
 @import 'pages/login';
-@import 'pages/Message/index';
+@import 'pages/Main/main_layout_config';
 
