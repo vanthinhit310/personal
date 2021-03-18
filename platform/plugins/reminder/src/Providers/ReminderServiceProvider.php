@@ -32,7 +32,7 @@ class ReminderServiceProvider extends ServiceProvider
             ->loadMigrations()
             ->loadAndPublishTranslations()
             ->loadAndPublishViews()
-            ->loadRoutes(['web']);
+            ->loadRoutes(['web','api']);
 
         Event::listen(RouteMatched::class, function () {
             if (defined('LANGUAGE_MODULE_SCREEN_NAME')) {
