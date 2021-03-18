@@ -52,7 +52,7 @@ class ReminderController extends Controller
     {
         try {
             $params = $request->all();
-            $params = array_merge($params, ['owner' => $request->user()->id]);
+            $params = array_merge($params, ['member_id' => $request->user()->id]);
             $result = $this->service->create($params);
             if ($result instanceof $this->baseHttpResponse) {
                 return $result;
@@ -85,7 +85,7 @@ class ReminderController extends Controller
     {
         try {
             $params = $request->all();
-            $params = array_merge($params, ['owner' => $request->user()->id]);
+            $params = array_merge($params, ['member_id' => $request->user()->id]);
             $result = $this->service->update($id, $params);
             if ($result instanceof $this->baseHttpResponse) {
                 return $result;
