@@ -17,8 +17,8 @@ class ReminderCreateReminderTable extends Migration
             $table->string('name', 255);
             $table->text('description')->nullable();
             $table->unsignedBigInteger('member_id')->nullable();
-            $table->dateTime('date')->nullable();
-            $table->dateTime('time')->nullable();
+            $table->string('date')->nullable();
+            $table->string('time')->nullable();
             $table->enum('status', ['NORMAL', 'URGENT', 'COMPLETED', 'LATE'])->default('NORMAL');
             $table->timestamps();
         });
