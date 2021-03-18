@@ -7,6 +7,10 @@
     .notification-icon {
         margin-right: 30px;
         margin-top: 10px;
+        cursor: pointer;
+    }
+    .user_avatar{
+        margin-right: 10px;
     }
     .user-dropdown {
         display: flex;
@@ -19,12 +23,15 @@
     }
 }
 .logo {
+    height: 64px;
     img {
         height: auto;
         max-width: 35%;
         display: block;
         margin: 0 auto;
-        padding: 1rem;
+        padding: .5rem;
         cursor: pointer;
+        height: 100%;
+        object-fit: cover;
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <div class="sidebar">
-        <a-layout-sider :style="{ height: '100%', width: '250px', maxWidth: '250px', minWidth: '250px', backgroundColor: '#1a4463' }" breakpoint="lg" collapsed-width="0">
+        <a-layout-sider :style="{ height: '100%', backgroundColor: '#1a4463' }" breakpoint="lg" collapsed-width="0">
             <div class="logo">
                 <router-link :to="{ name: 'dashboard' }"><img src="/themes/main/imgs/logo.png" alt="Logo" /></router-link>
             </div>

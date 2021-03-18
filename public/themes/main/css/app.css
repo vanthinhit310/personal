@@ -27192,8 +27192,13 @@ ag-grid, ag-grid-angular, ag-grid-ng2, ag-grid-polymer, ag-grid-aurelia {
   background-color: #FFF;
 }
 
+.ant-layout-header {
+  line-height: normal;
+  padding: 0 25px;
+}
+
 .sidebar .el-menu-item {
-  font-size: 16px;
+  font-size: 13px;
   padding: 0 10px;
 }
 .sidebar .el-menu-item:hover {
@@ -27208,7 +27213,7 @@ ag-grid, ag-grid-angular, ag-grid-ng2, ag-grid-polymer, ag-grid-aurelia {
 
 body {
   font-family: "Nunito", sans-serif !important;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 400;
   color: #000;
   overflow: hidden;
@@ -27303,6 +27308,10 @@ body {
 .header-content .notification-icon {
   margin-right: 30px;
   margin-top: 10px;
+  cursor: pointer;
+}
+.header-content .user_avatar {
+  margin-right: 10px;
 }
 .header-content .user-dropdown {
   display: flex;
@@ -27313,13 +27322,19 @@ body {
   margin-right: 10px;
 }
 
+.logo {
+  height: 64px;
+}
 .logo img {
   height: auto;
   max-width: 35%;
   display: block;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 0.5rem;
   cursor: pointer;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 .login-wrapper {

@@ -1,12 +1,21 @@
 <template>
     <div class="header">
-        <a-layout-header :style="{ background: '#f1f3f4'}">
+        <a-layout-header :style="{background: '#f1f3f4'}">
             <div class="header-content">
-                <a-badge count="0" show-zero class="notification-icon">
-                    <a-icon type="bell" :style="{ fontSize: '20px' }" />
-                </a-badge>
+                <el-dropdown trigger="click">
+                    <el-badge :value="0" class="notification-icon">
+                        <i class="el-icon-bell" :style="{fontSize: '25px'}"></i>
+                    </el-badge>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item class="clearfix"> comments comments comments comments </el-dropdown-item>
+                        <el-dropdown-item class="clearfix"> comments comments comments comments </el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
+                <!-- <a-badge count="0" show-zero class="notification-icon">
+                    <a-icon type="bell" :style="{fontSize: '20px'}" />
+                </a-badge> -->
                 <a-dropdown class="user-dropdown">
-                    <span><a-avatar :size="40" :src="avatar" /> {{ _.get(user, 'fullname', '') }}</span>
+                    <span> <el-avatar class="user_avatar" :size="45" :src="avatar"></el-avatar> {{ _.get(user, 'fullname', '') }} </span>
                     <a-menu slot="overlay">
                         <a-menu-item>
                             <a href="javascript:;"><a-icon type="profile" /> Profile</a>
@@ -22,7 +31,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import {mapGetters, mapActions} from 'vuex';
 export default {
     computed: {
         ...mapGetters({
@@ -35,7 +44,7 @@ export default {
         async handleLogout() {
             try {
                 await this.logout();
-                this.$router.push({ name: 'login', query: { redirect: this.$route.fullpath } });
+                this.$router.push({name: 'login', query: {redirect: this.$route.fullpath}});
             } catch (err) {
                 console.log(err);
             }
