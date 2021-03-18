@@ -20,7 +20,6 @@ class ReminderRequest extends Request
         return [
             'name'   => 'required',
             'description'   => 'required',
-            'member_id'   => 'required',
             'date'   => [
                 'required',
                 'date_format:d/m/Y'
