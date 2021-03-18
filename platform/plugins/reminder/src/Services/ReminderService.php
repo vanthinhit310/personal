@@ -1,16 +1,15 @@
 <?php
 
-namespace Platform\TodoList\Services;
+namespace Platform\Reminder\Services;
 
 use App\Handle\ResponseHandle;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Platform\TodoList\Models\TodoList;
-use Platform\TodoList\Repositories\Interfaces\TodoListInterface;
+use Platform\Reminder\Models\Reminder;
+use Platform\Reminder\Repositories\Interfaces\ReminderInterface;
 use Throwable;
 
-class TodoListService
+class ReminderService
 {
     protected $request;
     protected $model;
@@ -21,10 +20,10 @@ class TodoListService
      * TodoListService constructor.
      * @param Request $request
      * @param ResponseHandle $response
-     * @param TodoList $model
-     * @param TodoListInterface $repository
+     * @param Reminder $model
+     * @param ReminderInterface $repository
      */
-    public function __construct(Request $request, ResponseHandle $response, TodoList $model, TodoListInterface $repository)
+    public function __construct(Request $request, ResponseHandle $response, Reminder $model, ReminderInterface $repository)
     {
         $this->request = $request;
         $this->model = $model;
@@ -35,7 +34,7 @@ class TodoListService
     public function getList(array $filter = [])
     {
         $query = $this->model;
-        return $query::with(['author', 'assigned'])->get();
+        return $query::with('author')->get();
     }
 
     public function create($data)
@@ -54,7 +53,7 @@ class TodoListService
     public function get($id)
     {
         try {
-            $object = $this->repository->findById($id, ['author', 'assigned']);
+            $object = $this->repository->findById($id, ['author']);
             if (isset($object) && !blank($object)) {
                 return $object;
             }

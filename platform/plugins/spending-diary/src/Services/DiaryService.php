@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\DB;
 use Platform\SpendingDiary\Models\SpendingDiary;
 use Platform\SpendingDiary\Models\SpendingDiaryCategory;
 use Platform\SpendingDiary\Repositories\Interfaces\SpendingDiaryInterface;
-use Platform\TodoList\Models\TodoList;
-use Platform\TodoList\Repositories\Interfaces\TodoListInterface;
 use Throwable;
 
 class DiaryService
@@ -24,8 +22,8 @@ class DiaryService
      * TodoListService constructor.
      * @param Request $request
      * @param ResponseHandle $response
-     * @param TodoList $model
-     * @param TodoListInterface $repository
+     * @param SpendingDiary $model
+     * @param SpendingDiaryInterface $repository
      */
     public function __construct(Request $request, ResponseHandle $response, SpendingDiary $model, SpendingDiaryInterface $repository)
     {
@@ -38,7 +36,7 @@ class DiaryService
     public function getList(array $filter = [])
     {
         $query = $this->model;
-        return $query->get();
+        return $query::with(['author', 'category'])->get();
     }
 
     public function create($data)

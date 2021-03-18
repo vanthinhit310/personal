@@ -5,6 +5,7 @@ namespace Platform\Reminder\Models;
 use Platform\Base\Traits\EnumCastable;
 use Platform\Base\Enums\BaseStatusEnum;
 use Platform\Base\Models\BaseModel;
+use Platform\Member\Models\Member;
 
 class Reminder extends BaseModel
 {
@@ -23,6 +24,7 @@ class Reminder extends BaseModel
     protected $fillable = [
         'name',
         'description',
+        'member_id',
         'date',
         'time',
         'status',
@@ -34,4 +36,8 @@ class Reminder extends BaseModel
     protected $casts = [
         'status' => BaseStatusEnum::class,
     ];
+
+    public function author(){
+        return $this->belongsTo(Member::class, 'member_id', 'id');
+    }
 }
