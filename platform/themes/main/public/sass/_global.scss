@@ -1,45 +1,45 @@
-.hfull{
+.hfull {
     height: 100vh;
 }
 
-.h100{
+.h100 {
     height: 100%;
 }
 
-.form{
+.form {
     display: grid;
-    grid-template-columns: repeat(1,1fr);
+    grid-template-columns: repeat(1, 1fr);
     background-color: $WHITE;
     row-gap: 1rem;
     padding: 20px;
-    &__title{
+    &__title {
         font-size: 30px;
         font-weight: 800;
         text-transform: uppercase;
         text-align: center;
         margin-bottom: 1rem;
     }
-    &__group{
+    &__group {
         display: grid;
-        grid-template-columns: repeat(1,1fr);
-        &-label{
+        grid-template-columns: repeat(1, 1fr);
+        &-label {
             font-size: 14px;
             margin-bottom: 5px;
             position: relative;
-            span{
+            span {
                 display: inline-block;
                 line-height: 1;
             }
         }
-        &-input{
+        &-input {
             width: 100%;
         }
 
-        .required{
-            span{
+        .required {
+            span {
                 position: relative;
-                &::after{
-                    content: '*';
+                &::after {
+                    content: "*";
                     position: absolute;
                     top: 0;
                     right: -8px;
@@ -49,20 +49,27 @@
             }
         }
     }
-    &__hyperlink{
+    &__hyperlink {
         display: inline-flex;
         justify-content: space-between;
         column-gap: 15px;
     }
-    &__action{
+    &__action {
         display: flex;
         align-items: center;
         justify-content: center;
         column-gap: 10px;
     }
 }
+.form-in-modal {
+    padding: 0;
+    .form__action {
+        justify-content: flex-end;
+        margin-top: 5px;
+    }
+}
 
-.error-message{
+.error-message {
     font-size: 12px;
     color: red;
     line-height: 0;

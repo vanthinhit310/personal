@@ -30,7 +30,7 @@ export default {
         Content,
         AgGridVue,
         Toolbar,
-        Table
+        Table,
     },
 };
 </script>
