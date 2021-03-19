@@ -1,5 +1,5 @@
 <template>
-    <a-modal class="task-modal" :footer="null" :visible="visible" title="Create new task" @ok="handleCreate" @cancel="onClose">
+    <a-modal :zIndex="5" class="task-modal" :footer="null" :visible="visible" title="Create new task" @ok="handleCreate" @cancel="onClose">
         <ValidationObserver ref="taskForm" v-slot="{invalid}">
             <form @submit.prevent="handleCreate">
                 <div class="form form-in-modal">
@@ -25,7 +25,7 @@
                         <div class="form__group-label required"><span>Deadline</span></div>
                         <div class="form__group-input">
                             <ValidationProvider name="Deadline" rules="required" v-slot="{errors}">
-                                <el-date-picker v-model="formData.deadline" type="datetime" placeholder="Deadline"> </el-date-picker>
+                                <el-date-picker class="w-100" :editable="false" v-model="formData.deadline" type="datetime" placeholder="Deadline"> </el-date-picker>
                                 <span class="error-message" v-show="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>

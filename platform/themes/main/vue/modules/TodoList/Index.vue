@@ -10,6 +10,7 @@
                         </div>
                         <Toolbar></Toolbar>
                         <Table></Table>
+
                     </div>
                 </div>
             </template>
@@ -30,7 +31,7 @@ export default {
         Content,
         AgGridVue,
         Toolbar,
-        Table,
+        Table
     },
 };
 </script>
