@@ -21,6 +21,15 @@
                             </ValidationProvider>
                         </div>
                     </div>
+                    <div class="form__group">
+                        <div class="form__group-label required"><span>Deadline</span></div>
+                        <div class="form__group-input">
+                            <ValidationProvider name="Deadline" rules="required" v-slot="{errors}">
+                                <el-date-picker v-model="formData.deadline" type="datetime" placeholder="Deadline"> </el-date-picker>
+                                <span class="error-message" v-show="errors[0]">{{ errors[0] }}</span>
+                            </ValidationProvider>
+                        </div>
+                    </div>
                     <div class="form__action">
                         <el-button @click.native="onClose" native-type="button" icon="el-icon-circle-close">Cancle</el-button>
                         <el-button :loading="loading" type="success" :disabled="invalid" icon="el-icon-circle-check" native-type="submit" @click="handleCreate">Save</el-button>
@@ -43,6 +52,7 @@ export default {
             formData: {
                 name: '',
                 description: '',
+                deadline : ''
             },
         };
     },
