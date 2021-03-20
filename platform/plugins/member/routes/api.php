@@ -20,6 +20,7 @@ Route::group([
         Route::put('me', 'MemberController@updateProfile');
         Route::post('update-avatar', 'MemberController@updateAvatar');
         Route::put('change-password', 'MemberController@updatePassword');
+        Route::get('members','MemberController@getMembers');
     });
 
 });

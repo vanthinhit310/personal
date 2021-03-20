@@ -25,7 +25,7 @@
                         <div class="form__group-label required"><span>Deadline</span></div>
                         <div class="form__group-input">
                             <ValidationProvider name="Deadline" rules="required" v-slot="{errors}">
-                                <el-date-picker class="w-100" :editable="false" v-model="formData.deadline" type="datetime" placeholder="Deadline"> </el-date-picker>
+                                <el-date-picker class="w-100" :format="`dd/MM/yyyy HH:mm`" :editable="false" v-model="formData.deadline" type="datetime" placeholder="Deadline"> </el-date-picker>
                                 <span class="error-message" v-show="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>

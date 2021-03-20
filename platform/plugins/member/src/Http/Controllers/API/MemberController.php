@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use RvMedia;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpFoundation\Response;
 
 class MemberController extends Controller
 {
@@ -76,8 +77,10 @@ class MemberController extends Controller
 
             $file = RvMedia::handleUpload($request->file('avatar'), 0, 'members');
             if (Arr::get($file, 'error') !== true) {
-                $user = $this->memberRepository->createOrUpdate(['avatar' => $file['data']->url],
-                    ['id' => $request->user()->getKey()]);
+                $user = $this->memberRepository->createOrUpdate(
+                    ['avatar' => $file['data']->url],
+                    ['id' => $request->user()->getKey()]
+                );
             }
 
             return $response
@@ -85,7 +88,6 @@ class MemberController extends Controller
                     'avatar' => $user->avatar_url,
                 ])
                 ->setMessage(__('Update avatar successfully!'));
-
         } catch (Exception $ex) {
             return $response
                 ->setError()
@@ -138,7 +140,6 @@ class MemberController extends Controller
             return $response
                 ->setData($user->toArray())
                 ->setMessage(__('Update profile successfully!'));
-
         } catch (Exception $ex) {
             return $response
                 ->setError()
@@ -178,5 +179,26 @@ class MemberController extends Controller
         ]);
 
         return $response->setMessage(trans('core/acl::users.password_update_success'));
+    }
+
+    public function getMembers(Request $request, MemberInterface $repository, BaseHttpResponse $response)
+    {
+        $keyword = $request->get('query', null);
+        $limit = $request->get('limit', null);
+        $query = $repository->getModel();
+        if (!blank($keyword)) {
+            $query = $query
+                ->where('first_name', 'LIKE', "%{$keyword}%")
+                ->orWhere('last_name', 'LIKE', "%{$keyword}%")
+                ->orWhere('email', 'LIKE', "%{$keyword}%");
+        }
+        if (!blank($limit)) {
+            $query = $query->limit($limit);
+        }
+        $members = $query->get();
+
+        return $response
+            ->setData(['resources' => MemberResource::collection($members)])
+            ->setCode(Response::HTTP_OK);
     }
 }
