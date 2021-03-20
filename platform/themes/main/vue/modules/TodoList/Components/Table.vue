@@ -29,7 +29,7 @@
 
 <script>
 import {AgGridVue} from 'ag-grid-vue';
-import {mapGetters, mapActions} from 'vuex';
+import {mapGetters, mapActions, mapMutations} from 'vuex';
 import Action from '@core/components/Ag/Action.js';
 export default {
     components: {
@@ -114,6 +114,9 @@ export default {
     },
     methods: {
         ...mapActions('todoList', ['destroy']),
+        ...mapMutations({
+            setResource: 'todoList/setResource',
+        }),
         async onGridReady() {
             this.gridApi.sizeColumnsToFit();
         },
@@ -125,7 +128,9 @@ export default {
                     break;
 
                 case 'edit':
-                    console.log(data);
+                    if (!!data) {
+                        this.setResource(data);
+                    }
                     break;
             }
         },

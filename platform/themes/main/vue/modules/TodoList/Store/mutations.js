@@ -6,6 +6,9 @@ export default {
         const { resources } = state;
         state.resources = [...resources, resource];
     },
+    setResource(state, resource){
+        state.resource = resource;
+    },
     updateResource(state, resource) {
         const { resources } = state;
         const index = _.findIndex(resources, function(o) {

@@ -2,14 +2,10 @@
     <div class="table__action">
         <ul class="__action">
             <li class="__action_item" @click="handeClickEdit">
-                <el-tooltip class="item" effect="dark" content="Edit" placement="top">
-                    <el-button type="primary" icon="el-icon-edit-outline"></el-button>
-                </el-tooltip>
+                <el-button circle size="mini" type="primary" icon="el-icon-edit-outline"></el-button>
             </li>
             <li class="__action_item" @click="handleClickRemove">
-                <el-tooltip class="item" effect="dark" content="Destroy" placement="top">
-                    <el-button type="danger" icon="el-icon-delete"></el-button>
-                </el-tooltip>
+                <el-button circle size="mini" type="danger" icon="el-icon-delete"></el-button>
             </li>
         </ul>
     </div>

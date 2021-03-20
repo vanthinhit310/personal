@@ -35,10 +35,7 @@ export default {
     },
     async destroy({ dispatch, state, commit }, id) {
         const response = await TodoRepository.destroy(id);
-        const resource = _.get(response, "data.resource", []);
-        if (!!resource) {
-            commit("updateResource", resource);
-        }
+        commit("removeResource", id);
         return response;
     }
 };

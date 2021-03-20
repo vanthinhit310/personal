@@ -6,7 +6,7 @@
                 <el-button icon="el-icon-search"></el-button>
             </div>
         </div>
-        <Form :visible="visible" @closeForm="handleCloseForm"/>
+        <Form :visible="visible" :isUpdate="isUpdate" @closeForm="handleCloseForm" />
         <div class="wrap_action_right">
             <el-button type="danger" icon="el-icon-delete">Remove (7)</el-button>
             <el-button type="primary" icon="el-icon-download">Export</el-button>
@@ -18,15 +18,22 @@
 
 <script>
 import Form from './Form';
+import {mapGetters} from 'vuex';
 export default {
     components: {
         Form,
     },
     data() {
         return {
+            isUpdate: false,
             search: '',
             visible: false,
         };
+    },
+    computed: {
+        ...mapGetters({
+            resource: 'todoList/getResource',
+        }),
     },
     methods: {
         handleOpenForm() {
@@ -34,6 +41,13 @@ export default {
         },
         handleCloseForm() {
             this.visible = false;
+            this.isUpdate = false;
+        },
+    },
+    watch: {
+        resource() {
+            this.visible = true;
+            this.isUpdate = true;
         },
     },
 };

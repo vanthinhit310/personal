@@ -1,3 +1,4 @@
 export default {
     resources : [],
+    resource : '',
 };
