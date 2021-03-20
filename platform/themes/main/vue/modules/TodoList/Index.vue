@@ -10,7 +10,6 @@
                         </div>
                         <Toolbar></Toolbar>
                         <Table></Table>
-
                     </div>
                 </div>
             </template>
@@ -24,6 +23,7 @@ import Content from '@core/layouts/Content.vue';
 import Toolbar from './Components/Toolbar';
 import Table from './Components/Table';
 import {AgGridVue} from 'ag-grid-vue';
+import {mapActions, mapMutations} from 'vuex';
 
 export default {
     components: {
@@ -31,7 +31,22 @@ export default {
         Content,
         AgGridVue,
         Toolbar,
-        Table
+        Table,
+    },
+    async mounted() {
+        try {
+            this.setLoadingState(true);
+            await this.fetch();
+        } catch (err) {
+            console.log(`err`, err);
+        }
+        this.setLoadingState(false);
+    },
+    methods: {
+        ...mapActions('todoList', ['fetch']),
+        ...mapMutations({
+            setLoadingState: 'dashboard/setLoadingState',
+        }),
     },
 };
 </script>

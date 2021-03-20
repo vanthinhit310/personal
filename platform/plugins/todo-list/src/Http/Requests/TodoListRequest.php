@@ -28,11 +28,9 @@ class TodoListRequest extends Request
                 'date_format:d/m/Y H:i'
             ],
             'piority' => [
-                'required',
                 Rule::in(PiorityEnum::values())
             ],
             'status' => [
-                'required',
                 Rule::in(StatusEnum::values())
             ],
         ];

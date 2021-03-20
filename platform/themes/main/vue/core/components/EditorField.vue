@@ -14,8 +14,6 @@ export default {
             editorConfig: {
                 removeButtons: 'NewPage,Print,Save,Templates,Replace,Find,SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,CreateDiv,Anchor,Flash,Smiley,PageBreak,ShowBlocks,About,Language,Iframe,Image',
                 fullPage: true,
-                allowedContent: true,
-                pasteFilter: 'p; a[!href]',
                 sourceAreaTabSize: 8,
                 toolbarGroups: [
                     {name: 'document', groups: ['mode', 'document', 'doctools']},

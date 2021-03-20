@@ -21,7 +21,7 @@ export default {
         });
     },
     create(param) {
-        return axiosClient.post(prefix, param, {
+        return axiosClient.post(`${prefix}/create`, param, {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("accessToken")
             }

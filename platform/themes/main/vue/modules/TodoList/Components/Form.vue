@@ -36,7 +36,7 @@
                         <div class="form__group-label required"><span>Deadline</span></div>
                         <div class="form__group-input">
                             <ValidationProvider name="Deadline" rules="required" v-slot="{errors}">
-                                <el-date-picker class="w-100" :format="`dd/MM/yyyy HH:mm`" :editable="false" v-model="formData.deadline" type="datetime" placeholder="Deadline"> </el-date-picker>
+                                <el-date-picker class="w-100" :value-format="`dd/MM/yyyy HH:mm`" :format="`dd/MM/yyyy HH:mm`" :editable="false" v-model="formData.deadline" type="datetime" placeholder="Deadline"> </el-date-picker>
                                 <span class="error-message" v-show="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
@@ -53,7 +53,7 @@
 
 <script>
 import EditorField from '@core/components/EditorField';
-import {mapActions} from 'vuex';
+import {mapActions, mapGetters} from 'vuex';
 export default {
     components: {
         EditorField,
@@ -73,7 +73,7 @@ export default {
     },
     props: ['visible'],
     methods: {
-        ...mapActions('todoList', ['fetchMembers']),
+        ...mapActions('todoList', ['fetchMembers', 'create']),
         async serchUser(query) {
             try {
                 if (query !== '') {
@@ -91,14 +91,34 @@ export default {
             }
             this.fetchMemberLoading = false;
         },
-        handleCreate(e) {
-            this.loading = true;
-            setTimeout(() => {
+        async handleCreate() {
+            this.$refs.taskForm.validate().then(async (validated) => {
+                if (!validated) return false;
+
+                try {
+                    this.loading = true;
+                    await this.create(this.formData);
+                    this.onClose();
+                } catch (err) {
+                    console.log(`err`, err);
+                }
                 this.loading = false;
-                this.onClose();
-            }, 3000);
+            });
+        },
+        resetForm() {
+            this.formData = {
+                ...this.formData,
+                name: '',
+                description: '',
+                deadline: '',
+                assignTo: '',
+            };
+            this.$nextTick(() => {
+                this.$refs.taskForm.reset();
+            });
         },
         onClose(e) {
+            this.resetForm();
             this.$emit('closeForm');
         },
     },

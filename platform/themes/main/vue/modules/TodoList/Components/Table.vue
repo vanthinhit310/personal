@@ -29,6 +29,7 @@
 
 <script>
 import {AgGridVue} from 'ag-grid-vue';
+import {mapGetters} from 'vuex';
 
 export default {
     components: {
@@ -51,7 +52,6 @@ export default {
                 sortable: true,
                 resizable: true,
                 filter: true,
-                suppressSizeToFit: true,
             },
             rowSelection: null,
             rowHeight: null,
@@ -63,10 +63,19 @@ export default {
         this.columnDefs = [
             {headerName: 'No', field: 'id', maxWidth: 60, sortable: false, resizable: false, filter: false},
             {headerName: 'Title', field: 'name'},
-            {headerName: 'Author', field: 'author'},
+            {
+                headerName: 'Author',
+                field: 'author',
+                valueGetter: function (params) {
+                    return _.get(params, 'data.author.fullname', '');
+                },
+            },
             {
                 headerName: 'Assign to',
-                field: 'assigned',
+                field: 'assignedTo',
+                valueGetter: function (params) {
+                    return _.get(params, 'data.assignedTo.fullname', '');
+                },
             },
             {
                 headerName: 'Deadline',
@@ -88,13 +97,23 @@ export default {
         ];
         this.context = {componentParent: this};
     },
+    computed: {
+        ...mapGetters({
+            resources: 'todoList/getResources',
+        }),
+    },
     mounted() {
         this.gridApi = this.gridOptions.api;
         this.gridColumnApi = this.gridOptions.columnApi;
     },
     methods: {
         async onGridReady() {
-            this.rowData = [];
+            this.gridApi.sizeColumnsToFit();
+        },
+    },
+    watch: {
+        resources() {
+            this.rowData = this.resources;
         },
     },
 };

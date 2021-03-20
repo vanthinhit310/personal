@@ -44,6 +44,7 @@ class TodoListService
             DB::beginTransaction();
             $object = $this->model->create($data);
             DB::commit();
+            $object = $object->refresh();
             return $object;
         } catch (Throwable $exception) {
             DB::rollBack();
