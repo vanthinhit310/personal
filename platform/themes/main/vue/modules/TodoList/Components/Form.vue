@@ -22,6 +22,17 @@
                         </div>
                     </div>
                     <div class="form__group">
+                        <div class="form__group-label required"><span>Assign to</span></div>
+                        <div class="form__group-input">
+                            <ValidationProvider name="Assign" rules="required" v-slot="{errors}">
+                                <el-select auto-complete="on" :clearable="true" class="w-100" v-model="formData.assignTo" filterable remote reserve-keyword placeholder="Assign to" :remote-method="serchUser" :loading="fetchMemberLoading">
+                                    <el-option v-for="item in memberOption" :key="item.id" :label="_.get(item, 'fullname', '')" :value="item.id"> </el-option>
+                                </el-select>
+                                <span class="error-message" v-show="errors[0]">{{ errors[0] }}</span>
+                            </ValidationProvider>
+                        </div>
+                    </div>
+                    <div class="form__group">
                         <div class="form__group-label required"><span>Deadline</span></div>
                         <div class="form__group-input">
                             <ValidationProvider name="Deadline" rules="required" v-slot="{errors}">
@@ -42,6 +53,7 @@
 
 <script>
 import EditorField from '@core/components/EditorField';
+import {mapActions} from 'vuex';
 export default {
     components: {
         EditorField,
@@ -49,15 +61,36 @@ export default {
     data() {
         return {
             loading: false,
+            fetchMemberLoading: false,
+            memberOption: [],
             formData: {
                 name: '',
                 description: '',
-                deadline : ''
+                deadline: '',
+                assignTo: '',
             },
         };
     },
     props: ['visible'],
     methods: {
+        ...mapActions('todoList', ['fetchMembers']),
+        async serchUser(query) {
+            try {
+                if (query !== '') {
+                    this.fetchMemberLoading = true;
+                    const response = await this.fetchMembers({query: query, limit: 5});
+                    const resources = _.get(response, 'data.resources', []);
+                    if (!!resources) {
+                        this.memberOption = resources;
+                    }
+                } else {
+                    this.memberOption = [];
+                }
+            } catch (err) {
+                console.log(`err`, err);
+            }
+            this.fetchMemberLoading = false;
+        },
         handleCreate(e) {
             this.loading = true;
             setTimeout(() => {

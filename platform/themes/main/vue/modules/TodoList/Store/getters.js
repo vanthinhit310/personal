@@ -1,8 +1,5 @@
 export default {
-    getLoadingState: state => {
-        return state.loading;
-    },
-    getSidebarMenu: state => {
-        return state.sidebarMenu;
+    getResources : state => {
+        return state.resources
     }
 };

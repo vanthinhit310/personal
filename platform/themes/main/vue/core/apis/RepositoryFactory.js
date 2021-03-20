@@ -1,7 +1,9 @@
 import Authentication from "@modules/Auth/Api/AuthenticationRepository";
+import TodoList from "@modules/TodoList/Api/TodoListRepository";
 
 const repositories = {
-    authentication: Authentication
+    authentication: Authentication,
+    todo: TodoList,
 };
 
 export const RepositoryFactory = {
