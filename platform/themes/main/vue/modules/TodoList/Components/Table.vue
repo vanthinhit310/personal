@@ -29,8 +29,8 @@
 
 <script>
 import {AgGridVue} from 'ag-grid-vue';
-import {mapGetters} from 'vuex';
-
+import {mapGetters, mapActions} from 'vuex';
+import Action from '@core/components/Ag/Action.js';
 export default {
     components: {
         AgGridVue,
@@ -92,10 +92,16 @@ export default {
             {
                 field: 'Action',
                 maxWidth: 160,
+                cellRenderer: 'action',
                 pinned: 'right',
+                filter: false,
+                sortable: false,
             },
         ];
         this.context = {componentParent: this};
+        this.frameworkComponents = {
+            action: Action,
+        };
     },
     computed: {
         ...mapGetters({
@@ -107,8 +113,21 @@ export default {
         this.gridColumnApi = this.gridOptions.columnApi;
     },
     methods: {
+        ...mapActions('todoList', ['destroy']),
         async onGridReady() {
             this.gridApi.sizeColumnsToFit();
+        },
+        async contextParentMethod(cell) {
+            const {data, rowIndex, type} = cell;
+            switch (type) {
+                case 'destroy':
+                    await this.destroy(_.get(data, 'id', ''));
+                    break;
+
+                case 'edit':
+                    console.log(data);
+                    break;
+            }
         },
     },
     watch: {
