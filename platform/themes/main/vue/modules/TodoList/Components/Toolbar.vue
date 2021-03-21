@@ -18,7 +18,7 @@
 
 <script>
 import Form from './Form';
-import {mapGetters} from 'vuex';
+import {mapGetters, mapMutations} from 'vuex';
 export default {
     components: {
         Form,
@@ -36,18 +36,25 @@ export default {
         }),
     },
     methods: {
+        ...mapMutations({
+            setResource: 'todoList/setResource',
+        }),
         handleOpenForm() {
             this.visible = true;
         },
         handleCloseForm() {
             this.visible = false;
             this.isUpdate = false;
+            this.setResource('');
         },
     },
     watch: {
         resource() {
-            this.visible = true;
-            this.isUpdate = true;
+            const {resource} = this;
+            if (!!resource) {
+                this.visible = true;
+                this.isUpdate = true;
+            }
         },
     },
 };

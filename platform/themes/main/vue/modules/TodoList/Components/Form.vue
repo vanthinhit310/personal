@@ -128,7 +128,7 @@ export default {
                 name: '',
                 description: '',
                 deadline: '',
-                assignTo: '',
+                members: [],
             };
             this.$nextTick(() => {
                 this.$refs.taskForm.reset();

@@ -31,6 +31,7 @@
 import {AgGridVue} from 'ag-grid-vue';
 import {mapGetters, mapActions, mapMutations} from 'vuex';
 import Action from '@core/components/Ag/Action.js';
+import BadgeField from './Badge'
 export default {
     components: {
         AgGridVue,
@@ -73,9 +74,7 @@ export default {
             {
                 headerName: 'Assign to',
                 field: 'assignedTo',
-                valueGetter: function (params) {
-                    return _.get(params, 'data.assignedTo.fullname', '');
-                },
+                cellRenderer : 'badge'
             },
             {
                 headerName: 'Deadline',
@@ -101,6 +100,7 @@ export default {
         this.context = {componentParent: this};
         this.frameworkComponents = {
             action: Action,
+            badge : BadgeField
         };
     },
     computed: {
