@@ -6,7 +6,7 @@ export default {
         const { resources } = state;
         state.resources = [...resources, resource];
     },
-    setResource(state, resource){
+    setResource(state, resource) {
         state.resource = resource;
     },
     updateResource(state, resource) {
@@ -33,5 +33,12 @@ export default {
                 ...resources.slice(index + 1)
             ];
         }
+    },
+    handleBulkDestroy(state, arrayId) {
+        const { resources } = state;
+        const removed = _.remove(resources, function(o) {
+            return arrayId.includes(o.id);
+        });
+        state.resources = [...resources];
     }
 };

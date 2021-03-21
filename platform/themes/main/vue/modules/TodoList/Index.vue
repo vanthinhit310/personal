@@ -6,10 +6,10 @@
                     <div class="wrap">
                         <div class="wrap_title">
                             <h1 class="wrap_title-text">Task Management</h1>
-                            <span class="wrap_title-count">Total (15)</span> <i class="el-icon-refresh"></i>
+                            <span class="wrap_title-count">Total ({{ resourceCount }})</span> <el-button type="info" @click="fetchData" size="mini" icon="el-icon-refresh" circle></el-button>
                         </div>
-                        <Toolbar></Toolbar>
-                        <Table></Table>
+                        <Toolbar :idSelected="idSelected"></Toolbar>
+                        <Table @rowSelectedChange="handleRowSelectedChange"></Table>
                     </div>
                 </div>
             </template>
@@ -23,7 +23,7 @@ import Content from '@core/layouts/Content.vue';
 import Toolbar from './Components/Toolbar';
 import Table from './Components/Table';
 import {AgGridVue} from 'ag-grid-vue';
-import {mapActions, mapMutations} from 'vuex';
+import {mapActions, mapMutations, mapGetters} from 'vuex';
 
 export default {
     components: {
@@ -33,20 +33,43 @@ export default {
         Toolbar,
         Table,
     },
+    data() {
+        return {
+            idSelected: [],
+        };
+    },
+    computed: {
+        ...mapGetters({
+            resources: 'todoList/getResources',
+        }),
+        resourceCount() {
+            return this.resources.length || 0;
+        },
+    },
     async mounted() {
-        try {
-            this.setLoadingState(true);
-            await this.fetch();
-        } catch (err) {
-            console.log(`err`, err);
-        }
-        this.setLoadingState(false);
+        this.fetchData();
     },
     methods: {
         ...mapActions('todoList', ['fetch']),
         ...mapMutations({
             setLoadingState: 'dashboard/setLoadingState',
         }),
+        async fetchData() {
+            try {
+                this.setLoadingState(true);
+                await this.fetch();
+            } catch (err) {
+                console.log(`err`, err);
+            }
+            this.setLoadingState(false);
+        },
+        handleRowSelectedChange(idSelected) {
+            if (idSelected.length > 0) {
+                this.idSelected = idSelected;
+            } else {
+                this.idSelected = [];
+            }
+        },
     },
 };
 </script>

@@ -13,14 +13,13 @@
             :rowSelection="rowSelection"
             :animateRows="true"
             :enableRangeSelection="true"
-            :debounceVerticalScrollbar="true"
             :pagination="true"
             :rowHeight="rowHeight"
             :context="context"
             :headerHeight="40"
-            :sideBar="true"
             :rowData="rowData"
             :loadingOverlayComponent="loadingOverlayComponent"
+            @selection-changed="onSelectionChanged"
             :frameworkComponents="frameworkComponents"
             style="width: 100%; height: 100%"
         ></ag-grid-vue>
@@ -31,10 +30,15 @@
 import {AgGridVue} from 'ag-grid-vue';
 import {mapGetters, mapActions, mapMutations} from 'vuex';
 import Action from '@core/components/Ag/Action.js';
-import BadgeField from './Badge'
+import BadgeField from './Badge';
+import Status from './Status';
+import Piority from './Piority';
 export default {
     components: {
         AgGridVue,
+        badge: BadgeField,
+        status: Status,
+        piority: Piority,
     },
     data() {
         return {
@@ -48,6 +52,8 @@ export default {
             loadingOverlayComponent: null,
             context: null,
             defaultColDef: {
+                flex: 1,
+                minWidth: 150,
                 wrapText: true,
                 autoHeight: true,
                 sortable: true,
@@ -62,8 +68,21 @@ export default {
     },
     beforeMount() {
         this.columnDefs = [
-            {headerName: 'No', field: 'id', maxWidth: 60, sortable: false, resizable: false, filter: false},
-            {headerName: 'Title', field: 'name'},
+            {
+                headerName: 'No',
+                field: 'id',
+                maxWidth: 90,
+                sortable: false,
+                resizable: false,
+                filter: false,
+                headerCheckboxSelection: true,
+                headerCheckboxSelectionFilteredOnly: true,
+                checkboxSelection: true,
+            },
+            {
+                headerName: 'Title',
+                field: 'name',
+            },
             {
                 headerName: 'Author',
                 field: 'author',
@@ -74,7 +93,7 @@ export default {
             {
                 headerName: 'Assign to',
                 field: 'assignedTo',
-                cellRenderer : 'badge'
+                cellRendererFramework: 'badge',
             },
             {
                 headerName: 'Deadline',
@@ -83,13 +102,16 @@ export default {
             {
                 headerName: 'Piority',
                 field: 'piority',
+                cellRendererFramework: 'piority',
             },
             {
                 headerName: 'Status',
                 field: 'status',
+                cellRendererFramework: 'status',
             },
             {
-                field: 'Action',
+                headerName: 'Action',
+                headerClass: '__center',
                 maxWidth: 160,
                 cellRenderer: 'action',
                 pinned: 'right',
@@ -97,10 +119,10 @@ export default {
                 sortable: false,
             },
         ];
+        this.rowSelection = 'multiple';
         this.context = {componentParent: this};
         this.frameworkComponents = {
             action: Action,
-            badge : BadgeField
         };
     },
     computed: {
@@ -118,7 +140,14 @@ export default {
             setResource: 'todoList/setResource',
         }),
         async onGridReady() {
-            this.gridApi.sizeColumnsToFit();
+            console.log('Ready!');
+        },
+        onSelectionChanged() {
+            const selectedRows = this.gridApi.getSelectedRows();
+            const idSelected = selectedRows.map((o) => {
+                return o.id;
+            });
+            this.$emit('rowSelectedChange', idSelected);
         },
         async contextParentMethod(cell) {
             const {data, rowIndex, type} = cell;
@@ -137,6 +166,7 @@ export default {
     },
     watch: {
         resources() {
+            console.log(this.resources);
             this.rowData = this.resources;
         },
     },

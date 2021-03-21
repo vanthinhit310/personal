@@ -22,7 +22,7 @@ export default Vue.extend({
             const self = this;
 
             this.$confirm(
-                "This will permanently delete the file. Continue?",
+                "This will permanently delete the resource. Continue?",
                 "Warning",
                 {
                     confirmButtonText: "Yes",

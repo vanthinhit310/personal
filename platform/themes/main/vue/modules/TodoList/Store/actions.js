@@ -37,5 +37,10 @@ export default {
         const response = await TodoRepository.destroy(id);
         commit("removeResource", id);
         return response;
+    },
+    async bulkDestroy({ dispatch, state, commit }, arrayId) {
+        const response = await TodoRepository.bulkDelete(arrayId);
+        commit("handleBulkDestroy", arrayId);
+        return response;
     }
 };

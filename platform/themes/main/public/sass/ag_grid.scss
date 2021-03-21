@@ -1,9 +1,9 @@
-.ag-theme-alpine{
+.ag-theme-alpine {
     font-family: "Nunito", sans-serif !important;
     font-size: 13px;
 }
 
-ul.__action{
+ul.__action {
     display: flex;
     column-gap: 10px;
     align-items: center;
@@ -11,4 +11,10 @@ ul.__action{
     padding: 0;
     margin: 0;
     justify-content: center;
+}
+.__center {
+    .ag-header-cell-label {
+        justify-content: center;
+        text-align: center;
+    }
 }

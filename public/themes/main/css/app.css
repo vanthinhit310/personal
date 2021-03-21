@@ -27234,10 +27234,15 @@ ul.__action {
   justify-content: center;
 }
 
+.__center .ag-header-cell-label {
+  justify-content: center;
+  text-align: center;
+}
+
 body {
   font-family: "Nunito", sans-serif !important;
   font-size: 13px;
-  font-weight: 400;
+  font-weight: 600;
   color: #000;
   overflow: hidden;
   background-color: #f5f3f1;
@@ -27251,6 +27256,14 @@ body {
 }
 .page-loading .ant-spin-container {
   height: 100%;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 
 .hfull {

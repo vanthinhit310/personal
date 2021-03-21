@@ -49,10 +49,15 @@ export default {
         });
     },
     bulkDelete(arrayId) {
-        return axiosClient.post(`${prefix}/bulk-delete`, arrayId, {
-            headers: {
-                Authorization: "Bearer " + localStorage.getItem("accessToken")
+        return axiosClient.post(
+            `${prefix}/bulk-delete`,
+            { ids: arrayId },
+            {
+                headers: {
+                    Authorization:
+                        "Bearer " + localStorage.getItem("accessToken")
+                }
             }
-        });
+        );
     }
 };
