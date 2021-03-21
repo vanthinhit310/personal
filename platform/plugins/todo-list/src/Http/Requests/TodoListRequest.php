@@ -19,9 +19,10 @@ class TodoListRequest extends Request
     {
         return [
             'name'   => 'required',
-            'assignTo'   => [
+            'description'   => 'required',
+            'members'   => [
                 'required',
-                'exists:members,id'
+                'array',
             ],
             'deadline' => [
                 'required',

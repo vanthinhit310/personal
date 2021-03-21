@@ -35,7 +35,7 @@ class TodoListService
     public function getList(array $filter = [])
     {
         $query = $this->model;
-        return $query::with(['author', 'assigned'])->get();
+        return $query::with(['author', 'members'])->get();
     }
 
     public function create($data)
@@ -43,6 +43,11 @@ class TodoListService
         try {
             DB::beginTransaction();
             $object = $this->model->create($data);
+
+            if (isset($data['members'])) {
+                $object->members()->attach($data['members']);
+            }
+
             DB::commit();
             $object = $object->refresh();
             return $object;
@@ -55,7 +60,7 @@ class TodoListService
     public function get($id)
     {
         try {
-            $object = $this->repository->findById($id, ['author', 'assigned']);
+            $object = $this->repository->findById($id, ['author', 'members']);
             if (isset($object) && !blank($object)) {
                 return $object;
             }
@@ -73,6 +78,9 @@ class TodoListService
             $object = $this->repository->findById($id);
             if (isset($object) && !blank($object)) {
                 $object->update($data);
+                if (isset($data['members'])) {
+                    $object->members()->sync($data['members']);
+                }
                 DB::commit();
                 return $object;
             }

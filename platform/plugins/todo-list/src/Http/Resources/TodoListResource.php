@@ -17,7 +17,7 @@ class TodoListResource extends JsonResource
             'description' => $this->description,
             'deadline' => $this->deadline,
             'author' => new MemberResource($this->author),
-            'assignedTo' => new MemberResource($this->assigned),
+            'members' => MemberResource::collection($this->members),
             'piority' => $this->piority,
             'status' => $this->status,
             'created' => Carbon::parse($this->created_at)->format(Constant::DATE_FORMAT)

@@ -34,8 +34,17 @@ class TodoList extends BaseModel
         return $this->belongsTo(Member::class, 'owner', 'id');
     }
 
-    public function assigned()
+    public function members()
     {
-        return $this->belongsTo(Member::class, 'assignTo', 'id');
+        return $this->belongsToMany(Member::class, 'task_members','task_id','member_id');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function (TodoList $instance) {
+            $instance->members()->detach();
+        });
     }
 }

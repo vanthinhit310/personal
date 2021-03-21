@@ -27211,6 +27211,13 @@ li.ant-tree-treenode-disabled > .ant-tree-node-content-wrapper:hover {
   border: none;
 }
 
+.el-select {
+  display: block !important;
+}
+.el-select .el-select__tags {
+  max-width: 100% !important;
+}
+
 .ag-theme-alpine {
   font-family: "Nunito", sans-serif !important;
   font-size: 13px;

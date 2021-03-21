@@ -27,7 +27,7 @@
                             <div class="form__group-label required"><span>Assign to</span></div>
                             <div class="form__group-input">
                                 <ValidationProvider name="Assign" rules="required" v-slot="{errors}">
-                                    <el-select class="w-100" :multiple="false" filterable remote reserve-keyword v-model="formData.assignTo" placeholder="Assign to" :remote-method="serchUser" :loading="fetchMemberLoading">
+                                    <el-select class="w-100" collapse-tags :multiple="true" filterable remote reserve-keyword v-model="formData.members" placeholder="Assign to" :remote-method="serchUser" :loading="fetchMemberLoading">
                                         <el-option v-for="item in memberOption" :key="item.id" :label="_.get(item, 'fullname', '')" :value="item.id"> </el-option>
                                     </el-select>
                                     <span class="error-message" v-show="errors[0]">{{ errors[0] }}</span>
@@ -71,7 +71,7 @@ export default {
                 name: '',
                 description: '',
                 deadline: '',
-                assignTo: '',
+                members: [],
             },
         };
     },
@@ -82,7 +82,7 @@ export default {
         }),
     },
     methods: {
-        ...mapActions('todoList', ['fetchMembers', 'create','update']),
+        ...mapActions('todoList', ['fetchMembers', 'create', 'update']),
         async serchUser(query) {
             try {
                 if (query !== '') {
@@ -144,18 +144,16 @@ export default {
             this.processing = true;
             if (this.isUpdate) {
                 try {
-                    const response = await this.fetchMembers({query: _.get(this.resource, 'assignedTo.email', ''), limit: 5});
-                    const resources = _.get(response, 'data.resources', []);
-                    if (!!resources) {
-                        this.memberOption = resources;
-                        this.formData = {
-                            ...this.formData,
-                            name: _.get(this.resource, 'name', ''),
-                            description: _.get(this.resource, 'description', ''),
-                            deadline: _.get(this.resource, 'deadline', ''),
-                            assignTo: _.get(this.resource, 'assignedTo.id', ''),
-                        };
-                    }
+                    this.memberOption = _.get(this.resource, 'members', []);
+                    this.formData = {
+                        ...this.formData,
+                        name: _.get(this.resource, 'name', ''),
+                        description: _.get(this.resource, 'description', ''),
+                        deadline: _.get(this.resource, 'deadline', ''),
+                        members: _.get(this.resource, 'members', []).map((o) => {
+                            return o.id;
+                        }),
+                    };
                 } catch (err) {
                     console.log(`err`, err);
                 }

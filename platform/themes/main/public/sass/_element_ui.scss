@@ -14,3 +14,9 @@
         border: none;
     }
 }
+.el-select{
+    display: block !important;
+    .el-select__tags{
+        max-width: 100% !important;
+    }
+}
