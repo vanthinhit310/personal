@@ -26,17 +26,19 @@
 	"socketio": {},
 	"secureOptions": 67108864,
     "sslCertPath": "./cert/site.crt",
-    "sslKeyPath": "./cert/site.key",
+    "sslKeyPath": "./cert/site.crt",
 	"sslCertChainPath": "",
 	"sslPassphrase": "",
 	"subscribers": {
 		"http": true,
 		"redis": true
 	},
-	"apiOriginAllow": {
-		"allowCors": false,
-		"allowOrigin": "",
-		"allowMethods": "",
-		"allowHeaders": ""
-	}
+    "apiOriginAllow": {
+        "allowCors": true,
+        "allowOrigin": "*",
+        "allowMethods": "GET,POST,PUT,DELETE,UPDATE,PATCH",
+        "allowHeaders": "Origin, Content-Type, X-Auth-Token, X-Requested-With, Accept, Authorization, X-CSRF-TOKEN, X-Socket-Id"
+    },
+    "verifyAuthPath": false,
+    "verifyAuthServer": false
 }

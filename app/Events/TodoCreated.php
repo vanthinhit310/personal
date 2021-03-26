@@ -31,6 +31,6 @@ class TodoCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['socket-demo'];
+        return ['demo'];
     }
 }

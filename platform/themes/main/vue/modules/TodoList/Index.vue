@@ -49,7 +49,8 @@ export default {
         },
     },
     created() {
-        Echo.channel('socket-demo').listen('TodoCreated', (e) => {
+        console.log('init echo');
+        Echo.channel('demo').listen('TodoCreated', (e) => {
             alert('Success');
         });
     },
