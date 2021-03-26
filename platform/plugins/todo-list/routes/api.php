@@ -14,7 +14,7 @@ Route::group([
         Route::resource('todo', 'TodoListController')->except('create')->parameters('todo');
         Route::post('todo/bulk-delete', 'TodoListController@bulkDelete')->name('todo.bulkDelete');
         Route::get('socket-io/test', function () {
-            broadcast(new TodoCreated());
+            /* broadcast(new TodoCreated()); */
             return "ok";
         });
     });

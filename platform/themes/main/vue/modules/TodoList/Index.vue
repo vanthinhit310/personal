@@ -43,15 +43,17 @@ export default {
     computed: {
         ...mapGetters({
             resources: 'todoList/getResources',
+            currentUser: 'auth/getCurrentUser',
         }),
         resourceCount() {
             return this.resources.length || 0;
         },
     },
     created() {
-        console.log('init echo');
-        Echo.channel('demo').listen('TodoCreated', (e) => {
-            alert('Success');
+        Echo.private(`member.${_.get(this.currentUser, 'id')}`).listen('.task.created', (response) => {
+            if(!!response){
+
+            }
         });
     },
     async mounted() {

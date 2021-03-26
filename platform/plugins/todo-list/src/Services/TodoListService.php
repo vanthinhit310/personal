@@ -2,8 +2,8 @@
 
 namespace Platform\TodoList\Services;
 
+use App\Events\TodoCreated;
 use App\Handle\ResponseHandle;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Platform\TodoList\Models\TodoList;
@@ -50,6 +50,7 @@ class TodoListService
 
             DB::commit();
             $object = $object->refresh();
+            broadcast(new TodoCreated($this->request->user(), $object));
             return $object;
         } catch (Throwable $exception) {
             DB::rollBack();
