@@ -30,15 +30,25 @@
 import {AgGridVue} from 'ag-grid-vue';
 import {mapGetters, mapActions, mapMutations} from 'vuex';
 import Action from '@core/components/Ag/Action.js';
-import BadgeField from './Badge';
-import Status from './Status';
-import Piority from './Piority';
+import BadgeField from './Fields/Badge';
+import Status from './Fields/Status';
+import Piority from './Fields/Piority';
 export default {
     components: {
         AgGridVue,
         badge: BadgeField,
         status: Status,
         piority: Piority,
+    },
+    props: {
+        columns: {
+            type: Array,
+            default: [],
+        },
+        isExport: {
+            type: Boolean,
+            default: false,
+        },
     },
     data() {
         return {
@@ -92,8 +102,14 @@ export default {
             },
             {
                 headerName: 'Assign to',
-                field: 'assignedTo',
+                field: 'members',
                 cellRendererFramework: 'badge',
+                valueGetter: function (params) {
+                    const memberName = _.get(params, 'data.members', []).map((o) => {
+                        return o.fullname;
+                    });
+                    return _.join(memberName, ',');
+                },
             },
             {
                 headerName: 'Deadline',
@@ -135,12 +151,27 @@ export default {
         this.gridColumnApi = this.gridOptions.columnApi;
     },
     methods: {
-        ...mapActions('todoList', ['destroy']),
+        ...mapActions('todoList', ['destroy', 'setColumns']),
         ...mapMutations({
             setResource: 'todoList/setResource',
         }),
         async onGridReady() {
-            console.log('Ready!');
+            try {
+                let self = this;
+                const columns = await self.gridColumnApi.getColumnState();
+                if (!!columns) {
+                    const array_columns = columns.map((o) => {
+                        return {
+                            name: _.get(self.gridColumnApi.getColumn(o.colId), 'colDef.headerName', ''),
+                            id: o.colId,
+                            visible: 1,
+                        };
+                    });
+                    if (!!array_columns) {
+                        await this.setColumns(array_columns);
+                    }
+                }
+            } catch (err) {}
         },
         onSelectionChanged() {
             const selectedRows = this.gridApi.getSelectedRows();
@@ -166,8 +197,26 @@ export default {
     },
     watch: {
         resources() {
-            console.log(this.resources);
             this.rowData = this.resources;
+        },
+        columns: {
+            handler() {
+                let self = this;
+                const {columns} = self;
+                columns.forEach((o) => {
+                    if (o.visible == 0) {
+                        self.gridColumnApi.setColumnVisible(o.id, false);
+                    } else {
+                        self.gridColumnApi.setColumnVisible(o.id, true);
+                    }
+                });
+            },
+            deep: true,
+        },
+        isExport() {
+            if (this.isExport) {
+                this.gridApi.exportDataAsCsv();
+            }
         },
     },
 };

@@ -42,5 +42,8 @@ export default {
         const response = await TodoRepository.bulkDelete(arrayId);
         commit("handleBulkDestroy", arrayId);
         return response;
+    },
+    async setColumns({ dispatch, state, commit }, columns) {
+        commit("setColumns", columns);
     }
 };

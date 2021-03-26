@@ -8,8 +8,8 @@
                             <h1 class="wrap_title-text">Task Management</h1>
                             <span class="wrap_title-count">Total ({{ resourceCount }})</span> <el-button type="info" @click="fetchData" size="mini" icon="el-icon-refresh" circle></el-button>
                         </div>
-                        <Toolbar :idSelected="idSelected"></Toolbar>
-                        <Table @rowSelectedChange="handleRowSelectedChange"></Table>
+                        <Toolbar @export="handleExport" @visibleColumn="handleVisibleColumn" :idSelected="idSelected"></Toolbar>
+                        <Table :isExport="isExport" @rowSelectedChange="handleRowSelectedChange" :columns="columns"></Table>
                     </div>
                 </div>
             </template>
@@ -36,6 +36,8 @@ export default {
     data() {
         return {
             idSelected: [],
+            columns: [],
+            isExport: false,
         };
     },
     computed: {
@@ -69,6 +71,12 @@ export default {
             } else {
                 this.idSelected = [];
             }
+        },
+        handleVisibleColumn(columns) {
+            this.columns = columns;
+        },
+        handleExport(value) {
+            this.isExport = value;
         },
     },
 };
