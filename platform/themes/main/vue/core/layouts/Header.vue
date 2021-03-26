@@ -2,7 +2,7 @@
     <div class="header">
         <a-layout-header :style="{background: '#f1f3f4'}">
             <div class="header-content">
-                <el-dropdown trigger="click">
+                <el-dropdown :hide-on-click="false" trigger="click">
                     <el-badge :value="0" class="notification-icon">
                         <i class="el-icon-bell" :style="{fontSize: '25px'}"></i>
                     </el-badge>

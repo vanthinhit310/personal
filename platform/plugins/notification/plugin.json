@@ -1,0 +1,9 @@
+{
+    "name": "Notification",
+    "namespace": "Platform\\Notification\\",
+    "provider": "Platform\\Notification\\Providers\\NotificationServiceProvider",
+    "author": "N/A",
+    "url": "N/A",
+    "version": "1.0",
+    "description": "The description for module notification"
+}
