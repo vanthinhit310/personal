@@ -48,6 +48,11 @@ export default {
             return this.resources.length || 0;
         },
     },
+    created() {
+        Echo.channel('socket-demo').listen('TodoCreated', (e) => {
+            alert('Success');
+        });
+    },
     async mounted() {
         this.fetchData();
     },

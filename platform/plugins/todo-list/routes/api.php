@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Events\TodoCreated;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -13,5 +13,9 @@ Route::group([
     ], function () {
         Route::resource('todo', 'TodoListController')->except('create')->parameters('todo');
         Route::post('todo/bulk-delete', 'TodoListController@bulkDelete')->name('todo.bulkDelete');
+        Route::get('socket-io/test', function () {
+            event(new TodoCreated());
+            return "ok";
+        });
     });
 });

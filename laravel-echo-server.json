@@ -1,14 +1,14 @@
 {
-    "authHost": "http://medic-lab.test",
+	"authHost": "http://personal.test",
     "authEndpoint": "/broadcasting/auth",
-    "clients": [
-        {
-            "appId": "30845b4882f789be",
-            "key": "d8c668b6c00550ffc66fb4a7f2a824a6"
-        }
-    ],
-    "database": "redis",
-    "databaseConfig": {
+	"clients": [
+		{
+			"appId": "2d99e9be6bec8d1d",
+			"key": "de6809cf879dfb1fda24595ef6210466"
+		}
+	],
+	"database": "redis",
+	"databaseConfig": {
         "redis": {
             "port": "6379",
             "host": "127.0.0.1",
@@ -19,26 +19,24 @@
             "databasePath": "/database/laravel-echo-server.sqlite"
         }
     },
-    "devMode": true,
-    "host": "medic-lab.test",
+	"devMode": true,
+    "host": "personal.test",
     "port": "6001",
-    "protocol": "http",
-    "socketio": {},
-    "secureOptions": 67108864,
-    "sslCertPath": "./cert/fullchain.pem",
-    "sslKeyPath": "./cert/privkey.pem",
-    "sslCertChainPath": "",
-    "sslPassphrase": "",
-    "subscribers": {
-        "https": true,
-        "redis": true
-    },
-    "apiOriginAllow": {
-        "allowCors": true,
-        "allowOrigin": "*",
-        "allowMethods": "GET,POST,PUT,DELETE,UPDATE,PATCH",
-        "allowHeaders": "Origin, Content-Type, X-Auth-Token, X-Requested-With, Accept, Authorization, X-CSRF-TOKEN, X-Socket-Id"
-    },
-    "verifyAuthPath": true,
-    "verifyAuthServer": false
+	"protocol": "http",
+	"socketio": {},
+	"secureOptions": 67108864,
+    "sslCertPath": "./cert/site.crt",
+    "sslKeyPath": "./cert/site.key",
+	"sslCertChainPath": "",
+	"sslPassphrase": "",
+	"subscribers": {
+		"http": true,
+		"redis": true
+	},
+	"apiOriginAllow": {
+		"allowCors": false,
+		"allowOrigin": "",
+		"allowMethods": "",
+		"allowHeaders": ""
+	}
 }
