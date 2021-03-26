@@ -2,16 +2,24 @@
     font-family: "Nunito", sans-serif !important;
     font-size: 13px;
 }
-
-ul.__action {
+.ag-cell {
+    line-height: 18px !important;
     display: flex;
-    column-gap: 10px;
     align-items: center;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    justify-content: center;
 }
+.table__action {
+    width: 100%;
+    ul.__action {
+        display: flex;
+        column-gap: 10px;
+        align-items: center;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        justify-content: center;
+    }
+}
+
 .__center {
     .ag-header-cell-label {
         justify-content: center;

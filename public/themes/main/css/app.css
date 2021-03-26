@@ -27223,7 +27223,16 @@ li.ant-tree-treenode-disabled > .ant-tree-node-content-wrapper:hover {
   font-size: 13px;
 }
 
-ul.__action {
+.ag-cell {
+  line-height: 18px !important;
+  display: flex;
+  align-items: center;
+}
+
+.table__action {
+  width: 100%;
+}
+.table__action ul.__action {
   display: flex;
   -moz-column-gap: 10px;
        column-gap: 10px;

@@ -136,6 +136,7 @@ export default {
             },
         ];
         this.rowSelection = 'multiple';
+        this.rowHeight = 50;
         this.context = {componentParent: this};
         this.frameworkComponents = {
             action: Action,
