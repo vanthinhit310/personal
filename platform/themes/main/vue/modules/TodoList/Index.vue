@@ -50,59 +50,14 @@ export default {
         },
     },
     created() {
-        Echo.private(`member.${_.get(this.currentUser, 'id')}`).listen('.task.created', async (response) => {
+        Echo.private(`member.${_.get(this.currentUser, 'id')}`).listen('.task.socket', async (response) => {
             if (!!response) {
                 const {notificationId} = response;
                 const {taskId} = response;
-                if (!!notificationId && !!taskId) {
-                    const response = await this.getNotification(notificationId);
-                    const notification = _.get(response, 'data.resource', '');
-                    const taskResponse = await this.edit(taskId);
-                    const task = _.get(taskResponse, 'data.resource', '');
-                    if (notification) {
-                        await this.pushNotification(notification);
-                    }
-                    if (!!task) {
-                        await this.pushResource(task);
-                    }
-                }
-            }
-        });
+                const {type} = response;
 
-        Echo.private(`member.${_.get(this.currentUser, 'id')}`).listen('.task.updated', async (response) => {
-            if (!!response) {
-                const {notificationId} = response;
-                const {taskId} = response;
-                if (!!notificationId && !!taskId) {
-                    const response = await this.getNotification(notificationId);
-                    const notification = _.get(response, 'data.resource', '');
-                    const taskResponse = await this.edit(taskId);
-                    const task = _.get(taskResponse, 'data.resource', '');
-                    if (notification) {
-                        await this.pushNotification(notification);
-                    }
-                    if (!!task) {
-                        await this.updateResource(task);
-                    }
-                }
-            }
-        });
-
-        Echo.private(`member.${_.get(this.currentUser, 'id')}`).listen('.task.destroyed', async (response) => {
-            if (!!response) {
-                const {notificationId} = response;
-                const {taskId} = response;
-                if (!!notificationId && !!taskId) {
-                    const response = await this.getNotification(notificationId);
-                    const notification = _.get(response, 'data.resource', '');
-                    const taskResponse = await this.edit(taskId);
-                    const task = _.get(taskResponse, 'data.resource', '');
-                    if (notification) {
-                        await this.pushNotification(notification);
-                    }
-                    if (!!task) {
-                        await this.removeResource(_.get(task, 'id'));
-                    }
+                if (!!notificationId && !!taskId && type) {
+                    await this.handleEventListenFromSocket(notificationId, taskId, type);
                 }
             }
         });
@@ -144,6 +99,30 @@ export default {
         },
         handleAfterBulkDestroy() {
             this.idSelected = [];
+        },
+        async handleEventListenFromSocket(notificationId, taskId, type) {
+            const response = await this.getNotification(notificationId);
+            const notification = _.get(response, 'data.resource', '');
+            const taskResponse = await this.edit(taskId);
+            const task = _.get(taskResponse, 'data.resource', '');
+            if (notification) {
+                await this.pushNotification(notification);
+            }
+            if (!!task) {
+                switch (type) {
+                    case 'created':
+                        await this.pushResource(task);
+                        break;
+
+                    case 'updated':
+                        await this.updateResource(task);
+                        break;
+
+                    case 'destroyed':
+                        await this.removeResource(_.get(task, 'id'));
+                        break;
+                }
+            }
         },
     },
 };

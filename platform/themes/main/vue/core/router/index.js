@@ -4,6 +4,7 @@ import routes from "./web";
 import store from "@core/store/index";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
+import { clearPending } from "@core/apis/axiosClient";
 Vue.use(VueRouter);
 
 const router = new VueRouter({
@@ -18,8 +19,9 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-    const { getters, dispatch } = store;
+    clearPending();
     NProgress.start();
+    const { getters, dispatch } = store;
     await dispatch("dashboard/handleLoading", true);
     //chuyển hướng đến trang đăng nhập nếu chưa đăng nhập và cố gắng truy cập trang bị hạn chế
     let { requiredAuth } = to.meta;
@@ -47,10 +49,20 @@ router.beforeEach(async (to, from, next) => {
 
     next();
 });
+
 router.afterEach(async () => {
+    NProgress.done();
     const { dispatch } = store;
     await dispatch("dashboard/handleLoading", false);
-    NProgress.done();
 });
+
+router.onError(error => {
+    const pattern = /Loading chunk .+ failed/g
+    const isChunkLoadFailed = error.message.match(pattern)
+    const targetPath = router.history.pending.fullPath
+    if (isChunkLoadFailed) {
+      router.replace(targetPath)
+    }
+  })
 
 export default router;

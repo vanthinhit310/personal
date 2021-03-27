@@ -11,7 +11,7 @@ import Vue from "vue";
 import _ from "lodash";
 Vue.prototype._ = _;
 /* Import lodash */
-
+Vue.config.productionTip = false
 /* Import route and store main file */
 import router from "@core/router/index";
 import store from "@core/store/index";

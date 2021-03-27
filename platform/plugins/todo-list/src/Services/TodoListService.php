@@ -54,7 +54,6 @@ class TodoListService
             if (isset($data['members'])) {
                 $object->members()->attach($data['members']);
             }
-
             DB::commit();
             $object = $object->refresh();
 
@@ -98,14 +97,12 @@ class TodoListService
                     $object->members()->sync($data['members']);
                 }
                 DB::commit();
-
                 $notifier = collect([$object->members])->collapse()->push($this->request->user());
                 $notifier->each(function ($item, $key) use ($object) {
                     if ($item->id != $this->request->user()->id) {
                         broadcast(new TodoCreated($this->request->user(), $object, $item, 'updated'));
                     }
                 });
-
                 return $object;
             }
             DB::rollBack();

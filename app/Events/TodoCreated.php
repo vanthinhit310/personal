@@ -45,22 +45,7 @@ class TodoCreated implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        switch ($this->type) {
-            case 'created':
-                # code...
-                return 'task.created';
-                break;
-
-            case 'updated':
-                # code...
-                return 'task.updated';
-                break;
-
-            case 'destroyed':
-                # code...
-                return 'task.destroyed';
-                break;
-        }
+        return 'task.socket';
     }
 
     public function broadcastWith()
@@ -93,7 +78,8 @@ class TodoCreated implements ShouldBroadcast
 
         return [
             'taskId' => $this->todo->id,
-            'notificationId' => @$notification->id
+            'notificationId' => @$notification->id,
+            'type' => $this->type
         ];
     }
 }
