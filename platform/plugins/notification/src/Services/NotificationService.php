@@ -37,7 +37,8 @@ class NotificationService
     public function getList(array $filter = [])
     {
         $query = $this->model;
-        return $query::orderBy('created_at', 'desc')
+        return $query->whereTo($this->request->user()->id)
+            ->orderByDesc('created_at')
             ->paginate(10);
     }
 

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Platform\TodoList\Models\TodoList;
 use Platform\TodoList\Repositories\Interfaces\TodoListInterface;
 use Throwable;
+use Illuminate\Support\Str;
 
 class TodoListService
 {
@@ -35,7 +36,13 @@ class TodoListService
     public function getList(array $filter = [])
     {
         $query = $this->model;
-        return $query::with(['author', 'members'])->get();
+        $query = $query
+            ->whereOwner($this->request->user()->id)
+            ->with('author')
+            ->orWhereHas('members', function ($q) {
+                $q->where('members.id',$this->request->user()->id);
+            });
+        return $query->get();
     }
 
     public function create($data)
@@ -50,7 +57,9 @@ class TodoListService
 
             DB::commit();
             $object = $object->refresh();
-            broadcast(new TodoCreated($this->request->user(), $object));
+            foreach ($object->members as $member) {
+                broadcast(new TodoCreated($this->request->user(), $object, $member));
+            }
             return $object;
         } catch (Throwable $exception) {
             DB::rollBack();

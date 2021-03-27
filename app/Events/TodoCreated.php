@@ -17,17 +17,19 @@ class TodoCreated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $member;
+    public $sender;
     public $todo;
+    public $reciever;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Member $member, TodoList $todo)
+    public function __construct(Member $sender, TodoList $todo, Member $reciever)
     {
-        $this->member = $member;
+        $this->sender = $sender;
         $this->todo = $todo;
+        $this->reciever = $reciever;
     }
 
     /**
@@ -37,8 +39,7 @@ class TodoCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-
-        return new PrivateChannel(sprintf('member.%s', $this->member->id));
+        return new PrivateChannel(sprintf('member.%s', $this->reciever->id));
     }
 
     public function broadcastAs()
@@ -48,13 +49,14 @@ class TodoCreated implements ShouldBroadcast
 
     public function broadcastWith()
     {
-        $message = sprintf('%s just assigned a new task %s to you. The deadline for completion is %s', @$this->member->getFullName(), @$this->todo->name, @$this->todo->deadline);
+        $message = sprintf('%s just assigned a new task %s to you. The deadline for completion is %s', @$this->sender->getFullName(), @$this->todo->name, @$this->todo->deadline);
 
         //create new notification
         $notification = app(NotificationInterface::class)->createOrUpdate([
             'content' => $message,
-            'from' => $this->member->id,
-            'data' => json_encode([$this->member, $this->todo]),
+            'from' => $this->sender->id,
+            'to' => $this->reciever->id,
+            'data' => json_encode([$this->sender, $this->todo, $this->reciever]),
             'status' => 'Unread'
         ]);
 
