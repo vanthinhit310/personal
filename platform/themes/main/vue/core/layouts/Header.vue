@@ -49,7 +49,7 @@ export default {
         ...mapGetters({
             user: 'auth/getCurrentUser',
             avatar: 'auth/getAvatar',
-            notifications: 'notification/getNotifications',
+            notifications: 'notification/getResources',
         }),
         notificationCount() {
             if (!!this.notifications) {
@@ -62,13 +62,13 @@ export default {
         try {
             const {notifications} = this;
             if (notifications instanceof Array && notifications.length == 0) {
-                await this.fetchNotification();
+                await this.fetch();
             }
         } catch (err) {}
     },
     methods: {
         ...mapActions('auth', ['logout']),
-        ...mapActions('notification', ['fetchNotification']),
+        ...mapActions('notification', ['fetch']),
         async handleLogout() {
             try {
                 await this.logout();

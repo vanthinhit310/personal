@@ -1,5 +1,5 @@
 export default {
-    getNotifications: state => {
-        return state.notifications;
-    }
+    getResources: state => {
+        return state.resources;
+    },
 };
