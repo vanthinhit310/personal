@@ -27396,12 +27396,21 @@ body {
 
 .notification {
   list-style: none;
-  padding: 10px;
   margin: 0;
   height: 350px;
+  padding: 0 10px 0 0;
 }
 .notification .infinite-list-item {
+  padding: 10px;
+  border-radius: 4px;
   margin-bottom: 12px;
+  background-color: #FFF;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color linear 0.2s;
+}
+.notification .infinite-list-item:hover {
+  background-color: #f5f3f1;
 }
 .notification .infinite-list-item:last-child {
   margin-bottom: 0;
@@ -27415,6 +27424,10 @@ body {
 .notification .notification_item .diff-time {
   margin-top: 5px;
   font-size: 11px;
+}
+.notification .notification_item .message {
+  word-break: break-word;
+  text-align: left;
 }
 
 .login-wrapper {

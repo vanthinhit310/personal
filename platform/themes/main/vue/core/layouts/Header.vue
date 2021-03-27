@@ -4,17 +4,17 @@
             <div class="header-content">
                 <el-popover placement="bottom" width="350" trigger="click">
                     <ul class="infinite-list notification" v-infinite-scroll="load" style="overflow: auto">
-                        <li :key="i" v-for="i in count" class="infinite-list-item">
-                            <router-link to="javascript:;" class="notification_item unread">
-                                <el-avatar class="notification_item--avatar" icon="el-icon-user-solid"></el-avatar>
+                        <li :key="index" v-for="(item, index) in notifications" class="infinite-list-item">
+                            <router-link :disabled="true" to="javascript:;" class="notification_item unread">
+                                <el-avatar class="notification_item--avatar" :src="getAvatar(item)"></el-avatar>
                                 <div class="notification_item--content">
-                                    <div class="message">Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, deleniti deserunt, non, sed quia blanditiis ea soluta</div>
-                                    <div class="diff-time">1 hour ago</div>
+                                    <div class="message" v-text="_.get(item, 'message')"></div>
+                                    <div class="diff-time" v-text="_.get(item, 'time')"></div>
                                 </div>
                             </router-link>
                         </li>
                     </ul>
-                    <el-badge slot="reference" :value="0" class="notification-icon">
+                    <el-badge slot="reference" :value="notificationCount" class="notification-icon">
                         <i class="el-icon-bell" :style="{fontSize: '25px'}"></i>
                     </el-badge>
                 </el-popover>
@@ -37,30 +37,38 @@
 
 <script>
 import {mapGetters, mapActions} from 'vuex';
-import vueCustomScrollbar from 'vue-custom-scrollbar';
-import 'vue-custom-scrollbar/dist/vueScrollbar.css';
+import mixins from '@core/helpers/mixins.js';
 export default {
+    mixins: [mixins],
     data() {
         return {
             count: 2,
-            settings: {
-                suppressScrollY: false,
-                suppressScrollX: false,
-                wheelPropagation: false,
-            },
         };
-    },
-    components: {
-        vueCustomScrollbar,
     },
     computed: {
         ...mapGetters({
             user: 'auth/getCurrentUser',
             avatar: 'auth/getAvatar',
+            notifications: 'dashboard/getNotifications',
         }),
+        notificationCount() {
+            if (!!this.notifications) {
+                return this.notifications.length;
+            }
+            return 0;
+        },
+    },
+    async mounted() {
+        try {
+            const {notifications} = this;
+            if (notifications instanceof Array && notifications.length == 0) {
+                await this.fetchNotification();
+            }
+        } catch (err) {}
     },
     methods: {
         ...mapActions('auth', ['logout']),
+        ...mapActions('dashboard', ['fetchNotification']),
         async handleLogout() {
             try {
                 await this.logout();
