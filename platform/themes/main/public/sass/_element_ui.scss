@@ -20,3 +20,8 @@
         max-width: 100% !important;
     }
 }
+
+.el-loading-mask.is-fullscreen .el-loading-spinner .circular{
+    width: 30px;
+    height: 30px;
+}
