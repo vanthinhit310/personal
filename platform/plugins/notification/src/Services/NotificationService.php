@@ -61,10 +61,10 @@ class NotificationService
         }
     } */
 
-    /* public function get($id)
+    public function get($id)
     {
         try {
-            $object = $this->repository->findById($id, ['author', 'members']);
+            $object = $this->repository->findById($id, ['sender']);
             if (isset($object) && !blank($object)) {
                 return $object;
             }
@@ -72,7 +72,7 @@ class NotificationService
         } catch (Throwable $exception) {
             $this->response->internalServerResponse($exception, __CLASS__, __FUNCTION__);
         }
-    } */
+    }
 
     public function update($id, $data)
     {

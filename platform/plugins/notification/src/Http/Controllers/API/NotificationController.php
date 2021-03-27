@@ -47,6 +47,21 @@ class NotificationController extends Controller
         }
     }
 
+    public function edit($id)
+    {
+        try {
+            $result = $this->service->get($id);
+            if ($result instanceof $this->baseHttpResponse) {
+                return $result;
+            }
+            return $this->baseHttpResponse
+                ->setData(['resource' => new NotificationResource($result)])
+                ->setCode(Response::HTTP_OK);
+        } catch (Throwable $exception) {
+            return $this->response->internalServerResponse($exception, __CLASS__, __FUNCTION__);
+        }
+    }
+
     public function update($id)
     {
         try {

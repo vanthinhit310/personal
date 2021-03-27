@@ -51,7 +51,7 @@ class TodoCreated implements ShouldBroadcast
         $message = sprintf('%s just assigned a new task %s to you. The deadline for completion is %s', @$this->member->getFullName(), @$this->todo->name, @$this->todo->deadline);
 
         //create new notification
-        app(NotificationInterface::class)->createOrUpdate([
+        $notification = app(NotificationInterface::class)->createOrUpdate([
             'content' => $message,
             'from' => auth('api')->user()->id,
             'to' => $this->member->id,
@@ -61,7 +61,7 @@ class TodoCreated implements ShouldBroadcast
 
         return [
             'taskId' => $this->todo->id,
-            'message' => $message
+            'notificationId' => @$notification->id
         ];
     }
 }
