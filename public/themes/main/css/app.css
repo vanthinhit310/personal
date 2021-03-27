@@ -27394,6 +27394,29 @@ body {
      object-fit: cover;
 }
 
+.notification {
+  list-style: none;
+  padding: 10px;
+  margin: 0;
+  height: 350px;
+}
+.notification .infinite-list-item {
+  margin-bottom: 12px;
+}
+.notification .infinite-list-item:last-child {
+  margin-bottom: 0;
+}
+.notification .notification_item {
+  display: grid;
+  grid-template-columns: 50px auto;
+  font-weight: 600;
+  color: #000;
+}
+.notification .notification_item .diff-time {
+  margin-top: 5px;
+  font-size: 11px;
+}
+
 .login-wrapper {
   height: 100%;
   display: flex;

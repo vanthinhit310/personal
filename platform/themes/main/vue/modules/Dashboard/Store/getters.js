@@ -4,5 +4,8 @@ export default {
     },
     getSidebarMenu: state => {
         return state.sidebarMenu;
+    },
+    getNotifications: state => {
+        return state.notifications;
     }
 };

@@ -7,9 +7,8 @@ use App\Handle\ResponseHandle;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Platform\Base\Http\Responses\BaseHttpResponse;
+use Platform\Notification\Http\Resources\NotificationResource;
 use Platform\Notification\Services\NotificationService;
-use Platform\TodoList\Http\Requests\TodoListRequest;
-use Platform\TodoList\Http\Resources\NotificationResource;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 

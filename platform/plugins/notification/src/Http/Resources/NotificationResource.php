@@ -1,6 +1,6 @@
 <?php
 
-namespace Platform\TodoList\Http\Resources;
+namespace Platform\Notification\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 

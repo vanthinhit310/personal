@@ -9,7 +9,7 @@
         margin-top: 10px;
         cursor: pointer;
     }
-    .user_avatar{
+    .user_avatar {
         margin-right: 10px;
     }
     .user-dropdown {
@@ -17,7 +17,7 @@
         align-items: center;
         cursor: pointer;
 
-        .ant-avatar-image{
+        .ant-avatar-image {
             margin-right: 10px;
         }
     }
@@ -29,9 +29,33 @@
         max-width: 35%;
         display: block;
         margin: 0 auto;
-        padding: .5rem;
+        padding: 0.5rem;
         cursor: pointer;
         height: 100%;
         object-fit: cover;
+    }
+}
+.notification {
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+    height: 350px;
+
+    .infinite-list-item {
+        margin-bottom: 12px;
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .notification_item {
+        display: grid;
+        grid-template-columns: 50px auto;
+        font-weight: 600;
+        color: $BLACK;
+        .diff-time {
+            margin-top: 5px;
+            font-size: 11px;
+        }
     }
 }

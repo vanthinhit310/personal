@@ -4,15 +4,15 @@ export default {
         {
             icon: "el-icon-s-grid",
             title: "Dashboard",
-            path : '/',
+            path: "/",
             link: { name: "dashboard" }
         },
         {
             icon: "el-icon-s-order",
             title: "Todo List",
-            path : '/todo-list',
+            path: "/todo-list",
             link: { name: "todo-list" }
-        },
+        }
         // {
         //     icon: "el-icon-s-custom",
         //     title: "User",
@@ -32,5 +32,6 @@ export default {
         //         }
         //     ]
         // }
-    ]
+    ],
+    notifications: []
 };

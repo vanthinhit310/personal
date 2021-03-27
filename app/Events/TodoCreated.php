@@ -10,6 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Platform\Member\Models\Member;
+use Platform\Notification\Repositories\Interfaces\NotificationInterface;
 use Platform\TodoList\Models\TodoList;
 
 class TodoCreated implements ShouldBroadcast
@@ -36,6 +37,7 @@ class TodoCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
+
         return new PrivateChannel(sprintf('member.%s', $this->member->id));
     }
 
@@ -46,9 +48,18 @@ class TodoCreated implements ShouldBroadcast
 
     public function broadcastWith()
     {
+        $message = sprintf('%s just assigned a new task %s to you. The deadline for completion is %s', @$this->member->getFullName(), @$this->todo->name, @$this->todo->deadline);
+
+        //create new notification
+        app(NotificationInterface::class)->createOrUpdate([
+            'content' => $message,
+            'data' => json_encode([$this->member, $this->todo]),
+            'status' => 'Unread'
+        ]);
+
         return [
             'taskId' => $this->todo->id,
-            'message' => sprintf('%s just assigned a new task %s to you. The deadline for completion is %s', @$this->member->getFullName(), @$this->todo->name, @$this->todo->deadline)
+            'message' => $message
         ];
     }
 }
