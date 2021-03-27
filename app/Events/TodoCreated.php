@@ -53,8 +53,7 @@ class TodoCreated implements ShouldBroadcast
         //create new notification
         $notification = app(NotificationInterface::class)->createOrUpdate([
             'content' => $message,
-            'from' => auth('api')->user()->id,
-            'to' => $this->member->id,
+            'from' => $this->member->id,
             'data' => json_encode([$this->member, $this->todo]),
             'status' => 'Unread'
         ]);

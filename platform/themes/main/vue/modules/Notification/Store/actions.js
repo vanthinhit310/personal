@@ -10,7 +10,7 @@ export default {
         }
         return response;
     },
-    async edit({ dispatch, state, commit }, id) {
+    async getNotification({ dispatch, state, commit }, id) {
         return await NotificationRepository.edit(id);
     },
     async update({ dispatch, state, commit }, { id, param }) {

@@ -69,6 +69,13 @@
         .message{
             word-break: break-word;
             text-align: left;
+            color: $BLACK;
+        }
+    }
+
+    .unread{
+        .message, .diff-time {
+            color: #409eff;
         }
     }
 }

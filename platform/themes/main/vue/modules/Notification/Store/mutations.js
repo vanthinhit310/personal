@@ -2,12 +2,9 @@ export default {
     setResources(state, resources) {
         state.resources = resources;
     },
-    setColumns(state, columns) {
-        state.columns = columns;
-    },
     pushResource(state, resource) {
         const { resources } = state;
-        state.resources = [...resources, resource];
+        state.resources = [resource, ...resources];
     },
     setResource(state, resource) {
         state.resource = resource;

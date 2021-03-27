@@ -89,6 +89,7 @@ export default {
                 console.log(err);
             }
             this.setLoadingState(false);
+            this.emit('afterBulkDestroy');
         },
         handleVisibleColumns() {
             this.$emit('visibleColumn', this.tableColumns);

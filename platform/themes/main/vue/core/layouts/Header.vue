@@ -5,7 +5,7 @@
                 <el-popover placement="bottom" width="350" trigger="click">
                     <ul class="infinite-list notification" v-infinite-scroll="load" style="overflow: auto">
                         <li :key="index" v-for="(item, index) in notifications" class="infinite-list-item">
-                            <router-link :disabled="true" to="javascript:;" class="notification_item unread">
+                            <router-link :disabled="true" to="javascript:;" :class="`notification_item ${_.get(item, 'status') == 'Read' ? 'read' : 'unread'}`">
                                 <el-avatar class="notification_item--avatar" :src="getAvatar(item)"></el-avatar>
                                 <div class="notification_item--content">
                                     <div class="message" v-text="_.get(item, 'message')"></div>

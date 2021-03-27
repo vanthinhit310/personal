@@ -27428,6 +27428,10 @@ body {
 .notification .notification_item .message {
   word-break: break-word;
   text-align: left;
+  color: #000;
+}
+.notification .unread .message, .notification .unread .diff-time {
+  color: #409eff;
 }
 
 .login-wrapper {

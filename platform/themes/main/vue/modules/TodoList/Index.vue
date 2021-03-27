@@ -8,7 +8,7 @@
                             <h1 class="wrap_title-text">Task Management</h1>
                             <span class="wrap_title-count">Total ({{ resourceCount }})</span> <el-button type="info" @click="fetchData" size="mini" icon="el-icon-refresh" circle></el-button>
                         </div>
-                        <Toolbar @export="handleExport" @visibleColumn="handleVisibleColumn" :idSelected="idSelected"></Toolbar>
+                        <Toolbar @afterBulkDestroy="handleAfterBulkDestroy" @export="handleExport" @visibleColumn="handleVisibleColumn" :idSelected="idSelected"></Toolbar>
                         <Table :isExport="isExport" @rowSelectedChange="handleRowSelectedChange" :columns="columns"></Table>
                     </div>
                 </div>
@@ -50,9 +50,16 @@ export default {
         },
     },
     created() {
-        Echo.private(`member.${_.get(this.currentUser, 'id')}`).listen('.task.created', (response) => {
-            if(!!response){
-
+        Echo.private(`member.${_.get(this.currentUser, 'id')}`).listen('.task.created', async (response) => {
+            if (!!response) {
+                const {notificationId} = response;
+                if (!!notificationId) {
+                    const response = await this.getNotification(notificationId);
+                    const notification = _.get(response, 'data.resource', '');
+                    if (notification) {
+                        await this.pushNotification(notification);
+                    }
+                }
             }
         });
     },
@@ -61,8 +68,10 @@ export default {
     },
     methods: {
         ...mapActions('todoList', ['fetch']),
+        ...mapActions('notification', ['getNotification']),
         ...mapMutations({
             setLoadingState: 'dashboard/setLoadingState',
+            pushNotification: 'notification/pushResource',
         }),
         async fetchData() {
             try {
@@ -85,6 +94,9 @@ export default {
         },
         handleExport(value) {
             this.isExport = value;
+        },
+        handleAfterBulkDestroy() {
+            this.idSelected = [];
         },
     },
 };
