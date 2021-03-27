@@ -55,7 +55,6 @@ export default {
                 const {notificationId} = response;
                 const {taskId} = response;
                 const {type} = response;
-
                 if (!!notificationId && !!taskId && type) {
                     await this.handleEventListenFromSocket(notificationId, taskId, type);
                 }
@@ -103,25 +102,30 @@ export default {
         async handleEventListenFromSocket(notificationId, taskId, type) {
             const response = await this.getNotification(notificationId);
             const notification = _.get(response, 'data.resource', '');
-            const taskResponse = await this.edit(taskId);
-            const task = _.get(taskResponse, 'data.resource', '');
+            if (type != 'destroyed') {
+                const taskResponse = await this.edit(taskId);
+                const task = _.get(taskResponse, 'data.resource', '');
+            }
+
             if (notification) {
                 await this.pushNotification(notification);
             }
-            if (!!task) {
-                switch (type) {
-                    case 'created':
+            switch (type) {
+                case 'created':
+                    if (!!task) {
                         await this.pushResource(task);
-                        break;
+                    }
+                    break;
 
-                    case 'updated':
+                case 'updated':
+                    if (!!task) {
                         await this.updateResource(task);
-                        break;
+                    }
+                    break;
 
-                    case 'destroyed':
-                        await this.removeResource(_.get(task, 'id'));
-                        break;
-                }
+                case 'destroyed':
+                    await this.removeResource(taskId);
+                    break;
             }
         },
     },

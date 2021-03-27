@@ -58,7 +58,7 @@ class TodoListService
             $object = $object->refresh();
 
             $notifier = collect([$object->members])->collapse()->push($this->request->user());
-            $notifier->each(function ($item, $key) use ($object) {
+            $notifier->each(function ($item) use ($object) {
                 if ($item->id != $this->request->user()->id) {
                     broadcast(new TodoCreated($this->request->user(), $object, $item, 'created'));
                 }
@@ -98,7 +98,7 @@ class TodoListService
                 }
                 DB::commit();
                 $notifier = collect([$object->members])->collapse()->push($this->request->user());
-                $notifier->each(function ($item, $key) use ($object) {
+                $notifier->each(function ($item) use ($object) {
                     if ($item->id != $this->request->user()->id) {
                         broadcast(new TodoCreated($this->request->user(), $object, $item, 'updated'));
                     }
@@ -118,24 +118,23 @@ class TodoListService
         try {
             DB::beginTransaction();
             $object = $this->repository->findById($id, ['members']);
-            $objectClone = $object;
             $members = $object->members;
             if (isset($object) && !blank($object)) {
-                $object->delete();
-                DB::commit();
 
                 $notifier = collect([$members])->collapse()->push($this->request->user());
-                $notifier->each(function ($item, $key) use ($objectClone) {
+                $notifier->each(function ($item) use ($object) {
                     if ($item->id != $this->request->user()->id) {
-                        event(new TodoCreated($this->request->user(), $objectClone, $item, 'destroyed'));
+                        event(new TodoCreated($this->request->user(), $object, $item, 'destroyed'));
                     }
                 });
+
+                $object->delete();
+                DB::commit();
                 return true;
             }
             DB::rollBack();
             return $this->response->notfoundResponse();
         } catch (Throwable $exception) {
-            dd($exception);
             DB::rollBack();
             $this->response->internalServerResponse($exception, __CLASS__, __FUNCTION__);
         }
