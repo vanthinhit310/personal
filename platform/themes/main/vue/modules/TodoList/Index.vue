@@ -53,11 +53,17 @@ export default {
         Echo.private(`member.${_.get(this.currentUser, 'id')}`).listen('.task.created', async (response) => {
             if (!!response) {
                 const {notificationId} = response;
-                if (!!notificationId) {
+                const {taskId} = response;
+                if (!!notificationId && !!taskId) {
                     const response = await this.getNotification(notificationId);
                     const notification = _.get(response, 'data.resource', '');
+                    const taskResponse = await this.edit(taskId);
+                    const task = _.get(taskResponse, 'data.resource', '');
                     if (notification) {
                         await this.pushNotification(notification);
+                    }
+                    if (!!task) {
+                        await this.pushResource(task);
                     }
                 }
             }
@@ -67,11 +73,12 @@ export default {
         this.fetchData();
     },
     methods: {
-        ...mapActions('todoList', ['fetch']),
+        ...mapActions('todoList', ['fetch', 'edit']),
         ...mapActions('notification', ['getNotification']),
         ...mapMutations({
             setLoadingState: 'dashboard/setLoadingState',
             pushNotification: 'notification/pushResource',
+            pushResource: 'todoList/pushResource',
         }),
         async fetchData() {
             try {
