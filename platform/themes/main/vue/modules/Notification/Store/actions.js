@@ -1,12 +1,9 @@
 import { RepositoryFactory } from "@core/apis/RepositoryFactory";
 
-const DashboardRepository = RepositoryFactory.get("dashboard");
+const NotificationRepository = RepositoryFactory.get("notification");
 export default {
-    handleLoading({ dispatch, state, commit }, status) {
-        commit("setLoadingState", status);
-    },
     async fetchNotification({ dispatch, state, commit }) {
-        const response = await DashboardRepository.fetch();
+        const response = await NotificationRepository.fetch();
         const resources = _.get(response, "data.resources");
         if (!!resources) {
             commit("setNotifications", resources);

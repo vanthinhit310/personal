@@ -49,7 +49,7 @@ export default {
         ...mapGetters({
             user: 'auth/getCurrentUser',
             avatar: 'auth/getAvatar',
-            notifications: 'dashboard/getNotifications',
+            notifications: 'notification/getNotifications',
         }),
         notificationCount() {
             if (!!this.notifications) {
@@ -68,7 +68,7 @@ export default {
     },
     methods: {
         ...mapActions('auth', ['logout']),
-        ...mapActions('dashboard', ['fetchNotification']),
+        ...mapActions('notification', ['fetchNotification']),
         async handleLogout() {
             try {
                 await this.logout();
