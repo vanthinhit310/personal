@@ -85,7 +85,6 @@ class TodoListController extends Controller
     {
         try {
             $params = $request->all();
-            $params = array_merge($params, ['owner' => $request->user()->id]);
             $result = $this->service->update($id, $params);
             if ($result instanceof $this->baseHttpResponse) {
                 return $result;

@@ -68,6 +68,44 @@ export default {
                 }
             }
         });
+
+        Echo.private(`member.${_.get(this.currentUser, 'id')}`).listen('.task.updated', async (response) => {
+            if (!!response) {
+                const {notificationId} = response;
+                const {taskId} = response;
+                if (!!notificationId && !!taskId) {
+                    const response = await this.getNotification(notificationId);
+                    const notification = _.get(response, 'data.resource', '');
+                    const taskResponse = await this.edit(taskId);
+                    const task = _.get(taskResponse, 'data.resource', '');
+                    if (notification) {
+                        await this.pushNotification(notification);
+                    }
+                    if (!!task) {
+                        await this.updateResource(task);
+                    }
+                }
+            }
+        });
+
+        Echo.private(`member.${_.get(this.currentUser, 'id')}`).listen('.task.destroyed', async (response) => {
+            if (!!response) {
+                const {notificationId} = response;
+                const {taskId} = response;
+                if (!!notificationId && !!taskId) {
+                    const response = await this.getNotification(notificationId);
+                    const notification = _.get(response, 'data.resource', '');
+                    const taskResponse = await this.edit(taskId);
+                    const task = _.get(taskResponse, 'data.resource', '');
+                    if (notification) {
+                        await this.pushNotification(notification);
+                    }
+                    if (!!task) {
+                        await this.removeResource(_.get(task, 'id'));
+                    }
+                }
+            }
+        });
     },
     async mounted() {
         this.fetchData();
@@ -79,6 +117,8 @@ export default {
             setLoadingState: 'dashboard/setLoadingState',
             pushNotification: 'notification/pushResource',
             pushResource: 'todoList/pushResource',
+            updateResource: 'todoList/updateResource',
+            removeResource: 'todoList/removeResource',
         }),
         async fetchData() {
             try {

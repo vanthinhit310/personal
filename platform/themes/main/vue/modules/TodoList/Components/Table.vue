@@ -155,6 +155,7 @@ export default {
         ...mapActions('todoList', ['destroy', 'setColumns']),
         ...mapMutations({
             setResource: 'todoList/setResource',
+            setLoadingState: 'dashboard/setLoadingState',
         }),
         async onGridReady() {
             try {
@@ -185,12 +186,16 @@ export default {
             const {data, rowIndex, type} = cell;
             switch (type) {
                 case 'destroy':
+                    this.setLoadingState(true);
                     await this.destroy(_.get(data, 'id', ''));
+                    this.setLoadingState(false);
                     break;
 
                 case 'edit':
                     if (!!data) {
-                        this.setResource(data);
+                        this.setLoadingState(true);
+                        await this.setResource(data);
+                        this.setLoadingState(false);
                     }
                     break;
             }

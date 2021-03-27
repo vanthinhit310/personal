@@ -6,3 +6,6 @@
     line-height: normal;
     padding: 0 25px;
 }
+.ant-spin-nested-loading > div > .ant-spin{
+    z-index: 35;
+}

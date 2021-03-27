@@ -40,7 +40,7 @@ class TodoListService
             ->whereOwner($this->request->user()->id)
             ->with('author')
             ->orWhereHas('members', function ($q) {
-                $q->where('members.id',$this->request->user()->id);
+                $q->where('members.id', $this->request->user()->id);
             });
         return $query->get();
     }
@@ -57,9 +57,14 @@ class TodoListService
 
             DB::commit();
             $object = $object->refresh();
-            foreach ($object->members as $member) {
-                broadcast(new TodoCreated($this->request->user(), $object, $member));
-            }
+
+            $notifier = collect([$object->members])->collapse()->push($this->request->user());
+            $notifier->each(function ($item, $key) use ($object) {
+                if ($item->id != $this->request->user()->id) {
+                    broadcast(new TodoCreated($this->request->user(), $object, $item, 'created'));
+                }
+            });
+
             return $object;
         } catch (Throwable $exception) {
             DB::rollBack();
@@ -86,12 +91,21 @@ class TodoListService
         try {
             DB::beginTransaction();
             $object = $this->repository->findById($id);
+
             if (isset($object) && !blank($object)) {
                 $object->update($data);
                 if (isset($data['members'])) {
                     $object->members()->sync($data['members']);
                 }
                 DB::commit();
+
+                $notifier = collect([$object->members])->collapse()->push($this->request->user());
+                $notifier->each(function ($item, $key) use ($object) {
+                    if ($item->id != $this->request->user()->id) {
+                        broadcast(new TodoCreated($this->request->user(), $object, $item, 'updated'));
+                    }
+                });
+
                 return $object;
             }
             DB::rollBack();
@@ -106,15 +120,25 @@ class TodoListService
     {
         try {
             DB::beginTransaction();
-            $object = $this->repository->findById($id);
+            $object = $this->repository->findById($id, ['members']);
+            $objectClone = $object;
+            $members = $object->members;
             if (isset($object) && !blank($object)) {
                 $object->delete();
                 DB::commit();
+
+                $notifier = collect([$members])->collapse()->push($this->request->user());
+                $notifier->each(function ($item, $key) use ($objectClone) {
+                    if ($item->id != $this->request->user()->id) {
+                        event(new TodoCreated($this->request->user(), $objectClone, $item, 'destroyed'));
+                    }
+                });
                 return true;
             }
             DB::rollBack();
             return $this->response->notfoundResponse();
         } catch (Throwable $exception) {
+            dd($exception);
             DB::rollBack();
             $this->response->internalServerResponse($exception, __CLASS__, __FUNCTION__);
         }

@@ -1,62 +1,59 @@
 <template>
     <a-modal :zIndex="5" class="task-modal" :footer="null" :visible="visible" :title="isUpdate ? `Update task ${_.get(resource, 'name', '')}` : `Create new task`" @ok="handleSubmit" @cancel="onClose">
-        <a-spin tip="Processing..." :spinning="processing">
-            <a-icon slot="indicator" type="loading" spin />
-            <ValidationObserver ref="taskForm" v-slot="{invalid}">
-                <form @submit.prevent="handleSubmit">
-                    <div class="form form-in-modal">
-                        <div class="form__group">
-                            <div class="form__group-label required"><span>Title</span></div>
-                            <div class="form__group-input">
-                                <ValidationProvider name="Name" rules="required|max:250" v-slot="{errors}">
-                                    <el-input placeholder="Title" v-model="formData.name"></el-input>
-                                    <span class="error-message" v-show="errors[0]">{{ errors[0] }}</span>
-                                </ValidationProvider>
-                            </div>
-                        </div>
-                        <div class="form__group">
-                            <div class="form__group-label required"><span>Description</span></div>
-                            <div class="form__group-input">
-                                <ValidationProvider name="Description" rules="required" v-slot="{errors}">
-                                    <editor-field v-model="formData.description"></editor-field>
-                                    <span class="error-message" v-show="errors[0]">{{ errors[0] }}</span>
-                                </ValidationProvider>
-                            </div>
-                        </div>
-                        <div class="form__group">
-                            <div class="form__group-label required"><span>Assign to</span></div>
-                            <div class="form__group-input">
-                                <ValidationProvider name="Assign" rules="required" v-slot="{errors}">
-                                    <el-select class="w-100" collapse-tags :multiple="true" filterable remote reserve-keyword v-model="formData.members" placeholder="Assign to" :remote-method="serchUser" :loading="fetchMemberLoading">
-                                        <el-option v-for="item in memberOption" :key="item.id" :label="_.get(item, 'fullname', '')" :value="item.id"> </el-option>
-                                    </el-select>
-                                    <span class="error-message" v-show="errors[0]">{{ errors[0] }}</span>
-                                </ValidationProvider>
-                            </div>
-                        </div>
-                        <div class="form__group">
-                            <div class="form__group-label required"><span>Deadline</span></div>
-                            <div class="form__group-input">
-                                <ValidationProvider name="Deadline" rules="required" v-slot="{errors}">
-                                    <el-date-picker class="w-100" :value-format="`dd/MM/yyyy HH:mm`" :format="`dd/MM/yyyy HH:mm`" :editable="false" v-model="formData.deadline" type="datetime" placeholder="Deadline"> </el-date-picker>
-                                    <span class="error-message" v-show="errors[0]">{{ errors[0] }}</span>
-                                </ValidationProvider>
-                            </div>
-                        </div>
-                        <div class="form__action">
-                            <el-button @click.native="onClose" native-type="button" icon="el-icon-circle-close">Cancle</el-button>
-                            <el-button :loading="loading" type="success" :disabled="invalid" icon="el-icon-circle-check" native-type="submit" @click="handleSubmit">{{ isUpdate ? 'Update' : 'Save' }}</el-button>
+        <ValidationObserver ref="taskForm" v-slot="{invalid}">
+            <form @submit.prevent="handleSubmit">
+                <div class="form form-in-modal">
+                    <div class="form__group">
+                        <div class="form__group-label required"><span>Title</span></div>
+                        <div class="form__group-input">
+                            <ValidationProvider name="Name" rules="required|max:250" v-slot="{errors}">
+                                <el-input placeholder="Title" v-model="formData.name"></el-input>
+                                <span class="error-message" v-show="errors[0]">{{ errors[0] }}</span>
+                            </ValidationProvider>
                         </div>
                     </div>
-                </form>
-            </ValidationObserver>
-        </a-spin>
+                    <div class="form__group">
+                        <div class="form__group-label required"><span>Description</span></div>
+                        <div class="form__group-input">
+                            <ValidationProvider name="Description" rules="required" v-slot="{errors}">
+                                <editor-field v-model="formData.description"></editor-field>
+                                <span class="error-message" v-show="errors[0]">{{ errors[0] }}</span>
+                            </ValidationProvider>
+                        </div>
+                    </div>
+                    <div class="form__group">
+                        <div class="form__group-label required"><span>Assign to</span></div>
+                        <div class="form__group-input">
+                            <ValidationProvider name="Assign" rules="required" v-slot="{errors}">
+                                <el-select class="w-100" collapse-tags :multiple="true" filterable remote reserve-keyword v-model="formData.members" placeholder="Assign to" :remote-method="serchUser" :loading="fetchMemberLoading">
+                                    <el-option v-for="item in memberOption" :key="item.id" :label="_.get(item, 'fullname', '')" :value="item.id"> </el-option>
+                                </el-select>
+                                <span class="error-message" v-show="errors[0]">{{ errors[0] }}</span>
+                            </ValidationProvider>
+                        </div>
+                    </div>
+                    <div class="form__group">
+                        <div class="form__group-label required"><span>Deadline</span></div>
+                        <div class="form__group-input">
+                            <ValidationProvider name="Deadline" rules="required" v-slot="{errors}">
+                                <el-date-picker class="w-100" :value-format="`dd/MM/yyyy HH:mm`" :format="`dd/MM/yyyy HH:mm`" :editable="false" v-model="formData.deadline" type="datetime" placeholder="Deadline"> </el-date-picker>
+                                <span class="error-message" v-show="errors[0]">{{ errors[0] }}</span>
+                            </ValidationProvider>
+                        </div>
+                    </div>
+                    <div class="form__action">
+                        <el-button @click.native="onClose" native-type="button" icon="el-icon-circle-close">Cancle</el-button>
+                        <el-button :loading="loading" type="success" :disabled="invalid" icon="el-icon-circle-check" native-type="submit" @click="handleSubmit">{{ isUpdate ? 'Update' : 'Save' }}</el-button>
+                    </div>
+                </div>
+            </form>
+        </ValidationObserver>
     </a-modal>
 </template>
 
 <script>
 import EditorField from '@core/components/EditorField';
-import {mapActions, mapGetters} from 'vuex';
+import {mapActions, mapGetters, mapMutations} from 'vuex';
 export default {
     components: {
         EditorField,
@@ -83,6 +80,9 @@ export default {
     },
     methods: {
         ...mapActions('todoList', ['fetchMembers', 'create', 'update']),
+        ...mapMutations({
+            setLoadingState: 'dashboard/setLoadingState',
+        }),
         async serchUser(query) {
             try {
                 if (query !== '') {
@@ -105,6 +105,7 @@ export default {
                 if (!validated) return false;
 
                 try {
+                    this.setLoadingState(true);
                     this.loading = true;
                     if (this.isUpdate) {
                         await this.update({
@@ -119,6 +120,7 @@ export default {
                     console.log(`err`, err);
                 }
                 this.loading = false;
+                this.setLoadingState(false);
             });
         },
         resetForm() {

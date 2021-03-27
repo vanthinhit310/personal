@@ -1,3 +1,5 @@
+import mixin from "@core/helpers/mixins.js";
+
 export default {
     setResources(state, resources) {
         state.resources = resources;
@@ -5,8 +7,7 @@ export default {
     pushResource(state, resource) {
         const { resources } = state;
         state.resources = [resource, ...resources];
-        var audio = new Audio("/sound/notification.mp3");
-        audio.play();
+        mixin.methods.playSoundOfNotify();
     },
     setResource(state, resource) {
         state.resource = resource;

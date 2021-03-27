@@ -9,6 +9,7 @@ body {
 
 .page-loading {
     height: 100%;
+    // z-index: 50;
 
     & > div {
         .ant-spin {

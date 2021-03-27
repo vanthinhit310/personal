@@ -11,7 +11,6 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Platform\Member\Models\Member;
 use Platform\Notification\Repositories\Interfaces\NotificationInterface;
-use Platform\TodoList\Models\TodoList;
 
 class TodoCreated implements ShouldBroadcast
 {
@@ -20,16 +19,18 @@ class TodoCreated implements ShouldBroadcast
     public $sender;
     public $todo;
     public $reciever;
+    public $type;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Member $sender, TodoList $todo, Member $reciever)
+    public function __construct(Member $sender, $todo = null, $reciever = null, $type = null)
     {
         $this->sender = $sender;
         $this->todo = $todo;
         $this->reciever = $reciever;
+        $this->type = $type;
     }
 
     /**
@@ -44,12 +45,42 @@ class TodoCreated implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return 'task.created';
+        switch ($this->type) {
+            case 'created':
+                # code...
+                return 'task.created';
+                break;
+
+            case 'updated':
+                # code...
+                return 'task.updated';
+                break;
+
+            case 'destroyed':
+                # code...
+                return 'task.destroyed';
+                break;
+        }
     }
 
     public function broadcastWith()
     {
-        $message = sprintf('%s just assigned a new task %s to you. The deadline for completion is %s', @$this->sender->getFullName(), @$this->todo->name, @$this->todo->deadline);
+        switch ($this->type) {
+            case 'created':
+                # code...
+                $message = sprintf('%s just assigned a new task %s to you. The deadline for completion is %s', @$this->sender->getFullName(), @$this->todo->name, @$this->todo->deadline);
+                break;
+
+            case 'updated':
+                # code...
+                $message = sprintf('%s just updated task %s.', @$this->sender->getFullName(), @$this->todo->name);
+                break;
+
+            case 'destroyed':
+                # code...
+                $message = sprintf('%s just destroyed task %s.', @$this->sender->getFullName(), @$this->todo->name);
+                break;
+        }
 
         //create new notification
         $notification = app(NotificationInterface::class)->createOrUpdate([

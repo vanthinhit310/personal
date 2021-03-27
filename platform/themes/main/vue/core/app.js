@@ -7,11 +7,9 @@ require("./vendor/validate");
 require("./vendor/global");
 
 import Vue from "vue";
-
-
 /* Import lodash */
-import _ from 'lodash'
-Vue.prototype._ = _
+import _ from "lodash";
+Vue.prototype._ = _;
 /* Import lodash */
 
 /* Import route and store main file */
@@ -22,7 +20,7 @@ import store from "@core/store/index";
 const app = new Vue({
     el: "#app",
     router,
-    store,
+    store
 });
 
 export default app;

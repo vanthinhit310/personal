@@ -27197,6 +27197,10 @@ li.ant-tree-treenode-disabled > .ant-tree-node-content-wrapper:hover {
   padding: 0 25px;
 }
 
+.ant-spin-nested-loading > div > .ant-spin {
+  z-index: 35;
+}
+
 .sidebar .el-menu-item {
   font-size: 13px;
   padding: 0 10px;
@@ -27216,6 +27220,11 @@ li.ant-tree-treenode-disabled > .ant-tree-node-content-wrapper:hover {
 }
 .el-select .el-select__tags {
   max-width: 100% !important;
+}
+
+.el-loading-mask.is-fullscreen .el-loading-spinner .circular {
+  width: 30px;
+  height: 30px;
 }
 
 .ag-theme-alpine {

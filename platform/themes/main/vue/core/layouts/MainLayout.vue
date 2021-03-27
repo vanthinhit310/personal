@@ -3,10 +3,7 @@
         <left-sidebar></left-sidebar>
         <a-layout class="h100">
             <Header />
-            <a-spin tip="Processing..." :wrapperClassName="'page-loading'" size="large" :spinning="loading" :delay="100">
-                <a-icon slot="indicator" type="loading" spin />
-                <slot />
-            </a-spin>
+            <slot />
         </a-layout>
     </a-layout>
 </template>
@@ -16,7 +13,7 @@ import Header from '@core/layouts/Header';
 import Footer from '@core/layouts/Footer';
 import Content from '@core/layouts/Content';
 import LeftSidebar from '@core/layouts/LeftSidebar';
-import { mapGetters } from 'vuex';
+import {mapGetters} from 'vuex';
 export default {
     components: {
         Header,

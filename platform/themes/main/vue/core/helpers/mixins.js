@@ -11,6 +11,10 @@ export default {
                 }
             }
             return "https://api.hubspot.com/userpreferences/v1/avatar/6c5f94576c1935a0cdd08eccab2ea50e/100";
+        },
+        playSoundOfNotify() {
+            const audio = new Audio("/sound/notification.mp3");
+            audio.play();
         }
     }
 };

@@ -1,12 +1,12 @@
 <template>
     <section class="application h100">
         <vue-progress-bar />
-        <router-view />
+            <router-view element-loading-text="processing..." v-loading.fullscreen.lock="loading"/>
     </section>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import {mapGetters, mapMutations} from 'vuex';
 export default {
     computed: {
         ...mapGetters({
