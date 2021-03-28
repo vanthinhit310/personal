@@ -1,12 +1,17 @@
 import axiosClient from "@core/apis/axiosClient.js";
 const prefix = "/notification";
 export default {
-    fetch() {
-        return axiosClient.get(`${prefix}`, {
-            headers: {
-                Authorization: "Bearer " + localStorage.getItem("accessToken")
+    fetch(page = 1) {
+        return axiosClient.get(
+            `${prefix}`,
+            { params: { page } },
+            {
+                headers: {
+                    Authorization:
+                        "Bearer " + localStorage.getItem("accessToken")
+                }
             }
-        });
+        );
     },
     edit(id) {
         return axiosClient.get(`${prefix}/edit/${id}`, {

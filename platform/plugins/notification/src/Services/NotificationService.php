@@ -39,7 +39,7 @@ class NotificationService
         $query = $this->model;
         return $query->whereTo($this->request->user()->id)
             ->orderByDesc('created_at')
-            ->paginate(10);
+            ->paginate(5);
     }
 
     /* public function create($data)

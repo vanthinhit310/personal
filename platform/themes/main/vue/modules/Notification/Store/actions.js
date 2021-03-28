@@ -2,8 +2,8 @@ import { RepositoryFactory } from "@core/apis/RepositoryFactory";
 
 const NotificationRepository = RepositoryFactory.get("notification");
 export default {
-    async fetch({ dispatch, state, commit }) {
-        const response = await NotificationRepository.fetch();
+    async fetch({ dispatch, state, commit }, page) {
+        const response = await NotificationRepository.fetch(page);
         const resources = _.get(response, "data.resources");
         if (!!resources) {
             commit("setResources", resources);

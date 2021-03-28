@@ -1,8 +1,11 @@
 import mixin from "@core/helpers/mixins.js";
 
 export default {
-    setResources(state, resources) {
-        state.resources = resources;
+    setResources(state, notifications) {
+        const {resources} = state;
+        if (!!notifications) {
+            state.resources = [...resources, ...notifications];
+        }
     },
     pushResource(state, resource) {
         const { resources } = state;

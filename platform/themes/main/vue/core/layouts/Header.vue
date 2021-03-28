@@ -3,7 +3,7 @@
         <a-layout-header :style="{background: '#f1f3f4'}">
             <div class="header-content">
                 <el-popover placement="bottom" width="350" trigger="click">
-                    <ul class="infinite-list notification" v-infinite-scroll="load" style="overflow: auto">
+                    <ul class="infinite-list notification" v-infinite-scroll="loadMoreNotification" style="overflow: auto">
                         <li :key="index" v-for="(item, index) in notifications" class="infinite-list-item">
                             <router-link :disabled="true" to="javascript:;" :class="`notification_item ${_.get(item, 'status') == 'Read' ? 'read' : 'unread'}`">
                                 <el-avatar class="notification_item--avatar" :src="getAvatar(item)"></el-avatar>
@@ -42,7 +42,7 @@ export default {
     mixins: [mixins],
     data() {
         return {
-            count: 2,
+            page: 1,
         };
     },
     computed: {
@@ -77,8 +77,11 @@ export default {
                 console.log(err);
             }
         },
-        load() {
-            this.count += 2;
+        async loadMoreNotification() {
+            try {
+                await this.fetch(this.page);
+            } catch (err) {}
+            this.page += 1;
         },
     },
 };
