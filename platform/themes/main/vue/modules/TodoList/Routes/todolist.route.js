@@ -1,8 +1,8 @@
 const routes = [
     {
-        path: "/todo-list",
+        path: "/tasks",
         component: "TodoList/Index.vue",
-        name: "todo-list",
+        name: "tasks",
         authorize: { requiredAuth: true }
     }
 ];

@@ -8,10 +8,10 @@ export default {
             link: { name: "dashboard" }
         },
         {
-            icon: "el-icon-s-order",
-            title: "Todo List",
-            path: "/todo-list",
-            link: { name: "todo-list" }
+            icon: "el-icon-paperclip",
+            title: "Task Assign",
+            path: "/tasks",
+            link: { name: "tasks" }
         }
         // {
         //     icon: "el-icon-s-custom",

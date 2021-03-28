@@ -27276,12 +27276,17 @@ body {
   height: 100%;
 }
 
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 0.5s;
 }
 
 .fade-enter, .fade-leave-to {
   opacity: 0;
+}
+
+.mt-30 {
+  margin-top: 30px;
 }
 
 .hfull {
@@ -27369,6 +27374,10 @@ button.is-disabled {
   color: #c7c7c7 !important;
   background-color: #f5f3f1 !important;
   border-color: #f5f3f1 !important;
+}
+
+.justify-content-flexstart {
+  justify-content: flex-start !important;
 }
 
 .header-content {
