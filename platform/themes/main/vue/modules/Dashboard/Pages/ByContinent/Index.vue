@@ -180,15 +180,15 @@ export default {
                 series: [
                     {
                         name: 'Active',
-                        data: [5, 3, 4, 7, 2],
+                        data: [0, 0, 0, 0, 0, 0],
                     },
                     {
                         name: 'Recovered',
-                        data: [2, 2, 3, 2, 1],
+                        data: [0, 0, 0, 0, 0, 0],
                     },
                     {
                         name: 'Deaths',
-                        data: [3, 4, 4, 2, 5],
+                        data: [0, 0, 0, 0, 0, 0],
                     },
                 ],
             },
