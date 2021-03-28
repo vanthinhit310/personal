@@ -41,6 +41,13 @@ export default {
             }
         });
     },
+    quickUpdate({ id, param }) {
+        return axiosClient.post(`${prefix}/quick-update/${id}`, param, {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("accessToken")
+            }
+        });
+    },
     destroy(id) {
         return axiosClient.delete(`${prefix}/${id}`, {
             headers: {

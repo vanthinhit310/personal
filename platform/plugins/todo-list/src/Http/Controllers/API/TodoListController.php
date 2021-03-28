@@ -98,6 +98,23 @@ class TodoListController extends Controller
         }
     }
 
+    public function quickUpdate($id, Request $request)
+    {
+        try {
+            $params = $request->all();
+            $result = $this->service->update($id, $params);
+            if ($result instanceof $this->baseHttpResponse) {
+                return $result;
+            }
+            return $this->baseHttpResponse
+                ->setData(['resource' => new TodoListResource($result)])
+                ->setMessage(Constant::UPDATE_SUCCESS_MESSAGE)
+                ->setCode(Response::HTTP_OK);
+        } catch (Throwable $exception) {
+            return $this->response->internalServerResponse($exception, __CLASS__, __FUNCTION__);
+        }
+    }
+
     public function destroy($id)
     {
         try {

@@ -12,10 +12,7 @@ Route::group([
         'middleware' => ['auth:member-api']
     ], function () {
         Route::resource('todo', 'TodoListController')->except('create')->parameters('todo');
+        Route::post('todo/quick-update/{todo}', 'TodoListController@quickUpdate');
         Route::post('todo/bulk-delete', 'TodoListController@bulkDelete')->name('todo.bulkDelete');
-        Route::get('socket-io/test', function () {
-            /* broadcast(new TodoCreated()); */
-            return "ok";
-        });
     });
 });

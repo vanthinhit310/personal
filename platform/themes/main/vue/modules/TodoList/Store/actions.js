@@ -33,6 +33,14 @@ export default {
         }
         return response;
     },
+    async quickUpdate({ dispatch, state, commit }, { id, param }) {
+        const response = await TodoRepository.quickUpdate({ id, param });
+        const resource = _.get(response, "data.resource", []);
+        if (!!resource) {
+            commit("updateResource", resource);
+        }
+        return response;
+    },
     async destroy({ dispatch, state, commit }, id) {
         const response = await TodoRepository.destroy(id);
         commit("removeResource", id);

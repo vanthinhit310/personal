@@ -15,9 +15,11 @@
             :enableRangeSelection="true"
             :pagination="true"
             :rowHeight="rowHeight"
+            @cellValueChanged="handleCellValueChanged"
             :context="context"
             :headerHeight="40"
             :rowData="rowData"
+            :singleClickEdit="true"
             :loadingOverlayComponent="loadingOverlayComponent"
             @selection-changed="onSelectionChanged"
             :frameworkComponents="frameworkComponents"
@@ -77,6 +79,7 @@ export default {
         };
     },
     beforeMount() {
+        let self = this;
         this.columnDefs = [
             {
                 headerName: 'No',
@@ -119,11 +122,23 @@ export default {
                 headerName: 'Piority',
                 field: 'piority',
                 cellRendererFramework: 'piority',
+                cellEditor: 'agSelectCellEditor',
+                cellEditorParams: {
+                    values: ['LOW', 'NORMAL', 'HIGH'],
+                },
+                editable: true,
             },
             {
                 headerName: 'Status',
                 field: 'status',
                 cellRendererFramework: 'status',
+                cellEditor: 'agSelectCellEditor',
+                cellEditorParams: {
+                    values: ['NEW', 'IN PROGRESS', 'COMPLETED', 'MISSED DEADLINE'],
+                },
+                editable: function (params) {
+                    return self.isEditable(params);
+                },
             },
             {
                 headerName: 'Action',
@@ -145,6 +160,7 @@ export default {
     computed: {
         ...mapGetters({
             resources: 'todoList/getResources',
+            currentUser: 'auth/getCurrentUser',
         }),
     },
     mounted() {
@@ -152,11 +168,18 @@ export default {
         this.gridColumnApi = this.gridOptions.columnApi;
     },
     methods: {
-        ...mapActions('todoList', ['destroy', 'setColumns']),
+        ...mapActions('todoList', ['destroy', 'setColumns', 'quickUpdate']),
         ...mapMutations({
             setResource: 'todoList/setResource',
             setLoadingState: 'dashboard/setLoadingState',
         }),
+        isEditable(params) {
+            const currentUserId = _.get(this.currentUser, 'id');
+            if (currentUserId == _.get(params, 'data.author.id')) {
+                return true;
+            }
+            return false;
+        },
         async onGridReady() {
             try {
                 let self = this;
@@ -199,6 +222,34 @@ export default {
                     }
                     break;
             }
+        },
+        async handleCellValueChanged(params) {
+            try {
+                const colId = _.get(params, 'column.colId');
+                const newValue = _.get(params, 'newValue');
+                const {data} = params;
+                if (!!colId && !!newValue && !!data) {
+                    switch (colId) {
+                        case 'piority':
+                            this.setLoadingState(true);
+                            await this.quickUpdate({
+                                id: _.get(data, 'id'),
+                                param: {piority: newValue},
+                            });
+                            this.setLoadingState(false);
+                            break;
+
+                        case 'status':
+                            this.setLoadingState(true);
+                            await this.quickUpdate({
+                                id: _.get(data, 'id'),
+                                param: {status: newValue},
+                            });
+                            this.setLoadingState(false);
+                            break;
+                    }
+                }
+            } catch (err) {}
         },
     },
     watch: {
