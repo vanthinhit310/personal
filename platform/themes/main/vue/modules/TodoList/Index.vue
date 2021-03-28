@@ -49,7 +49,7 @@ export default {
             return this.resources.length || 0;
         },
     },
-    created() {
+    /* created() {
         Echo.private(`member.${_.get(this.currentUser, 'id')}`).listen('.task.socket', async (response) => {
             if (!!response) {
                 const {notificationId} = response;
@@ -60,7 +60,7 @@ export default {
                 }
             }
         });
-    },
+    }, */
     async mounted() {
         this.fetchData();
     },
