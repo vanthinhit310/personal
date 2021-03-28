@@ -7,5 +7,8 @@ export default {
         return instance.get(
             `continents/${continent}?yesterday=false&strict=false`
         );
+    },
+    allContinents() {
+        return instance.get(`continents?yesterday=false`);
     }
 };

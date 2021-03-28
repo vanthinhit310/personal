@@ -3,7 +3,17 @@
         <a-row :gutter="[30, 30]">
             <a-col :span="24">
                 <div class="form__group">
-                    <div class="form__group-label"><span>By Continent</span></div>
+                    <div class="form__group-label"><span>All Continents</span></div>
+                </div>
+            </a-col>
+            <a-col :span="24">
+                <div class="chart__wrap--content">
+                    <highcharts :updateArgs="[true, false]" ref="continentsChart" :options="continentsChartOptions"></highcharts>
+                </div>
+            </a-col>
+            <a-col :span="24">
+                <div class="form__group">
+                    <div class="form__group-label"><span>Specific Continent</span></div>
                     <div class="form__group-input">
                         <el-select @change="handleContinentChange" size="large" v-model="continent" placeholder="Select continent">
                             <el-option v-for="(item, index) in continents" :key="index" :label="item" :value="item"> </el-option>
@@ -34,7 +44,7 @@
                                     </a-statistic>
                                 </a-card>
                             </a-col>
-                            <a-col :xl="{span: 6}" :md="{span : 8}" :span="24">
+                            <a-col :xl="{span: 6}" :md="{span: 8}" :span="24">
                                 <a-card>
                                     <a-statistic title="Cases" :value="cases" :precision="0" suffix="people" :value-style="{color: '#E6A23C'}">
                                         <template #prefix>
@@ -43,7 +53,7 @@
                                     </a-statistic>
                                 </a-card>
                             </a-col>
-                            <a-col :xl="{span: 6}" :md="{span : 8}" :span="24">
+                            <a-col :xl="{span: 6}" :md="{span: 8}" :span="24">
                                 <a-card>
                                     <a-statistic title="Deaths" :value="deaths" :precision="0" suffix="people" class="demo-class" :value-style="{color: '#F56C6C'}">
                                         <template #prefix>
@@ -52,7 +62,7 @@
                                     </a-statistic>
                                 </a-card>
                             </a-col>
-                            <a-col :xl="{span: 6}" :md="{span : 8}" :span="24">
+                            <a-col :xl="{span: 6}" :md="{span: 8}" :span="24">
                                 <a-card>
                                     <a-statistic title="Recovered" :value="recovered" :precision="0" suffix="people" :value-style="{color: '#67C23A'}">
                                         <template #prefix>
@@ -61,7 +71,7 @@
                                     </a-statistic>
                                 </a-card>
                             </a-col>
-                            <a-col :xl="{span: 6}" :md="{span : 8}" :span="24">
+                            <a-col :xl="{span: 6}" :md="{span: 8}" :span="24">
                                 <a-card>
                                     <a-statistic title="Active" :value="active" :precision="0" suffix="people" class="demo-class" :value-style="{color: '#409EFF'}">
                                         <template #prefix>
@@ -70,7 +80,7 @@
                                     </a-statistic>
                                 </a-card>
                             </a-col>
-                            <a-col :xl="{span: 6}" :md="{span : 8}" :span="24">
+                            <a-col :xl="{span: 6}" :md="{span: 8}" :span="24">
                                 <a-card>
                                     <a-statistic title="Today Cases" :value="todayCases" :precision="0" suffix="people" :value-style="{color: '#2471A3'}">
                                         <template #prefix>
@@ -79,7 +89,7 @@
                                     </a-statistic>
                                 </a-card>
                             </a-col>
-                            <a-col :xl="{span: 6}" :md="{span : 8}" :span="24">
+                            <a-col :xl="{span: 6}" :md="{span: 8}" :span="24">
                                 <a-card>
                                     <a-statistic title="Today Deaths" :value="todayDeaths" :precision="0" suffix="people" class="demo-class" :value-style="{color: '#2471A3'}">
                                         <template #prefix>
@@ -88,7 +98,7 @@
                                     </a-statistic>
                                 </a-card>
                             </a-col>
-                            <a-col :xl="{span: 6}" :md="{span : 8}" :span="24">
+                            <a-col :xl="{span: 6}" :md="{span: 8}" :span="24">
                                 <a-card>
                                     <a-statistic title="Today Recovered" :value="todayRecovered" :precision="0" suffix="people" :value-style="{color: '#2471A3'}">
                                         <template #prefix>
@@ -97,7 +107,7 @@
                                     </a-statistic>
                                 </a-card>
                             </a-col>
-                            <a-col :xl="{span: 6}" :md="{span : 8}" :span="24">
+                            <a-col :xl="{span: 6}" :md="{span: 8}" :span="24">
                                 <a-card>
                                     <a-statistic title="Critical" :value="critical" :precision="0" suffix="people" class="demo-class" :value-style="{color: '#2471A3'}">
                                         <template #prefix>
@@ -132,6 +142,56 @@ export default {
             todayRecovered: 0,
             critical: 0,
             processing: false,
+
+            continentsChartOptions: {
+                chart: {
+                    type: 'bar',
+                },
+                title: {
+                    text: 'All Continents Covid 19 Tracking',
+                },
+                xAxis: {
+                    categories: ['North America', 'South America', 'Asia', 'Europe', 'Africa', 'Australia/Oceania'],
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Covid 19 data tracking for all continents',
+                    },
+                    stackLabels: {
+                        enabled: true,
+                        style: {
+                            fontWeight: 'bold',
+                            color: '#303133',
+                        },
+                    },
+                },
+                legend: {
+                    reversed: true,
+                },
+                plotOptions: {
+                    series: {
+                        stacking: 'normal',
+                        dataLabels: {
+                            enabled: true,
+                        },
+                    },
+                },
+                series: [
+                    {
+                        name: 'Active',
+                        data: [5, 3, 4, 7, 2],
+                    },
+                    {
+                        name: 'Recovered',
+                        data: [2, 2, 3, 2, 1],
+                    },
+                    {
+                        name: 'Deaths',
+                        data: [3, 4, 4, 2, 5],
+                    },
+                ],
+            },
         };
     },
     computed: {
@@ -140,14 +200,44 @@ export default {
         },
     },
     async mounted() {
+        // console.log(this.continentsChartOptions.series);
         try {
+            await this.fetchAllContinents();
             await this.fetchApiTracking(this.continent);
         } catch (err) {
             console.table(err);
         }
     },
     methods: {
-        ...mapActions('dashboard', ['trackingByContinent']),
+        ...mapActions('dashboard', ['trackingByContinent', 'allContinents']),
+        async fetchAllContinents() {
+            const response = await this.allContinents();
+            const continents = response.data;
+            if (!!continents) {
+                const series = [
+                    {
+                        name: 'Active',
+                        data: continents.map((o) => {
+                            return o.active;
+                        }),
+                    },
+                    {
+                        name: 'Recovered',
+                        data: continents.map((o) => {
+                            return o.recovered;
+                        }),
+                    },
+                    {
+                        name: 'Deaths',
+                        data: continents.map((o) => {
+                            return o.deaths;
+                        }),
+                    },
+                ];
+
+                this.continentsChartOptions.series = series;
+            }
+        },
         async fetchApiTracking(continent) {
             this.processing = true;
             try {

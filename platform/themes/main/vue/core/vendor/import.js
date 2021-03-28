@@ -13,6 +13,13 @@ import elementLocale from "element-ui/lib/locale/lang/en";
 Vue.use(ElementUI, { size: "small", zIndex: 10, locale: elementLocale });
 
 import VueProgressBar from "vue-progressbar";
+
+import HighchartsVue from "highcharts-vue";
+import Highcharts from "highcharts";
+import gridLight from "highcharts/themes/grid-light";
+gridLight(Highcharts);
+Vue.use(HighchartsVue);
+
 Vue.use(VueProgressBar, {
     color: "#FF7A59",
     failedColor: "red",

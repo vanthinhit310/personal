@@ -7,5 +7,8 @@ export default {
     },
     async trackingByContinent({ dispatch, state, commit }, continent) {
         return await DashboardRepository.trackingByContinent(continent);
+    },
+    async allContinents({ dispatch, state, commit }) {
+        return await DashboardRepository.allContinents();
     }
 };
