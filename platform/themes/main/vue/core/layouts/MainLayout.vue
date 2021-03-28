@@ -40,6 +40,7 @@ export default {
         });
     },
     methods: {
+        ...mapActions('todoList', ['edit']),
         ...mapActions('notification', ['getNotification']),
         ...mapMutations({
             setLoadingState: 'dashboard/setLoadingState',

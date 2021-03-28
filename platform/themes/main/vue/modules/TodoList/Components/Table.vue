@@ -1,5 +1,12 @@
 <template>
     <div class="wrap_table">
+        <a-modal v-model="visible" title="Enter your reason to missed dealine for task" on-ok="handleMissedDeadline">
+            <template slot="footer">
+                <a-button @click="handleCloseModal"> Close </a-button>
+                <a-button @click="handleMissedDeadline" type="primary" :loading="missedDealineLoading"> Save </a-button>
+            </template>
+            <el-input placeholder="Enter your reason" v-model="missedDeadline"></el-input>
+        </a-modal>
         <ag-grid-vue
             id="myTable"
             class="ag-theme-alpine"
@@ -56,6 +63,8 @@ export default {
         return {
             gridOptions: {
                 suppressCellSelection: true,
+                undoRedoCellEditing: true,
+                undoRedoCellEditingLimit: 20,
             },
             gridApi: null,
             columnApi: null,
@@ -76,6 +85,11 @@ export default {
             rowHeight: null,
             rowData: [],
             frameworkComponents: null,
+            /* missed deadline data */
+            visible: false,
+            missedDealineLoading: false,
+            missedDeadline: '',
+            cellValueChange: '',
         };
     },
     beforeMount() {
@@ -126,7 +140,13 @@ export default {
                 cellEditorParams: {
                     values: ['LOW', 'NORMAL', 'HIGH'],
                 },
-                editable: true,
+                editable: function (params) {
+                    const currentUserId = _.get(self.currentUser, 'id');
+                    if (currentUserId == _.get(params, 'data.author.id')) {
+                        return true;
+                    }
+                    return false;
+                },
             },
             {
                 headerName: 'Status',
@@ -137,7 +157,15 @@ export default {
                     values: ['NEW', 'IN PROGRESS', 'COMPLETED', 'MISSED DEADLINE'],
                 },
                 editable: function (params) {
-                    return self.isEditable(params);
+                    const currentUserId = _.get(self.currentUser, 'id');
+                    const index = _.findIndex(_.get(params, 'data.members', []), (o) => {
+                        return o.id == currentUserId;
+                    });
+                    const status = _.get(params, 'data.status');
+                    if ((currentUserId == _.get(params, 'data.author.id') || index != -1) && status != 'MISSED DEADLINE' && status != 'MISSED DEADLINE') {
+                        return true;
+                    }
+                    return false;
                 },
             },
             {
@@ -173,13 +201,6 @@ export default {
             setResource: 'todoList/setResource',
             setLoadingState: 'dashboard/setLoadingState',
         }),
-        isEditable(params) {
-            const currentUserId = _.get(this.currentUser, 'id');
-            if (currentUserId == _.get(params, 'data.author.id')) {
-                return true;
-            }
-            return false;
-        },
         async onGridReady() {
             try {
                 let self = this;
@@ -240,16 +261,49 @@ export default {
                             break;
 
                         case 'status':
-                            this.setLoadingState(true);
-                            await this.quickUpdate({
-                                id: _.get(data, 'id'),
-                                param: {status: newValue},
-                            });
-                            this.setLoadingState(false);
+                            if (newValue == 'MISSED DEADLINE') {
+                                this.visible = true;
+                                this.cellValueChange = params;
+                            } else {
+                                this.setLoadingState(true);
+                                await this.quickUpdate({
+                                    id: _.get(data, 'id'),
+                                    param: {status: newValue},
+                                });
+                                this.setLoadingState(false);
+                            }
                             break;
                     }
                 }
             } catch (err) {}
+        },
+        async handleMissedDeadline(e) {
+            this.setLoadingState(true);
+            this.missedDealineLoading = true;
+            const id = _.get(this.cellValueChange, 'data.id');
+            const status = _.get(this.cellValueChange, 'newValue');
+            try {
+                await this.quickUpdate({
+                    id: id,
+                    param: {status: status, reason_missed_deadline: this.missedDeadline},
+                });
+                this.visible = false;
+                this.missedDeadline = '';
+                this.cellValueChange = '';
+            } catch (err) {
+                console.table(err);
+            }
+            this.missedDealineLoading = false;
+            this.setLoadingState(false);
+        },
+        async handleCloseModal(e) {
+            await this.undoCellEditing();
+            this.visible = false;
+            this.missedDeadline = '';
+            this.cellValueChange = '';
+        },
+        async undoCellEditing() {
+            await this.gridApi.undoCellEditing();
         },
     },
     watch: {
