@@ -77,3 +77,9 @@
     color: red;
     line-height: 0;
 }
+
+button.is-disabled{
+    color: $ICONSIDEBARCOLOR !important;
+    background-color: $BACKGROUND !important;
+    border-color: $BACKGROUND !important;
+}

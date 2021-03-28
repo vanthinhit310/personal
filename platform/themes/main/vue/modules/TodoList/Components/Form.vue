@@ -181,6 +181,8 @@ export default {
                         members: _.get(this.resource, 'members', []).map((o) => {
                             return o.id;
                         }),
+                        status: _.get(this.resource, 'status', 'NEW'),
+                        piority: _.get(this.resource, 'piority', 'NORMAL'),
                     };
                 } catch (err) {
                     console.log(`err`, err);
@@ -192,5 +194,4 @@ export default {
 };
 </script>
 
-<style scope>
-</style>
+<style scope></style>

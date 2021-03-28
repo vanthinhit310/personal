@@ -27365,6 +27365,12 @@ body {
   line-height: 0;
 }
 
+button.is-disabled {
+  color: #c7c7c7 !important;
+  background-color: #f5f3f1 !important;
+  border-color: #f5f3f1 !important;
+}
+
 .header-content {
   height: 100%;
   display: flex;
