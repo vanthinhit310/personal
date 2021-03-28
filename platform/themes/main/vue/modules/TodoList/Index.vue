@@ -102,24 +102,24 @@ export default {
         async handleEventListenFromSocket(notificationId, taskId, type) {
             const response = await this.getNotification(notificationId);
             const notification = _.get(response, 'data.resource', '');
-            if (type != 'destroyed') {
-                const taskResponse = await this.edit(taskId);
-                const task = _.get(taskResponse, 'data.resource', '');
-            }
 
             if (notification) {
                 await this.pushNotification(notification);
             }
             switch (type) {
                 case 'created':
+                    let response = await this.edit(taskId);
+                    let task = _.get(response, 'data.resource', '');
                     if (!!task) {
                         await this.pushResource(task);
                     }
                     break;
 
                 case 'updated':
-                    if (!!task) {
-                        await this.updateResource(task);
+                    let updatedResponse = await this.edit(taskId);
+                    let updatedTask = _.get(updatedResponse, 'data.resource', '');
+                    if (!!updatedTask) {
+                        await this.updateResource(updatedTask);
                     }
                     break;
 

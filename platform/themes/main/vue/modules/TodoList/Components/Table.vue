@@ -29,7 +29,7 @@
 <script>
 import {AgGridVue} from 'ag-grid-vue';
 import {mapGetters, mapActions, mapMutations} from 'vuex';
-import Action from '@core/components/Ag/Action.js';
+import Action from './Fields/Action.js';
 import BadgeField from './Fields/Badge';
 import Status from './Fields/Status';
 import Piority from './Fields/Piority';

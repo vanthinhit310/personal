@@ -41,6 +41,28 @@
                             </ValidationProvider>
                         </div>
                     </div>
+                    <div class="form__group">
+                        <div class="form__group-label required"><span>Status</span></div>
+                        <div class="form__group-input">
+                            <ValidationProvider name="Status" rules="required" v-slot="{errors}">
+                                <el-select v-model="formData.status" placeholder="Select">
+                                    <el-option v-for="(item, index) in statusOption" :key="index" :label="item" :value="item"> </el-option>
+                                </el-select>
+                                <span class="error-message" v-show="errors[0]">{{ errors[0] }}</span>
+                            </ValidationProvider>
+                        </div>
+                    </div>
+                    <div class="form__group">
+                        <div class="form__group-label required"><span>Piority</span></div>
+                        <div class="form__group-input">
+                            <ValidationProvider name="Piority" rules="required" v-slot="{errors}">
+                                <el-select v-model="formData.piority" placeholder="Select">
+                                    <el-option v-for="(item, index) in piorityOption" :key="index" :label="item" :value="item"> </el-option>
+                                </el-select>
+                                <span class="error-message" v-show="errors[0]">{{ errors[0] }}</span>
+                            </ValidationProvider>
+                        </div>
+                    </div>
                     <div class="form__action">
                         <el-button @click.native="onClose" native-type="button" icon="el-icon-circle-close">Cancle</el-button>
                         <el-button :loading="loading" type="success" :disabled="invalid" icon="el-icon-circle-check" native-type="submit" @click="handleSubmit">{{ isUpdate ? 'Update' : 'Save' }}</el-button>
@@ -64,11 +86,15 @@ export default {
             processing: false,
             fetchMemberLoading: false,
             memberOption: [],
+            statusOption: ['NEW', 'COMPLETED', 'IN PROGRESS', 'MISSED DEADLINE'],
+            piorityOption: ['LOW', 'NORMAL', 'HIGH'],
             formData: {
                 name: '',
                 description: '',
                 deadline: '',
                 members: [],
+                piority: 'NORMAL',
+                status: 'NEW',
             },
         };
     },
@@ -166,8 +192,5 @@ export default {
 };
 </script>
 
-<style>
-.ck-editor .ck-editor__main .ck-content {
-    min-height: 150px;
-}
+<style scope>
 </style>

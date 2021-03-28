@@ -15,8 +15,9 @@ export default {
                 removeButtons: 'NewPage,Print,Save,Templates,Replace,Find,SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,CreateDiv,Anchor,Flash,Smiley,PageBreak,ShowBlocks,About,Language,Iframe,Image',
                 fullPage: false,
                 sourceAreaTabSize: 8,
-                allowedContent: true,
-                autoGrow_onStartup: true,
+                height : 80,
+                allowedContent: false,
+                autoGrow_onStartup: false,
                 toolbarGroups: [
                     {name: 'document', groups: ['mode', 'document', 'doctools']},
                     {name: 'clipboard', groups: ['clipboard', 'undo']},
