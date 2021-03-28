@@ -41,7 +41,7 @@
                             </ValidationProvider>
                         </div>
                     </div>
-                    <div class="form__group">
+                    <div class="form__group" v-show="formData.status != 'MISSED DEADLINE'">
                         <div class="form__group-label required"><span>Status</span></div>
                         <div class="form__group-input">
                             <ValidationProvider name="Status" rules="required" v-slot="{errors}">
