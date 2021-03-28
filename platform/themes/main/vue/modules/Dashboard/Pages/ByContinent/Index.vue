@@ -66,6 +66,42 @@
                             </a-statistic>
                         </a-card>
                     </a-col>
+                    <a-col :span="6">
+                        <a-card>
+                            <a-statistic title="Today Cases" :value="todayCases" :precision="0" suffix="people" :value-style="{color: '#2471A3'}">
+                                <template #prefix>
+                                    <a-icon type="team" />
+                                </template>
+                            </a-statistic>
+                        </a-card>
+                    </a-col>
+                    <a-col :span="6">
+                        <a-card>
+                            <a-statistic title="Today Deaths" :value="todayDeaths" :precision="0" suffix="people" class="demo-class" :value-style="{color: '#2471A3'}">
+                                <template #prefix>
+                                    <a-icon type="frown" />
+                                </template>
+                            </a-statistic>
+                        </a-card>
+                    </a-col>
+                    <a-col :span="6">
+                        <a-card>
+                            <a-statistic title="Today Recovered" :value="todayRecovered" :precision="0" suffix="people" :value-style="{color: '#2471A3'}">
+                                <template #prefix>
+                                    <a-icon type="heart" />
+                                </template>
+                            </a-statistic>
+                        </a-card>
+                    </a-col>
+                    <a-col :span="6">
+                        <a-card>
+                            <a-statistic title="Critical" :value="critical" :precision="0" suffix="people" class="demo-class" :value-style="{color: '#2471A3'}">
+                                <template #prefix>
+                                    <a-icon type="medicine-box" />
+                                </template>
+                            </a-statistic>
+                        </a-card>
+                    </a-col>
                 </a-row>
             </a-spin>
         </div>
@@ -85,6 +121,10 @@ export default {
             deaths: 0,
             recovered: 0,
             active: 0,
+            todayCases: 0,
+            todayDeaths: 0,
+            todayRecovered: 0,
+            critical: 0,
             processing: false,
         };
     },
@@ -106,13 +146,17 @@ export default {
             this.processing = true;
             try {
                 const response = await this.trackingByContinent(continent);
-                const {countries, population, cases, deaths, recovered, active} = response.data;
+                const {countries, population, cases, deaths, recovered, active, todayCases, todayDeaths, todayRecovered, critical} = response.data;
                 this.countries = countries;
                 this.population = population;
                 this.cases = cases;
                 this.deaths = deaths;
                 this.recovered = recovered;
                 this.active = active;
+                this.todayCases = todayCases;
+                this.todayDeaths = todayDeaths;
+                this.todayRecovered = todayRecovered;
+                this.critical = critical;
             } catch (err) {
                 console.table(err);
             }
