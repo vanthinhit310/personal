@@ -11,7 +11,7 @@
                     <highcharts :updateArgs="[true, false]" ref="countriesChart" :options="countriesChartOptions"></highcharts>
                 </div>
             </a-col>
-            <a-col :span="24">
+            <!-- <a-col :span="24">
                 <div class="form__group">
                     <div class="form__group-label"><span>Specific Country</span></div>
                     <div class="form__group-input">
@@ -20,7 +20,7 @@
                         </el-select>
                     </div>
                 </div>
-            </a-col>
+            </a-col> -->
             <a-col :span="24">
                 <div class="chart__wrap--content">
                     <a-spin tip="processing..." :spinning="processing">
@@ -130,96 +130,55 @@ import {mapActions} from 'vuex';
 export default {
     data() {
         return {
-            continent: 'Asia',
-            continents: ['North America', 'South America', 'Asia', 'Europe', 'Africa', 'Australia/Oceania'],
-            countries: [],
-            population: 0,
-            cases: 0,
-            deaths: 0,
-            recovered: 0,
-            active: 0,
-            todayCases: 0,
-            todayDeaths: 0,
-            todayRecovered: 0,
-            critical: 0,
             processing: false,
-
             countriesChartOptions: {
                 chart: {
-                    type: 'packedbubble',
-                    height: '500px',
-                },
-                title: {
-                    text: 'Case covid 19 for all countries all over the world!',
-                },
-                tooltip: {
-                    useHTML: true,
-                    pointFormat: '<b>{point.name}:</b> {point.value} cases',
-                },
-                plotOptions: {
-                    packedbubble: {
-                        minSize: '10%',
-                        maxSize: '150%',
-                        zMin: 0,
-                        zMax: 100000,
-                        layoutAlgorithm: {
-                            splitSeries: false,
-                            gravitationalConstant: 0.02,
-                        },
-                        dataLabels: {
-                            enabled: true,
-                            format: '{point.name}',
-                            filter: {
-                                property: 'y',
-                                operator: '>',
-                                value: 250,
-                            },
-                            style: {
-                                color: 'black',
-                                textOutline: 'none',
-                                fontWeight: 'normal',
-                            },
+                    map: 'custom/world',
+                    height: '400',
+                    events: {
+                        load() {
+                            this.showLoading();
                         },
                     },
                 },
+
+                title: {
+                    text: 'Case of covid 19 all over the world!',
+                },
+
+                mapNavigation: {
+                    enabled: true,
+                    enableDoubleClickZoomTo: true,
+                },
+
+                colorAxis: {
+                    min: 1,
+                    max: 1000,
+                    type: 'logarithmic',
+                },
+
                 series: [
                     {
-                        name: 'Europe',
                         data: [],
-                    },
-                    {
-                        name: 'Africa',
-                        data: [],
-                    },
-                    {
-                        name: 'Australia/Oceania',
-                        data: [],
-                    },
-                    {
-                        name: 'North America',
-                        data: [],
-                    },
-                    {
-                        name: 'South America',
-                        data: [],
-                    },
-                    {
-                        name: 'Asia',
-                        data: [],
+                        joinBy: ['iso-a3', 'code3'],
+                        name: 'Covid 19 cases',
+                        states: {
+                            hover: {
+                                color: '#a4edba',
+                            },
+                        },
+                        tooltip: {
+                            valueSuffix: 'cases',
+                        },
                     },
                 ],
             },
         };
     },
-    computed: {
-        countCountries() {
-            return this.countries.length || 0;
-        },
-    },
+
     async mounted() {
         try {
             await this.fetchDataAllCountries();
-            // await this.fetchApiTracking(this.continent);
         } catch (err) {
             console.table(err);
         }
@@ -230,87 +189,29 @@ export default {
             const response = await this.allCountries();
             const countries = response.data;
             if (!!countries) {
-                const asia = {
-                    name: 'Asia',
-                    data: countries
-                        .map((o) => {
-                            if (o.continent == 'Asia') {
-                                return {
-                                    name: _.get(o, 'country'),
-                                    value: _.get(o, 'cases', 0),
-                                };
-                            }
-                        })
-                        .filter((notUndefined) => notUndefined !== undefined),
-                };
-                const europe = {
-                    name: 'Europe',
-                    data: countries
-                        .map((o) => {
-                            if (o.continent == 'Europe') {
-                                return {
-                                    name: _.get(o, 'country'),
-                                    value: _.get(o, 'cases', 0),
-                                };
-                            }
-                        })
-                        .filter((notUndefined) => notUndefined !== undefined),
-                };
-                const northAmerica = {
-                    name: 'North America',
-                    data: countries
-                        .map((o) => {
-                            if (o.continent == 'North America') {
-                                return {
-                                    name: _.get(o, 'country'),
-                                    value: _.get(o, 'cases', 0),
-                                };
-                            }
-                        })
-                        .filter((notUndefined) => notUndefined !== undefined),
-                };
-                const africa = {
-                    name: 'Africa',
-                    data: countries
-                        .map((o) => {
-                            if (o.continent == 'Africa') {
-                                return {
-                                    name: _.get(o, 'country'),
-                                    value: _.get(o, 'cases', 0),
-                                };
-                            }
-                        })
-                        .filter((notUndefined) => notUndefined !== undefined),
-                };
-                const southAmerica = {
-                    name: 'South America',
-                    data: countries
-                        .map((o) => {
-                            if (o.continent == 'South America') {
-                                return {
-                                    name: _.get(o, 'country'),
-                                    value: _.get(o, 'cases', 0),
-                                };
-                            }
-                        })
-                        .filter((notUndefined) => notUndefined !== undefined),
-                };
-                const australiaOceania = {
-                    name: 'Australia/Oceania',
-                    data: countries
-                        .map((o) => {
-                            if (o.continent == 'Australia/Oceania') {
-                                return {
-                                    name: _.get(o, 'country'),
-                                    value: _.get(o, 'cases', 0),
-                                };
-                            }
-                        })
-                        .filter((notUndefined) => notUndefined !== undefined),
-                };
-                const series = [asia, europe, northAmerica, southAmerica, africa, australiaOceania];
-                if (!!series) {
-                    this.countriesChartOptions.series = series;
+                const seriesData = countries.map((o) => {
+                    return {
+                        name: _.get(o, 'country'),
+                        value: _.get(o, 'cases', 0) < 1 ? 1 : _.get(o, 'cases', 0),
+                        code: _.get(o, 'countryInfo.iso2'),
+                        code3: _.get(o, 'countryInfo.iso3'),
+                    };
+                });
+                if (!!seriesData) {
+                    this.countriesChartOptions.series = {
+                        data: seriesData,
+                        joinBy: ['iso-a3', 'code3'],
+                        name: 'Covid 19 cases',
+                        states: {
+                            hover: {
+                                color: '#a4edba',
+                            },
+                        },
+                        tooltip: {
+                            valueSuffix: 'cases',
+                        },
+                    };
+                    this.$refs.countriesChart.chart.hideLoading();
                 }
             }
         },

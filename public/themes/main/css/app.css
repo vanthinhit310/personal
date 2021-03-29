@@ -27289,6 +27289,14 @@ body {
   margin-top: 30px;
 }
 
+.highcharts-container {
+  width: 100% !important;
+}
+
+.highcharts-root {
+  width: 100% !important;
+}
+
 .hfull {
   height: 100vh;
 }
@@ -27520,4 +27528,9 @@ button.is-disabled {
 }
 .wrap_table {
   height: 100%;
+}
+
+.chart__wrap--content {
+  width: 100%;
+  height: 400px;
 }
