@@ -8,7 +8,7 @@
             </a-col>
             <a-col :span="24">
                 <div class="chart__wrap--content">
-                    <highcharts :updateArgs="[true, false]" ref="countriesChart" :options="countriesChartOptions"></highcharts>
+                    <highcharts :constructor-type="'mapChart'" ref="countriesChart" :options="countriesChartOptions"></highcharts>
                 </div>
             </a-col>
             <!-- <a-col :span="24">
@@ -134,14 +134,13 @@ export default {
             countriesChartOptions: {
                 chart: {
                     map: 'custom/world',
-                    height: '400',
+                    height: '600',
                     events: {
                         load() {
-                            this.showLoading();
+                            this.showLoading('processing...');
                         },
                     },
                 },
-
                 title: {
                     text: 'Case of covid 19 all over the world!',
                 },
@@ -150,10 +149,34 @@ export default {
                     enabled: true,
                     enableDoubleClickZoomTo: true,
                 },
+                plotOptions: {
+                    area: {
+                        color: '#beb697',
+                    },
+                    series: {
+                        animation: {
+                            duration: 2500,
+                        },
+                        marker: {
+                            enabled: false,
+                        },
+                    },
+                },
+                tooltip: {
+                    backgroundColor: 'none',
+                    borderWidth: 0,
+                    shadow: false,
+                    useHTML: true,
+                    padding: 20,
+                    pointFormat: '<span class="contry_flag"><img style="width:30px; height: auto;" src="{point.flag}"></span><span>{point.country}</span><br><span>Cases : {point.value}</span><br><span>Deaths : {point.deaths}</span><br><span>Recovered : {point.recovered}</span><br><span>Active : {point.active}</span>',
+                    positioner: function () {
+                        return {x: 50, y: 270};
+                    },
+                },
 
                 colorAxis: {
                     min: 1,
-                    max: 1000,
+                    max: 50000000,
                     type: 'logarithmic',
                 },
 
@@ -161,14 +184,22 @@ export default {
                     {
                         data: [],
                         joinBy: ['iso-a3', 'code3'],
-                        name: 'Covid 19 cases',
+                        name: 'Covid 19 confirmed',
                         states: {
                             hover: {
                                 color: '#a4edba',
                             },
                         },
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.values}',
+                        },
+                        enableMouseTracking: true,
+                        animation: {
+                            duration: 500,
+                        },
                         tooltip: {
-                            valueSuffix: 'cases',
+                            valueSuffix: ' cases',
                         },
                     },
                 ],
@@ -195,20 +226,33 @@ export default {
                         value: _.get(o, 'cases', 0) < 1 ? 1 : _.get(o, 'cases', 0),
                         code: _.get(o, 'countryInfo.iso2'),
                         code3: _.get(o, 'countryInfo.iso3'),
+                        country: _.get(o, 'country'),
+                        flag: _.get(o, 'countryInfo.flag'),
+                        deaths: _.get(o, 'deaths'),
+                        recovered: _.get(o, 'recovered'),
+                        active: _.get(o, 'active'),
                     };
                 });
                 if (!!seriesData) {
                     this.countriesChartOptions.series = {
                         data: seriesData,
                         joinBy: ['iso-a3', 'code3'],
-                        name: 'Covid 19 cases',
+                        name: 'Covid 19 confirmed',
                         states: {
                             hover: {
                                 color: '#a4edba',
                             },
                         },
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.values}',
+                        },
+                        enableMouseTracking: true,
+                        animation: {
+                            duration: 500,
+                        },
                         tooltip: {
-                            valueSuffix: 'cases',
+                            valueSuffix: ' cases',
                         },
                     };
                     this.$refs.countriesChart.chart.hideLoading();

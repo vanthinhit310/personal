@@ -16,8 +16,12 @@ import VueProgressBar from "vue-progressbar";
 
 import HighchartsVue from "highcharts-vue";
 import Highcharts from "highcharts";
-import applyTheme from "highcharts/themes/grid";
+import mapInit from "highcharts/modules/map";
+import mapData from "@highcharts/map-collection/custom/world.geo.json";
+import applyTheme from "highcharts/themes/dark-blue";
+mapInit(Highcharts);
 applyTheme(Highcharts);
+Highcharts.maps["custom/world"] = mapData;
 Vue.use(HighchartsVue);
 
 Vue.use(VueProgressBar, {
