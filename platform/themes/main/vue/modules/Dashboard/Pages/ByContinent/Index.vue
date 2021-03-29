@@ -145,6 +145,7 @@ export default {
 
             continentsChartOptions: {
                 chart: {
+                    height: 500,
                     type: 'bar',
                 },
                 title: {
@@ -180,14 +181,17 @@ export default {
                 series: [
                     {
                         name: 'Active',
+                        color: '#409EFF',
                         data: [0, 0, 0, 0, 0, 0],
                     },
                     {
                         name: 'Recovered',
+                        color: '#67C23A',
                         data: [0, 0, 0, 0, 0, 0],
                     },
                     {
                         name: 'Deaths',
+                        color: '#F56C6C',
                         data: [0, 0, 0, 0, 0, 0],
                     },
                 ],
@@ -217,18 +221,21 @@ export default {
                 const series = [
                     {
                         name: 'Active',
+                        color: '#409EFF',
                         data: continents.map((o) => {
                             return o.active;
                         }),
                     },
                     {
                         name: 'Recovered',
+                        color: '#67C23A',
                         data: continents.map((o) => {
                             return o.recovered;
                         }),
                     },
                     {
                         name: 'Deaths',
+                        color: '#F56C6C',
                         data: continents.map((o) => {
                             return o.deaths;
                         }),
