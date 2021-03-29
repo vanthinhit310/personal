@@ -10,5 +10,8 @@ export default {
     },
     async allContinents({ dispatch, state, commit }) {
         return await DashboardRepository.allContinents();
+    },
+    async allCountries({ dispatch, state, commit }) {
+        return await DashboardRepository.allCountries();
     }
 };

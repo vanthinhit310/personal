@@ -16,8 +16,10 @@ import VueProgressBar from "vue-progressbar";
 
 import HighchartsVue from "highcharts-vue";
 import Highcharts from "highcharts";
+import More from 'highcharts/highcharts-more'
 import applyTheme from "highcharts/themes/grid";
 applyTheme(Highcharts);
+More(Highcharts)
 Vue.use(HighchartsVue);
 
 Vue.use(VueProgressBar, {

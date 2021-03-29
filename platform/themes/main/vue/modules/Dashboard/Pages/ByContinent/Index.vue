@@ -145,7 +145,6 @@ export default {
 
             continentsChartOptions: {
                 chart: {
-                    height: 500,
                     type: 'bar',
                 },
                 title: {

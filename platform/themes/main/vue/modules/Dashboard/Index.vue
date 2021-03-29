@@ -10,6 +10,9 @@
                         <div class="tracking-by-continent">
                             <tracking-by-continent></tracking-by-continent>
                         </div>
+                        <div class="tracking-by-countries">
+                            <tracking-by-countries></tracking-by-countries>
+                        </div>
                     </div>
                 </div>
             </template>
@@ -21,11 +24,13 @@
 import MainLayout from '@core/layouts/MainLayout.vue';
 import Content from '@core/layouts/Content.vue';
 import TrackingByContinent from './Pages/ByContinent/Index'
+import TrackingByCountries from './Pages/ByCountries/Index'
 export default {
     components: {
         MainLayout,
         Content,
-        TrackingByContinent
+        TrackingByContinent,
+        TrackingByCountries,
     },
 };
 </script>

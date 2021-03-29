@@ -12,5 +12,8 @@ export default {
     },
     allContinents() {
         return instance.get(`continents?yesterday=false`);
+    },
+    allCountries() {
+        return instance.get(`countries?yesterday=false`);
     }
 };
