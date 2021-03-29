@@ -11,112 +11,36 @@
                     <highcharts :constructor-type="'mapChart'" ref="countriesChart" :options="countriesChartOptions"></highcharts>
                 </div>
             </a-col>
-            <!-- <a-col :span="24">
+            <a-col :span="24">
                 <div class="form__group">
                     <div class="form__group-label"><span>Specific Country</span></div>
                     <div class="form__group-input">
-                        <el-select @change="handleContinentChange" size="large" v-model="continent" placeholder="Select continent">
-                            <el-option v-for="(item, index) in continents" :key="index" :label="item" :value="item"> </el-option>
+                        <el-select multiple filterable @change="handleCountriesChange" size="large" v-model="countriesSelected" placeholder="Select countries">
+                            <el-option v-for="(item, index) in countries" :key="index" :label="`${item.name} (${item.iso})`" :value="item.name"> </el-option>
                         </el-select>
                     </div>
                 </div>
-            </a-col> -->
+            </a-col>
             <a-col :span="24">
                 <div class="chart__wrap--content">
                     <a-spin tip="processing..." :spinning="processing">
                         <a-icon slot="indicator" type="sync" style="font-size: 20px" spin />
-                        <!-- <a-row :gutter="[16, 16]">
-                            <a-col :md="{span: 12}" :span="24">
-                                <a-card>
-                                    <a-statistic title="Countries" :value="countCountries" :precision="0" suffix="countries" :value-style="{color: '#303133'}">
-                                        <template #prefix>
-                                            <a-icon type="global" />
-                                        </template>
-                                    </a-statistic>
-                                </a-card>
+                        <a-row :gutter="16">
+                            <a-col :span="24">
+                                <div v-show="isShow">
+                                    <a-card size="small" v-for="(o, i) in countriesResults" :key="i" :title="_.get(o, 'country')">
+                                        <a-card-grid style="width: 25%; text-align: center"> Population : {{ _.get(o, 'population', 0) }} </a-card-grid>
+                                        <a-card-grid style="width: 25%; text-align: center"> Cases : {{ _.get(o, 'cases', 0) }} </a-card-grid>
+                                        <a-card-grid style="width: 25%; text-align: center"> Deaths : {{ _.get(o, 'deaths', 0) }} </a-card-grid>
+                                        <a-card-grid style="width: 25%; text-align: center"> Recovered : {{ _.get(o, 'recovered', 0) }} </a-card-grid>
+                                        <a-card-grid style="width: 25%; text-align: center"> Active : {{ _.get(o, 'active', 0) }} </a-card-grid>
+                                        <a-card-grid style="width: 25%; text-align: center"> Today case : {{ _.get(o, 'todayCases', 0) }} </a-card-grid>
+                                        <a-card-grid style="width: 25%; text-align: center"> Today deaths : {{ _.get(o, 'todayDeaths', 0) }}</a-card-grid>
+                                        <a-card-grid style="width: 25%; text-align: center"> Today Recovered : {{ _.get(o, 'todayRecovered', 0) }} </a-card-grid>
+                                    </a-card>
+                                </div>
                             </a-col>
-                            <a-col :md="{span: 12}" :span="24">
-                                <a-card>
-                                    <a-statistic title="Population" :value="population" :precision="0" suffix="people" class="demo-class" :value-style="{color: '#606266'}">
-                                        <template #prefix>
-                                            <a-icon type="solution" />
-                                        </template>
-                                    </a-statistic>
-                                </a-card>
-                            </a-col>
-                            <a-col :xl="{span: 6}" :lg="{span: 12}" :span="24">
-                                <a-card>
-                                    <a-statistic title="Cases" :value="cases" :precision="0" suffix="people" :value-style="{color: '#E6A23C'}">
-                                        <template #prefix>
-                                            <a-icon type="team" />
-                                        </template>
-                                    </a-statistic>
-                                </a-card>
-                            </a-col>
-                            <a-col :xl="{span: 6}" :lg="{span: 12}" :span="24">
-                                <a-card>
-                                    <a-statistic title="Deaths" :value="deaths" :precision="0" suffix="people" class="demo-class" :value-style="{color: '#F56C6C'}">
-                                        <template #prefix>
-                                            <a-icon type="frown" />
-                                        </template>
-                                    </a-statistic>
-                                </a-card>
-                            </a-col>
-                            <a-col :xl="{span: 6}" :lg="{span: 12}" :span="24">
-                                <a-card>
-                                    <a-statistic title="Recovered" :value="recovered" :precision="0" suffix="people" :value-style="{color: '#67C23A'}">
-                                        <template #prefix>
-                                            <a-icon type="heart" />
-                                        </template>
-                                    </a-statistic>
-                                </a-card>
-                            </a-col>
-                            <a-col :xl="{span: 6}" :lg="{span: 12}" :span="24">
-                                <a-card>
-                                    <a-statistic title="Active" :value="active" :precision="0" suffix="people" class="demo-class" :value-style="{color: '#409EFF'}">
-                                        <template #prefix>
-                                            <a-icon type="medicine-box" />
-                                        </template>
-                                    </a-statistic>
-                                </a-card>
-                            </a-col>
-                            <a-col :xl="{span: 6}" :lg="{span: 12}" :span="24">
-                                <a-card>
-                                    <a-statistic title="Today Cases" :value="todayCases" :precision="0" suffix="people" :value-style="{color: '#2471A3'}">
-                                        <template #prefix>
-                                            <a-icon type="team" />
-                                        </template>
-                                    </a-statistic>
-                                </a-card>
-                            </a-col>
-                            <a-col :xl="{span: 6}" :lg="{span: 12}" :span="24">
-                                <a-card>
-                                    <a-statistic title="Today Deaths" :value="todayDeaths" :precision="0" suffix="people" class="demo-class" :value-style="{color: '#2471A3'}">
-                                        <template #prefix>
-                                            <a-icon type="frown" />
-                                        </template>
-                                    </a-statistic>
-                                </a-card>
-                            </a-col>
-                            <a-col :xl="{span: 6}" :lg="{span: 12}" :span="24">
-                                <a-card>
-                                    <a-statistic title="Today Recovered" :value="todayRecovered" :precision="0" suffix="people" :value-style="{color: '#2471A3'}">
-                                        <template #prefix>
-                                            <a-icon type="heart" />
-                                        </template>
-                                    </a-statistic>
-                                </a-card>
-                            </a-col>
-                            <a-col :xl="{span: 6}" :lg="{span: 12}" :span="24">
-                                <a-card>
-                                    <a-statistic title="Critical" :value="critical" :precision="0" suffix="people" class="demo-class" :value-style="{color: '#2471A3'}">
-                                        <template #prefix>
-                                            <a-icon type="medicine-box" />
-                                        </template>
-                                    </a-statistic>
-                                </a-card>
-                            </a-col>
-                        </a-row> -->
+                        </a-row>
                     </a-spin>
                 </div>
             </a-col>
@@ -131,10 +55,13 @@ export default {
     data() {
         return {
             processing: false,
+            countries: [],
+            countriesSelected: '',
+            countriesResults: [],
             countriesChartOptions: {
                 chart: {
                     map: 'custom/world',
-                    height: '600',
+                    height: 600,
                     events: {
                         load() {
                             this.showLoading('processing...');
@@ -190,14 +117,6 @@ export default {
                                 color: '#a4edba',
                             },
                         },
-                        dataLabels: {
-                            enabled: true,
-                            format: '{point.values}',
-                        },
-                        enableMouseTracking: true,
-                        animation: {
-                            duration: 500,
-                        },
                         tooltip: {
                             valueSuffix: ' cases',
                         },
@@ -206,7 +125,14 @@ export default {
             },
         };
     },
-
+    computed: {
+        isShow() {
+            if (this.countriesResults instanceof Array && this.countriesResults.length > 0) {
+                return true;
+            }
+            return false;
+        },
+    },
     async mounted() {
         try {
             await this.fetchDataAllCountries();
@@ -215,11 +141,14 @@ export default {
         }
     },
     methods: {
-        ...mapActions('dashboard', ['trackingByContinent', 'allCountries']),
+        ...mapActions('dashboard', ['trackingByContinent', 'allCountries', 'multipleCountries']),
         async fetchDataAllCountries() {
             const response = await this.allCountries();
             const countries = response.data;
             if (!!countries) {
+                this.countries = countries.map((o) => {
+                    return {name: _.get(o, 'country'), iso: _.get(o, 'countryInfo.iso2')};
+                });
                 const seriesData = countries.map((o) => {
                     return {
                         name: _.get(o, 'country'),
@@ -243,14 +172,6 @@ export default {
                                 color: '#a4edba',
                             },
                         },
-                        dataLabels: {
-                            enabled: true,
-                            format: '{point.values}',
-                        },
-                        enableMouseTracking: true,
-                        animation: {
-                            duration: 500,
-                        },
                         tooltip: {
                             valueSuffix: ' cases',
                         },
@@ -259,29 +180,29 @@ export default {
                 }
             }
         },
-        async fetchApiTracking(continent) {
+        async fetchApiTracking(countries) {
             this.processing = true;
             try {
-                const response = await this.trackingByContinent(continent);
-                const {countries, population, cases, deaths, recovered, active, todayCases, todayDeaths, todayRecovered, critical} = response.data;
-                this.countries = countries;
-                this.population = population;
-                this.cases = cases;
-                this.deaths = deaths;
-                this.recovered = recovered;
-                this.active = active;
-                this.todayCases = todayCases;
-                this.todayDeaths = todayDeaths;
-                this.todayRecovered = todayRecovered;
-                this.critical = critical;
+                const response = await this.multipleCountries(countries);
+                const countriesResponse = _.get(response, 'data');
+                if (!!countriesResponse) {
+                    this.countriesResults = [...countriesResponse];
+                }else{
+                    this.countriesResults = [];
+                }
             } catch (err) {
                 console.table(err);
             }
             this.processing = false;
         },
-        async handleContinentChange() {
+        async handleCountriesChange() {
             try {
-                await this.fetchApiTracking(this.continent);
+                const params = this.countriesSelected.map((o) => {
+                    return encodeURIComponent(o);
+                });
+                if (!!params) {
+                    await this.fetchApiTracking(params);
+                }
             } catch (err) {
                 console.table(err);
             }

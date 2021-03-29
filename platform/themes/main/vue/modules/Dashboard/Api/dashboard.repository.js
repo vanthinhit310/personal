@@ -7,7 +7,9 @@ const instance = axios.create({
 export default {
     trackingByContinent(continent) {
         return instance.get(
-            `continents/${encodeURIComponent(continent)}?yesterday=false&strict=false`
+            `continents/${encodeURIComponent(
+                continent
+            )}?yesterday=false&strict=false`
         );
     },
     allContinents() {
@@ -15,5 +17,8 @@ export default {
     },
     allCountries() {
         return instance.get(`countries?yesterday=false`);
+    },
+    multipleCountries(countries) {
+        return instance.get(`countries/${countries}?yesterday=false`);
     }
 };
