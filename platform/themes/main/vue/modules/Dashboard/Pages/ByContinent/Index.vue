@@ -44,7 +44,7 @@
                                     </a-statistic>
                                 </a-card>
                             </a-col>
-                            <a-col :xl="{span: 6}" :md="{span: 8}" :span="24">
+                            <a-col :xl="{span: 6}" :lg="{span: 12}" :span="24">
                                 <a-card>
                                     <a-statistic title="Cases" :value="cases" :precision="0" suffix="people" :value-style="{color: '#E6A23C'}">
                                         <template #prefix>
@@ -53,7 +53,7 @@
                                     </a-statistic>
                                 </a-card>
                             </a-col>
-                            <a-col :xl="{span: 6}" :md="{span: 8}" :span="24">
+                            <a-col :xl="{span: 6}" :lg="{span: 12}" :span="24">
                                 <a-card>
                                     <a-statistic title="Deaths" :value="deaths" :precision="0" suffix="people" class="demo-class" :value-style="{color: '#F56C6C'}">
                                         <template #prefix>
@@ -62,7 +62,7 @@
                                     </a-statistic>
                                 </a-card>
                             </a-col>
-                            <a-col :xl="{span: 6}" :md="{span: 8}" :span="24">
+                            <a-col :xl="{span: 6}" :lg="{span: 12}" :span="24">
                                 <a-card>
                                     <a-statistic title="Recovered" :value="recovered" :precision="0" suffix="people" :value-style="{color: '#67C23A'}">
                                         <template #prefix>
@@ -71,7 +71,7 @@
                                     </a-statistic>
                                 </a-card>
                             </a-col>
-                            <a-col :xl="{span: 6}" :md="{span: 8}" :span="24">
+                            <a-col :xl="{span: 6}" :lg="{span: 12}" :span="24">
                                 <a-card>
                                     <a-statistic title="Active" :value="active" :precision="0" suffix="people" class="demo-class" :value-style="{color: '#409EFF'}">
                                         <template #prefix>
@@ -80,7 +80,7 @@
                                     </a-statistic>
                                 </a-card>
                             </a-col>
-                            <a-col :xl="{span: 6}" :md="{span: 8}" :span="24">
+                            <a-col :xl="{span: 6}" :lg="{span: 12}" :span="24">
                                 <a-card>
                                     <a-statistic title="Today Cases" :value="todayCases" :precision="0" suffix="people" :value-style="{color: '#2471A3'}">
                                         <template #prefix>
@@ -89,7 +89,7 @@
                                     </a-statistic>
                                 </a-card>
                             </a-col>
-                            <a-col :xl="{span: 6}" :md="{span: 8}" :span="24">
+                            <a-col :xl="{span: 6}" :lg="{span: 12}" :span="24">
                                 <a-card>
                                     <a-statistic title="Today Deaths" :value="todayDeaths" :precision="0" suffix="people" class="demo-class" :value-style="{color: '#2471A3'}">
                                         <template #prefix>
@@ -98,7 +98,7 @@
                                     </a-statistic>
                                 </a-card>
                             </a-col>
-                            <a-col :xl="{span: 6}" :md="{span: 8}" :span="24">
+                            <a-col :xl="{span: 6}" :lg="{span: 12}" :span="24">
                                 <a-card>
                                     <a-statistic title="Today Recovered" :value="todayRecovered" :precision="0" suffix="people" :value-style="{color: '#2471A3'}">
                                         <template #prefix>
@@ -107,7 +107,7 @@
                                     </a-statistic>
                                 </a-card>
                             </a-col>
-                            <a-col :xl="{span: 6}" :md="{span: 8}" :span="24">
+                            <a-col :xl="{span: 6}" :lg="{span: 12}" :span="24">
                                 <a-card>
                                     <a-statistic title="Critical" :value="critical" :precision="0" suffix="people" class="demo-class" :value-style="{color: '#2471A3'}">
                                         <template #prefix>
