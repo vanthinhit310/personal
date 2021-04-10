@@ -13,6 +13,9 @@
                         <div class="tracking-by-countries">
                             <tracking-by-countries></tracking-by-countries>
                         </div>
+                        <div class="historical-data">
+                            <historical></historical>
+                        </div>
                     </div>
                 </div>
             </template>
@@ -23,14 +26,16 @@
 <script>
 import MainLayout from '@core/layouts/MainLayout.vue';
 import Content from '@core/layouts/Content.vue';
-import TrackingByContinent from './Pages/ByContinent/Index'
-import TrackingByCountries from './Pages/ByCountries/Index'
+import TrackingByContinent from './Pages/ByContinent/Index';
+import TrackingByCountries from './Pages/ByCountries/Index';
+import Historical from './Pages/Historical/Index';
 export default {
     components: {
         MainLayout,
         Content,
         TrackingByContinent,
         TrackingByCountries,
+        Historical
     },
 };
 </script>

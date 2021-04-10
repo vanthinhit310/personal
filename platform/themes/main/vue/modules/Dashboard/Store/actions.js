@@ -16,5 +16,8 @@ export default {
     },
     async specificCountry({ dispatch, state, commit }, country) {
         return await DashboardRepository.specificCountry(country);
+    },
+    async countries(){
+        return await DashboardRepository.countries();
     }
 };

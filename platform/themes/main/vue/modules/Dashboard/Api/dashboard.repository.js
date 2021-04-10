@@ -20,5 +20,8 @@ export default {
     },
     specificCountry(country) {
         return instance.get(`countries/${country}?yesterday=false`);
+    },
+    countries() {
+        return axios.get("http://api.worldbank.org/v2/country/?format=json");
     }
 };
