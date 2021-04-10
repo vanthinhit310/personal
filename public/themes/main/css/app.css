@@ -27388,6 +27388,10 @@ button.is-disabled {
   justify-content: flex-start !important;
 }
 
+.select--250 {
+  width: 250px;
+}
+
 .header-content {
   height: 100%;
   display: flex;
@@ -27532,4 +27536,24 @@ button.is-disabled {
 
 .chart__wrap--content {
   width: 100%;
+}
+
+.country_with_flag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  -moz-column-gap: 5px;
+       column-gap: 5px;
+}
+.country_with_flag span {
+  line-height: 1;
+}
+.country_with_flag span.flag img {
+  width: 100%;
+  max-width: 25px;
+  height: 15px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
 }

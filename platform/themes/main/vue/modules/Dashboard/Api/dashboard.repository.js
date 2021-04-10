@@ -18,7 +18,7 @@ export default {
     allCountries() {
         return instance.get(`countries?yesterday=false`);
     },
-    multipleCountries(countries) {
-        return instance.get(`countries/${countries}?yesterday=false`);
+    specificCountry(country) {
+        return instance.get(`countries/${country}?yesterday=false`);
     }
 };

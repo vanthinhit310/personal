@@ -15,7 +15,7 @@
                 <div class="form__group">
                     <div class="form__group-label"><span>Specific Continent</span></div>
                     <div class="form__group-input">
-                        <el-select @change="handleContinentChange" size="large" v-model="continent" placeholder="Select continent">
+                        <el-select class="select--250" @change="handleContinentChange" size="large" v-model="continent" placeholder="Select continent">
                             <el-option v-for="(item, index) in continents" :key="index" :label="item" :value="item"> </el-option>
                         </el-select>
                     </div>
@@ -180,7 +180,7 @@ export default {
                             enabled: true,
                         },
                         animation: {
-                            duration: 3000,
+                            duration: 1500,
                         },
                     },
                 },

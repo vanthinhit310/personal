@@ -3,3 +3,22 @@
         width: 100%;
     }
 }
+
+.country_with_flag{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 5px;
+    span{
+        line-height: 1;
+    }
+    span.flag{
+        img{
+            width: 100%;
+            max-width: 25px;
+            height: 15px;
+            object-fit: cover;
+            object-position: center;
+        }
+    }
+}
