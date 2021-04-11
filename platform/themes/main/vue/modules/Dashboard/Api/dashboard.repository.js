@@ -4,6 +4,12 @@ const instance = axios.create({
     baseURL: "https://disease.sh/v3/covid-19/",
     paramsSerializer: qs.stringify
 });
+
+const restcountries = axios.create({
+    baseURL: "https://restcountries.eu/",
+    paramsSerializer: qs.stringify
+});
+
 export default {
     trackingByContinent(continent) {
         return instance.get(
@@ -22,6 +28,9 @@ export default {
         return instance.get(`countries/${country}?yesterday=false`);
     },
     countries() {
-        return axios.get("http://api.worldbank.org/v2/country/?format=json");
+        return restcountries.get("rest/v2/");
+    },
+    historicalByCountry(country, lastday) {
+        return instance.get(`historical/${country}?lastdays=${lastday}`);
     }
 };

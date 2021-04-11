@@ -17,7 +17,10 @@ export default {
     async specificCountry({ dispatch, state, commit }, country) {
         return await DashboardRepository.specificCountry(country);
     },
-    async countries(){
+    async countries({ dispatch, state, commit }) {
         return await DashboardRepository.countries();
+    },
+    async historicalByCountry({ dispatch, state, commit },{country, lastday}) {
+        return await DashboardRepository.historicalByCountry(country, lastday);
     }
 };
