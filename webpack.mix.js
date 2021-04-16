@@ -10,7 +10,7 @@ mix.webpackConfig({
         }
     }
 });
-
+mix.disableNotifications();
 mix.version().webpackConfig({
     output: {
         chunkFilename: "js/chunks/[name].[hash].js"
@@ -22,4 +22,5 @@ mix.setPublicPath("public")
     .sass(
         "platform/themes/main/public/sass/app.scss",
         "public/themes/main/css/app.css"
-    );
+    )
+    .copyDirectory('platform/themes/main/public/img', 'public/themes/main/img');

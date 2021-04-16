@@ -25,7 +25,9 @@
                         <a-icon slot="indicator" type="sync" style="font-size: 20px" spin />
                         <a-row>
                             <a-col :span="24">
-                                <highcharts :constructor-type="'chart'" :updateArgs="[true, true, true]" ref="histiricalChart" :options="historicalChartOption"></highcharts>
+                                <div class="chart__wrap--content">
+                                    <highcharts :constructor-type="'chart'" :updateArgs="[true, true, true]" ref="histiricalChart" :options="historicalChartOption"></highcharts>
+                                </div>
                             </a-col>
                         </a-row>
                     </a-spin>
@@ -37,17 +39,20 @@
 
 <script>
 import {mapActions, mapMutations} from 'vuex';
+import Highcharts from 'highcharts';
+import moment from 'moment';
 
 export default {
     data() {
         return {
             countriesOption: [],
-            country: '',
-            lastDay: '5',
+            country: '704',
+            lastDay: '30',
             processing: false,
             historicalChartOption: {
                 chart: {
                     type: 'spline',
+                    zoomType: 'x',
                 },
                 title: {
                     text: 'Snow depth at Vikjafjellet, Norway',
@@ -56,27 +61,25 @@ export default {
                     text: 'Irregular time data in Highcharts JS',
                 },
                 xAxis: {
-                    // type: 'datetime',
-                    // // dateTimeLabelFormats: {
-                    // //     // don't display the dummy year
-                    // //     month: '%e. %b',
-                    // //     year: '%b',
-                    // // },
-                    // title: {
-                    //     text: 'Date',
-                    // },
+                    type: 'datetime',
+                    dateTimeLabelFormats: {
+                        month: '%e. %b',
+                        year: '%b',
+                    },
+                    title: {
+                        text: 'Date',
+                    },
                 },
                 yAxis: {
                     title: {
-                        text: 'Case (people)',
+                        text: 'case',
                     },
                     min: 0,
                 },
                 tooltip: {
-                    headerFormat: '<b>{series.name}</b><br>',
-                    pointFormat: '{point.x:%e. %b}: {point.y} case',
+                    headerFormat: '<b>{series.name} : </b>',
+                    pointFormat: '{point.y} case',
                 },
-
                 plotOptions: {
                     series: {
                         marker: {
@@ -84,37 +87,18 @@ export default {
                         },
                     },
                 },
-
-                colors: ['#6CF', '#39F', '#06C', '#036', '#000'],
-
-                // Define the data points. All series have a dummy year
-                // of 1970/71 in order to be compared on the same x axis. Note
-                // that in JavaScript, months start at 0 for January, 1 for February etc.
+                colors: ['#409EFF', '#F56C6C', '#67C23A'],
                 series: [],
-
-                responsive: {
-                    rules: [
-                        {
-                            condition: {
-                                maxWidth: 500,
-                            },
-                            chartOptions: {
-                                plotOptions: {
-                                    series: {
-                                        marker: {
-                                            radius: 2.5,
-                                        },
-                                    },
-                                },
-                            },
-                        },
-                    ],
-                },
             },
         };
     },
     async mounted() {
-        this.fetchCountries();
+        try {
+            await this.fetchCountries();
+            await this.fetchHistoricalData(this.country, this.lastDay);
+        } catch (err) {
+            console.table(err);
+        }
     },
     methods: {
         ...mapActions('dashboard', ['countries', 'historicalByCountry']),
@@ -144,11 +128,11 @@ export default {
                         // format day string to timestamp
                         cases = Object.fromEntries(
                             Object.entries(cases).map(function ([key, value]) {
-                                return [Date.parse(key), value];
+                                return [new Date(key).getTime(), value];
                             })
                         );
                         // convert object to array
-                        cases = Object.keys(cases).map((key) => [Number(key), cases[key]]);
+                        cases = Object.keys(cases).map((key) => [parseInt(key), cases[key]]);
                     }
 
                     /* recovered */
@@ -157,11 +141,11 @@ export default {
                         // format day string to timestamp
                         recovered = Object.fromEntries(
                             Object.entries(recovered).map(function ([key, value]) {
-                                return [Date.parse(key), value];
+                                return [new Date(key).getTime(), value];
                             })
                         );
                         // convert object to array
-                        recovered = Object.keys(recovered).map((key) => [Number(key), recovered[key]]);
+                        recovered = Object.keys(recovered).map((key) => [parseInt(key), recovered[key]]);
                     }
 
                     /* deaths */
@@ -170,11 +154,11 @@ export default {
                         // format day string to timestamp
                         deaths = Object.fromEntries(
                             Object.entries(deaths).map(function ([key, value]) {
-                                return [Date.parse(key), value];
+                                return [new Date(key).getTime(), value];
                             })
                         );
                         // convert object to array
-                        deaths = Object.keys(deaths).map((key) => [Number(key), deaths[key]]);
+                        deaths = Object.keys(deaths).map((key) => [parseInt(key), deaths[key]]);
                     }
 
                     const series = [

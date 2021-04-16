@@ -64,7 +64,7 @@ export default {
         return {
             processing: false,
             countries: [],
-            country: '',
+            country: 'Vietnam',
             countryResult: '',
             countriesChartOptions: {
                 chart: {
@@ -188,6 +188,7 @@ export default {
     async mounted() {
         try {
             await this.fetchDataAllCountries();
+            await this.trackingByCountry(this.country);
         } catch (err) {
             console.table(err);
         }

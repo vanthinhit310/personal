@@ -34,6 +34,7 @@ applyTheme(Highcharts);
 Highcharts.maps["custom/world"] = mapData;
 Vue.use(HighchartsVue);
 
+
 Vue.use(VueProgressBar, {
     color: "#FF7A59",
     failedColor: "red",
