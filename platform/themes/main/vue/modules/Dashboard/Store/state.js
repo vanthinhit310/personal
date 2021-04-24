@@ -5,32 +5,26 @@ export default {
             icon: "el-icon-s-grid",
             title: "Dashboard",
             path: "/",
-            link: { name: "dashboard" }
+            link: {name: "dashboard"}
         },
         {
             icon: "el-icon-paperclip",
             title: "Task Assign",
             path: "/tasks",
-            link: { name: "tasks" }
+            link: {name: "tasks"}
+        },
+        {
+            icon: "el-icon-cloudy   ",
+            title: "Google API",
+            link: "javascript:void(0)",
+            subs: [
+                {
+                    icon: false,
+                    title: "Google Photos",
+                    path : '/google/photo',
+                    link: {name: "google.photo"}
+                }
+            ]
         }
-        // {
-        //     icon: "el-icon-s-custom",
-        //     title: "User",
-        //     link: "javascript:void(0)",
-        //     subs: [
-        //         {
-        //             icon: "el-icon-s-custom",
-        //             title: "Sub 1",
-        //             path : '/abc',
-        //             link: { name: "login" }
-        //         },
-        //         {
-        //             icon: "el-icon-s-custom",
-        //             title: "Sub 2",
-        //             path : '/abc2',
-        //             link: { name: "dashboard" }
-        //         }
-        //     ]
-        // }
     ],
 };

@@ -1,9 +1,25 @@
 <template>
-    <h1>Google Api</h1>
+    <main-layout>
+        <Content>
+            <template v-slot:content>
+                <div class="right-content">
+                    <h1>sdas</h1>
+                </div>
+            </template>
+        </Content>
+    </main-layout>
 </template>
 
 <script>
-export default {}
+import MainLayout from '@core/layouts/MainLayout.vue';
+import Content from '@core/layouts/Content.vue';
+
+export default {
+    components: {
+        MainLayout,
+        Content,
+    },
+};
 </script>
 
 <style scoped>
