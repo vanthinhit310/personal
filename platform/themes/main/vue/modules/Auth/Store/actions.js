@@ -12,6 +12,15 @@ export default {
 
         return response;
     },
+    async googleLogin({ dispatch, state, commit }, formData) {
+        const response = await AuthRepository.googleLogin(formData);
+        const { token } = _.get(response, "data", "");
+        if (!!token) {
+            localStorage.setItem("accessToken", token);
+        }
+
+        return response;
+    },
     async me({ dispatch, state, commit }) {
         const response = await AuthRepository.me();
         const user = _.get(response, "data", "");

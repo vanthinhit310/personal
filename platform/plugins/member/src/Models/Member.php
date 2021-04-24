@@ -35,6 +35,8 @@ class Member extends Authenticatable
         'password',
         'avatar_id',
         'dob',
+        'google_auth_code',
+        'google_refresh_token',
         'phone',
         'description',
         'gender',

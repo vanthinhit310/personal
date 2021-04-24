@@ -3,6 +3,7 @@
 namespace Platform\Member\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use Google\Client;
 use Platform\Base\Http\Responses\BaseHttpResponse;
 use Platform\Member\Http\Requests\LoginRequest;
 use Platform\Member\Http\Requests\RegisterRequest;
@@ -12,6 +13,7 @@ use Platform\ACL\Traits\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use RvMedia;
 
 class AuthenticationController extends Controller
 {
@@ -47,7 +49,7 @@ class AuthenticationController extends Controller
      * "data": null,
      * "message": "Registered successfully! We sent an email to you to verify your account!"
      * }
-     * @response 422 {
+     * @response  422 {
      * "message": "The given data was invalid.",
      * "errors": {
      *     "first_name": [
@@ -65,10 +67,11 @@ class AuthenticationController extends Controller
      *   }
      * }
      *
-     * @group Authentication
+     * @group     Authentication
      *
      * @param RegisterRequest $request
      * @param BaseHttpResponse $response
+     *
      * @return BaseHttpResponse
      */
     public function register(RegisterRequest $request, BaseHttpResponse $response)
@@ -108,7 +111,7 @@ class AuthenticationController extends Controller
      * "message": null
      * }
      *
-     * @group Authentication
+     * @group     Authentication
      *
      * @param LoginRequest $request
      * @param BaseHttpResponse $response
@@ -118,7 +121,7 @@ class AuthenticationController extends Controller
     public function login(LoginRequest $request, BaseHttpResponse $response)
     {
         if (auth('member')->attempt([
-            'email'    => $request->input('email'),
+            'email' => $request->input('email'),
             'password' => $request->input('password'),
         ])) {
             $token = auth('member')->user()->createToken('Laravel Password Grant Client')->accessToken;
@@ -133,6 +136,67 @@ class AuthenticationController extends Controller
             ->setMessage(__('Email or password is not correct!'));
     }
 
+    public function loginWithGoogle(Request $request, BaseHttpResponse $response)
+    {
+        $client = new Client([
+            'client_id' => '736218758525-aag0djin4ktbvi66cvuiljggj33sn8ke.apps.googleusercontent.com',
+            'client_secret' => 'G4rOyq2EjHIZEX3Hjkf6jsIs',
+            'redirect_uri' => config('app.url'),
+        ]);
+        dd($client->getOAuth2Service(),get_class_methods($client));
+        try {
+            $email = $request->input('email');
+            if ($email) {
+                $member = $this->memberRepository->getFirstBy(['email' => $email]);
+                if ($member) {
+                    if (auth('member')->login($member, true)) {
+                        $token = auth('member')->user()->createToken('Laravel Password Grant Client')->accessToken;
+                        return $response
+                            ->setData(compact('token'));
+                    } else {
+                        return $response
+                            ->setError()
+                            ->setMessage('Login failed!')
+                            ->setCode(422);
+                    }
+                } else {
+                    if ($request->input('avatar')) {
+                        $avatar = RvMedia::uploadFromUrl($request->input('avatar'), 0, 'accounts', 'image/png');
+                        if (!$avatar['error']) {
+                            $avatarId = $avatar['data']->id;
+                        }
+                    }
+                    $member = $this->memberRepository->create([
+                        'first_name' => $request->input('first_name'),
+                        'last_name' => $request->input('last_name'),
+                        'email' => $request->input('email'),
+                        'password' => bcrypt(123456),
+                        'avatar_id' => $avatarId ?? null
+                    ]);
+
+                    $token = Hash::make(Str::random(32));
+
+                    $member->email_verify_token = $token;
+                    $member->save();
+
+                    $member->notify(new ConfirmEmailNotification($token));
+
+                    if (auth('member')->login($member, true)) {
+                        $token = auth('member')->user()->createToken('Laravel Password Grant Client')->accessToken;
+                        return $response
+                            ->setData(compact('token'));
+                    }
+                }
+            }
+        } catch (Throwable $exception) {
+            Log::error(sprintf('Have an error in action %s with message %s', sprintf('%s@%s', __CLASS__, __FUNCTION__), $exception->getMessage()));
+            return $response
+                ->setError()
+                ->setCode(500)
+                ->setMessage(__('Oop! Have Error'));
+        }
+    }
+
     /**
      * Logout
      *
@@ -141,6 +205,7 @@ class AuthenticationController extends Controller
      *
      * @param Request $request
      * @param BaseHttpResponse $response
+     *
      * @return BaseHttpResponse
      */
     public function logout(Request $request, BaseHttpResponse $response)

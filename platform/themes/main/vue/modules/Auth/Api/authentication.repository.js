@@ -3,6 +3,9 @@ export default {
     login(formData) {
         return axiosClient.post("login", formData);
     },
+    googleLogin(formData) {
+        return axiosClient.post("login/google", formData);
+    },
     logout() {
         return axiosClient.get("logout", {
             headers: {

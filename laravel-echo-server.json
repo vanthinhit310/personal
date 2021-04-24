@@ -1,14 +1,14 @@
 {
-	"authHost": "http://personal.me",
+    "authHost": "http://personal.me",
     "authEndpoint": "/broadcasting/auth",
-	"clients": [
-		{
-			"appId": "2d99e9be6bec8d1d",
-			"key": "de6809cf879dfb1fda24595ef6210466"
-		}
-	],
-	"database": "redis",
-	"databaseConfig": {
+    "clients": [
+        {
+            "appId": "2d99e9be6bec8d1d",
+            "key": "de6809cf879dfb1fda24595ef6210466"
+        }
+    ],
+    "database": "redis",
+    "databaseConfig": {
         "redis": {
             "port": "6379",
             "host": "127.0.0.1",
@@ -19,20 +19,20 @@
             "databasePath": "/database/laravel-echo-server.sqlite"
         }
     },
-	"devMode": true,
-    "host": "personal.me",
+    "devMode": false,
+    "host": "",
     "port": "6001",
-	"protocol": "http",
-	"socketio": {},
-	"secureOptions": 67108864,
-    "sslCertPath": "./cert/site.crt",
-    "sslKeyPath": "./cert/site.crt",
-	"sslCertChainPath": "",
-	"sslPassphrase": "",
-	"subscribers": {
-		"http": true,
-		"redis": true
-	},
+    "protocol": "http",
+    "socketio": {},
+    "secureOptions": 67108864,
+    "sslCertPath": "",
+    "sslKeyPath": "",
+    "sslCertChainPath": "",
+    "sslPassphrase": "",
+    "subscribers": {
+        "http": true,
+        "redis": true
+    },
     "apiOriginAllow": {
         "allowCors": true,
         "allowOrigin": "*",

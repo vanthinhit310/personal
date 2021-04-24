@@ -8,6 +8,7 @@ Route::group([
 
     Route::post('register', 'AuthenticationController@register');
     Route::post('login', 'AuthenticationController@login');
+    Route::post('login/google', 'AuthenticationController@loginWithGoogle');
 
     Route::post('password/forgot', 'ForgotPasswordController@sendResetLinkEmail');
 
