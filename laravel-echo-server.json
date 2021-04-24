@@ -1,5 +1,5 @@
 {
-	"authHost": "http://personal.test",
+	"authHost": "http://personal.me",
     "authEndpoint": "/broadcasting/auth",
 	"clients": [
 		{
@@ -20,7 +20,7 @@
         }
     },
 	"devMode": true,
-    "host": "personal.test",
+    "host": "personal.me",
     "port": "6001",
 	"protocol": "http",
 	"socketio": {},

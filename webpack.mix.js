@@ -10,7 +10,7 @@ mix.webpackConfig({
         }
     }
 });
-mix.disableNotifications();
+// mix.disableNotifications();
 mix.version().webpackConfig({
     output: {
         chunkFilename: "js/chunks/[name].[hash].js"
