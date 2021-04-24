@@ -1,9 +1,14 @@
 const routes = [
     {
-        path: "/login",
-        component: "Auth/Index.vue",
-        name: "login",
-        authorize: { requiredAuth: false }
+        path: "/api-google",
+        component: "Google/Index.vue",
+        name: "google",
+        authorize: {requiredAuth: true},
+        children: [{
+            path: '/photo',
+            name: 'google.photo',
+            component: "Google/Pages/GooglePhoto/Index.vue",
+        }]
     }
 ];
 
