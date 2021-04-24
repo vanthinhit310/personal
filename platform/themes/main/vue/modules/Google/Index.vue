@@ -3,7 +3,7 @@
         <Content>
             <template v-slot:content>
                 <div class="right-content">
-                    <h1>sdas</h1>
+                    <router-view></router-view>
                 </div>
             </template>
         </Content>

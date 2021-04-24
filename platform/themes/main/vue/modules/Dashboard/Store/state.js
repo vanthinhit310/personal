@@ -19,9 +19,9 @@ export default {
             link: "javascript:void(0)",
             subs: [
                 {
-                    icon: false,
+                    icon: 'el-icon-picture',
                     title: "Google Photos",
-                    path : '/google/photo',
+                    path: '/google/photo',
                     link: {name: "google.photo"}
                 }
             ]
