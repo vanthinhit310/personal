@@ -8,7 +8,7 @@ const routes = [
             {
                 path: '/photo',
                 name: 'google.photo',
-                component: "Google/Pages/GooglePhoto/Index.vue",
+                component: "Google/Pages/GooglePhoto/GooglePhotoApi.vue",
                 authorize: {requiredAuth: true},
             }
         ]

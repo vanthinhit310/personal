@@ -27297,6 +27297,10 @@ body {
   width: 100% !important;
 }
 
+.d-block {
+  display: block !important;
+}
+
 .hfull {
   height: 100vh;
 }
@@ -27556,4 +27560,25 @@ button.is-disabled {
      object-fit: cover;
   -o-object-position: center;
      object-position: center;
+}
+
+.gallery {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+.gallery__item a {
+  display: block;
+}
+.gallery__item a img {
+  width: 100%;
+  height: auto;
+}
+
+.img-fluid {
+  width: 100%;
+  height: auto;
 }

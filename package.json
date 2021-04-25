@@ -23,6 +23,7 @@
         "sass-loader": "^10.1.1",
         "vue": "^2.6.12",
         "vue-loader": "^15.9.5",
+        "vue-masonry-css": "^1.0.3",
         "webpack-livereload-plugin": "^1.2.0"
     },
     "dependencies": {
@@ -52,6 +53,7 @@
         "vue-custom-scrollbar": "^1.4.0",
         "vue-google-login": "^2.0.5",
         "vue-google-oauth2": "^1.5.8",
+        "vue-masonry-gallery": "^1.1.1",
         "vue-progressbar": "^0.7.5",
         "vue-property-decorator": "^8.5.1",
         "vue-router": "^3.5.1",

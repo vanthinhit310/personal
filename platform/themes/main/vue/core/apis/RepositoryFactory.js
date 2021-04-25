@@ -8,8 +8,7 @@ files.keys().forEach(file => {
     const path = _.join(_.pull(file.split("/"), "."), "/");
     const moduleName = _.camelCase(_.head(fileName.split(".")));
     // register file context under module name
-    repositories[moduleName] =
-        require(`@modules/${path}`).default || require(`@modules/${path}`);
+    repositories[moduleName] = require(`@modules/${path}`).default || require(`@modules/${path}`);
 });
 
 export const RepositoryFactory = {
