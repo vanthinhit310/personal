@@ -35,24 +35,27 @@ return [
         // Before event inherit from package config and the theme that call before,
         // you can use this event to set meta, breadcrumb template or anything
         // you want inheriting.
-        'before' => function($theme)
-        {
+        'before' => function ($theme) {
             // You can remove this line anytime.
         },
 
         // Listen on event before render a theme,
         // this event should call to assign some assets,
         // breadcrumb template.
-        'beforeRenderTheme' => function (Theme $theme)
-        {
+        'beforeRenderTheme' => function (Theme $theme) {
             // Partial composer.
             // $theme->partialComposer('header', function($view) {
             //     $view->with('auth', \Auth::user());
             // });
 
             // You may use this event to set up your assets.
-            $theme->asset()->usePath()->add('style', 'css/app.css',[],[],time());
-            $theme->asset()->container('footer')->usePath()->add('script', 'js/app.js',[],[],time());
+            $theme->asset()->add('fancybox', 'https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css');
+            $theme->asset()->usePath()->add('style', 'css/app.css', [], [], time());
+
+//            $theme->asset()->container('footer')->add('jquery', 'https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js');
+            $theme->asset()->container('footer')->usePath()->add('app', 'js/app.js', [], [], time());
+            $theme->asset()->container('footer')->add('fancybox', 'https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js');
+            $theme->asset()->container('footer')->usePath()->add('script', 'js/script.js', [], [], time());
 
             if (function_exists('shortcode')) {
                 $theme->composer(['index', 'page', 'post'], function (\Platform\Shortcode\View\View $view) {
@@ -65,8 +68,7 @@ return [
         // this should call to assign style, script for a layout.
         'beforeRenderLayout' => [
 
-            'default' => function ($theme)
-            {
+            'default' => function ($theme) {
                 // $theme->asset()->usePath()->add('ipad', 'css/layouts/ipad.css');
             }
         ]

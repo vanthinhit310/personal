@@ -9,12 +9,9 @@
                     </a-col>
 
                     <a-col :span="24">
-                        <masonry
-                            :cols="3"
-                            :gutter="30"
-                        >
+                        <masonry :cols="3" :gutter="30">
                             <div v-for="(item, index) in imgsArr" :key="index">
-                                <a class="d-block">
+                                <a class="d-block" data-fancybox="google-photo-images" :href="`${item}=w2048-h1024`">
                                     <img class="img-fluid" :src="item" alt="Image">
                                 </a>
                             </div>
@@ -31,27 +28,17 @@
 
 <script>
 import Vue from 'vue'
-import GAuth from 'vue-google-oauth2'
 import {LoaderPlugin} from 'vue-google-login';
 import {mapActions, mapMutations} from 'vuex'
-import VueMasonryGallery from "vue-masonry-gallery";
 import VueMasonry from 'vue-masonry-css'
 
 Vue.use(VueMasonry);
-const gauthOption = {
-    clientId: '736218758525-aag0djin4ktbvi66cvuiljggj33sn8ke.apps.googleusercontent.com',
-    scope: 'profile email https://www.googleapis.com/auth/photoslibrary',
-    prompt: 'consent'
-}
-Vue.use(GAuth, gauthOption)
+
 Vue.use(LoaderPlugin, {
     client_id: "736218758525-aag0djin4ktbvi66cvuiljggj33sn8ke.apps.googleusercontent.com"
 });
 
 export default {
-    components: {
-        VueMasonryGallery
-    },
     data() {
         return {
             imgsArr: [],
@@ -80,7 +67,7 @@ export default {
                     }
                 }
             }
-        })
+        });
     },
     methods: {
         ...mapActions('google', ['getMediaItems']),
