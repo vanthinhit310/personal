@@ -8,7 +8,7 @@
                         <div class="form__group">
                             <a-row type="flex" justify="center" align="middle">
                                 <a-col :span="12" style="text-align: center">
-                                    <el-button :native-type="'button'" @click="handleClickGoogleSignIn" round>Login with Google</el-button>
+                                    <GoogleLogin type="button" class="el-button el-button--default el-button--medium is-round" :params="params" :onSuccess="onGoogleLoginSuccess" :onFailure="onGoogleLoginFailure">Login with Google</GoogleLogin>
                                 </a-col>
                                 <a-col :span="12" style="text-align: center">
                                     <el-button :native-type="'button'" round>Login with Facebook</el-button>
@@ -54,19 +54,12 @@
 <script>
 import {mapActions, mapMutations} from 'vuex';
 import SingleLayout from '@core/layouts/SingleLayout';
-
-import Vue from 'vue'
-import GAuth from 'vue-google-oauth2'
-const gauthOption = {
-    clientId: '736218758525-aag0djin4ktbvi66cvuiljggj33sn8ke.apps.googleusercontent.com',
-    scope: 'profile email',
-    prompt: 'consent'
-}
-Vue.use(GAuth, gauthOption)
+import GoogleLogin from 'vue-google-login';
 
 export default {
     components: {
         SingleLayout,
+        GoogleLogin
     },
     data() {
         return {
@@ -75,40 +68,39 @@ export default {
                 email: 'trump@demo.com',
                 password: '',
             },
+            params: {
+                client_id: "736218758525-aag0djin4ktbvi66cvuiljggj33sn8ke.apps.googleusercontent.com"
+            },
         };
     },
+
     methods: {
         ...mapActions('auth', ['login', 'me', 'googleLogin']),
         ...mapMutations({
             setLoadingState: 'dashboard/setLoadingState',
         }),
-        async handleClickGoogleSignIn() {
+        async onGoogleLoginSuccess(googleUser) {
             try {
-                const googleUser = await this.$gAuth.signIn();
-                if (!googleUser) {
-                    return null;
-                }
                 const formData = new FormData();
-                const profile = this.$gAuth.GoogleAuth.currentUser.get().getBasicProfile()
-
+                const profile = googleUser.getBasicProfile()
                 formData.append('first_name', profile.getFamilyName())
                 formData.append('last_name', profile.getGivenName())
                 formData.append('email', profile.getEmail())
                 formData.append('avatar', profile.getImageUrl())
-
-
-                await this.googleLogin(formData);
-                console.log('ID: ' + profile.getId());
-                console.log('Full Name: ' + profile.getName());
-                console.log('Given Name: ' + profile.getGivenName());
-                console.log('Family Name: ' + profile.getFamilyName());
-                console.log('Image URL: ' + profile.getImageUrl());
-                console.log('Email: ' + profile.getEmail());
-            } catch (error) {
-                //on fail do something
-                console.error(error);
-                return null;
+                this.setLoadingState(true);
+                const response = await this.googleLogin(formData);
+                const {error} = response.data;
+                if (!error) {
+                    await this.me();
+                    this.handleAfterLogin();
+                }
+            } catch (e) {
+                console.log(e.message)
             }
+            this.setLoadingState(false);
+        },
+        async onGoogleLoginFailure(error) {
+            console.log(error);
         },
         async handleLogin() {
             this.$refs.form.validate().then(async (validated) => {
@@ -138,4 +130,46 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.google-btn {
+    width: 184px;
+    height: 42px;
+    background-color: #4285f4;
+    border-radius: 2px;
+    box-shadow: 0 3px 4px 0 rgba(0, 0, 0, .25);
+
+    .google-icon-wrapper {
+        position: absolute;
+        margin-top: 1px;
+        margin-left: 1px;
+        width: 40px;
+        height: 40px;
+        border-radius: 2px;
+        background-color: #fff;
+    }
+
+    .google-icon {
+        position: absolute;
+        margin-top: 11px;
+        margin-left: 11px;
+        width: 18px;
+        height: 18px;
+    }
+
+    .btn-text {
+        float: right;
+        margin: 11px 11px 0 0;
+        color: #fff;
+        font-size: 14px;
+        letter-spacing: 0.2px;
+    }
+
+    &:hover {
+        box-shadow: 0 0 6px #4285f4;
+    }
+
+    &:active {
+        background: #1669F2;
+    }
+}
+</style>

@@ -20,13 +20,22 @@
                 </el-popover>
 
                 <a-dropdown class="user-dropdown">
-                    <span> <el-avatar class="user_avatar" :size="45" :src="avatar"></el-avatar> {{ _.get(user, 'fullname', '') }} </span>
+                    <span>
+                        <el-avatar class="user_avatar" :size="45" :src="avatar"></el-avatar>
+                        {{ _.get(user, 'fullname', '') }}
+                    </span>
                     <a-menu slot="overlay">
                         <a-menu-item>
-                            <a href="javascript:;"><a-icon type="profile" /> Profile</a>
+                            <a href="javascript:;">
+                                <a-icon type="profile"/>
+                                Profile
+                            </a>
                         </a-menu-item>
                         <a-menu-item>
-                            <a href="javascript:;" @click="handleLogout"><a-icon type="logout" /> Logout</a>
+                            <a href="javascript:;" @click="handleLogout">
+                                <a-icon type="logout"/>
+                                Logout
+                            </a>
                         </a-menu-item>
                     </a-menu>
                 </a-dropdown>
@@ -64,7 +73,8 @@ export default {
             if (notifications instanceof Array && notifications.length == 0) {
                 await this.fetch();
             }
-        } catch (err) {}
+        } catch (err) {
+        }
     },
     methods: {
         ...mapActions('auth', ['logout']),
@@ -80,7 +90,8 @@ export default {
         async loadMoreNotification() {
             try {
                 await this.fetch(this.page);
-            } catch (err) {}
+            } catch (err) {
+            }
             this.page += 1;
         },
     },

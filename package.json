@@ -50,6 +50,7 @@
         "socket.io-client": "^2.3.1",
         "vee-validate": "^3.4.5",
         "vue-custom-scrollbar": "^1.4.0",
+        "vue-google-login": "^2.0.5",
         "vue-google-oauth2": "^1.5.8",
         "vue-progressbar": "^0.7.5",
         "vue-property-decorator": "^8.5.1",

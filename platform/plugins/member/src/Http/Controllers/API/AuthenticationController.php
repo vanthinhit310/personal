@@ -138,18 +138,13 @@ class AuthenticationController extends Controller
 
     public function loginWithGoogle(Request $request, BaseHttpResponse $response)
     {
-        $client = new Client([
-            'client_id' => '736218758525-aag0djin4ktbvi66cvuiljggj33sn8ke.apps.googleusercontent.com',
-            'client_secret' => 'G4rOyq2EjHIZEX3Hjkf6jsIs',
-            'redirect_uri' => config('app.url'),
-        ]);
-        dd($client->getOAuth2Service(),get_class_methods($client));
         try {
             $email = $request->input('email');
+
             if ($email) {
                 $member = $this->memberRepository->getFirstBy(['email' => $email]);
                 if ($member) {
-                    if (auth('member')->login($member, true)) {
+                    if (auth('member')->loginUsingId($member->id, true)) {
                         $token = auth('member')->user()->createToken('Laravel Password Grant Client')->accessToken;
                         return $response
                             ->setData(compact('token'));
@@ -181,7 +176,7 @@ class AuthenticationController extends Controller
 
                     $member->notify(new ConfirmEmailNotification($token));
 
-                    if (auth('member')->login($member, true)) {
+                    if (auth('member')->loginUsingId($member->id, true)) {
                         $token = auth('member')->user()->createToken('Laravel Password Grant Client')->accessToken;
                         return $response
                             ->setData(compact('token'));
