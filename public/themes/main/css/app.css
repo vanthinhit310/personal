@@ -27582,3 +27582,10 @@ button.is-disabled {
   width: 100%;
   height: auto;
 }
+
+.mansory-image {
+  margin-bottom: 5px;
+}
+.mansory-image img {
+  display: block;
+}
