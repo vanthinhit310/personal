@@ -1,14 +1,14 @@
-.gallery{
+.gallery {
     width: 100%;
     max-width: 100%;
     overflow-x: hidden;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 15px;
-    &__item{
-        a{
+    &__item {
+        a {
             display: block;
-            img{
+            img {
                 width: 100%;
                 height: auto;
             }
@@ -16,13 +16,30 @@
     }
 }
 
-.img-fluid{
+.img-fluid {
     width: 100%;
     height: auto;
 }
-.mansory-image{
+.mansory-image {
     margin-bottom: 5px;
-    img{
+    .hover-rotate {
+        overflow: hidden;
+        margin: 0;
+        min-width: 240px;
+        max-width: 320px;
+        width: 100%;
+    }
+
+    .hover-rotate img {
+        transition: all 0.3s;
+        box-sizing: border-box;
+        max-width: 100%;
+    }
+
+    .hover-rotate:hover img {
+        transform: scale(1.3) rotate(5deg);
+    }
+    img {
         display: block;
     }
 }

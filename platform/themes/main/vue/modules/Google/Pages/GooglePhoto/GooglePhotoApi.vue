@@ -3,25 +3,40 @@
         <div class="wrap_title">
             <h1 class="wrap_title-text">Google Photo API</h1>
             <div class="wrap_content">
-                <a-row :gutter="[20,20]">
+                <a-row :gutter="[20, 20]">
                     <a-col :span="24">
-                        <el-button @click="handleAccessScopePhoto" round>Grant permission to access for your google photos</el-button>
+                        <a-row>
+                            <a-col :span="3">
+                                <el-button size="large" icon="el-icon-key" @click="handleAccessScopePhoto" round>Grant permission</el-button>
+                            </a-col>
+                            <a-col :span="15">
+                                <div class="filter">
+                                    <el-date-picker size="large" v-model="filterParams" type="daterange" format="dd/MM/yyyy" value-format="dd/MM/yyyy" align="right" unlink-panels range-separator="To" start-placeholder="Start date" end-placeholder="End date" :picker-options="pickerOptions">
+                                    </el-date-picker>
+                                    <el-button @click.prevent="handleFilterMediaItems" size="large" icon="el-icon-check" :native-type="'button'" type="primary" round>Apply</el-button>
+                                </div>
+                            </a-col>
+                        </a-row>
                     </a-col>
 
                     <a-col :span="24">
                         <masonry :cols="{default: 5, 1000: 4, 700: 3, 400: 1}" :gutter="{default: '5px'}">
                             <div v-for="(item, index) in imgsArr" :key="index">
                                 <a class="d-block mansory-image" data-fancybox="google-photo-images" :href="`${item.baseUrl}=w2048-h1024`">
-                                    <img class="img-fluid" :src="_.get(item,'baseUrl')" alt="Image">
+                                    <figure class="hover-rotate">
+                                        <img class="img-fluid" :src="_.get(item, 'baseUrl')" alt="Image" />
+                                    </figure>
                                 </a>
                             </div>
                         </masonry>
                     </a-col>
                     <a-col :span="24" style="text-align: center">
-                        <video controls>
-                            <source src="https://lh3.googleusercontent.com/lr/AFBm1_ZYBpBQw3W1-gVghDYUWknPtHR9D03f1g7LwFFwBfsqY8M_9ScHo_R_zF2DRCzREvJFGMz74AvaWbeMg-DjwyHAdm6uccbIBReOQL_lRjh54cb3tB0Tkh8GNDae4yVoMkHZ_fagMYY_QXfZz4iPXIkzkDbx3XU6okunTUG6bvNNz8Xmmly3Eq6_-jZAYAtcWpSnbdp_TrnPcRrXoHsD2dDPzCvO_Z_bN-mPmNMVVnpjLQFaJPE54u8wDX6yh90K2ciMbCatwRqoHJMwDnSlr8kBBFnEhr9t6o5JwsTb0H-6KPNxO0_wtYy34iSeQf28ZYyrx9ZG3EpGE3WUZZaxW-wFb1fK00SJvr6d4CPlRPlp5Y6W9SfQv7J6vGYGmtAELk3ixNuohEa9ANYM_YM7gqR0UBDNHtrddt-zR0HPBUh-q0k3w8SkePAOV0nSv0CDkkVnHAwW1dIMZBxvK4UVctVwBHpotdnDHwTLt3pMO9sXsv4h0lOHNz71_VK72d0jjWWSVkIPn8ulpS1nlkl1hG1fG5M_lCck_xtcsBlx3Uw8VniM_LTa44z2tIXEkP96kvS1M5gAyYGMbMqON_uusiFbQMHEwgrpif_duZtlP7tsn_bwLb2MAyLuufa-9oCVr18HZAv8E0EfvdomqUY83xH3Z0kWs-5rk5DMsIkPJQcZVeSxPupM8nPhel2PmfdT1r8zEBKpu9gWd8jUJ6mWhzNo9r6FmENqlR-_5nBsLeKIvJmUcR0nX0hgGqjDnhyvh8iICbWWEtdWK0TFc4IM8HGLFx5-DiOid0-n1hxa6xpZ0bYzBNpjJRtOIiuH0-bPwx34TrZ1Inuhclo-zQM"/>
-                        </video>
                         <el-button :native-type="'button'" type="primary" icon="el-icon-plus" @click="getMoreMedia" :loading="moreLoading">Show more</el-button>
+                    </a-col>
+                    <a-col :span="24">
+                        <video>
+                            <source src="https://drive.google.com/uc?export=download&id=ACxzyGHW0SznBOePKDOowvIre-ny8XQZmYCoRbC56czqvOABB9iLVtg7_3C48h2Lx2xMy49VKH-PV24PMsN13v98RCdATuojxQ" type="video/mp4" />
+                        </video>
                     </a-col>
                 </a-row>
             </div>
@@ -30,15 +45,15 @@
 </template>
 
 <script>
-import Vue from 'vue'
+import Vue from 'vue';
 import {LoaderPlugin} from 'vue-google-login';
-import {mapActions, mapMutations} from 'vuex'
-import VueMasonry from 'vue-masonry-css'
+import {mapActions, mapMutations} from 'vuex';
+import VueMasonry from 'vue-masonry-css';
 
 Vue.use(VueMasonry);
 
 Vue.use(LoaderPlugin, {
-    client_id: "736218758525-aag0djin4ktbvi66cvuiljggj33sn8ke.apps.googleusercontent.com"
+    client_id: '736218758525-aag0djin4ktbvi66cvuiljggj33sn8ke.apps.googleusercontent.com',
 });
 
 export default {
@@ -46,8 +61,77 @@ export default {
         return {
             imgsArr: [],
             accessToken: '',
+            bearerToken : '',
             pageToken: '',
-            moreLoading: false
+            moreLoading: false,
+            filterParams: '',
+            pickerOptions: {
+                shortcuts: [
+                    {
+                        text: 'Last week',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                            picker.$emit('pick', [start, end]);
+                        },
+                    },
+                    {
+                        text: 'Last month',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                            picker.$emit('pick', [start, end]);
+                        },
+                    },
+                    {
+                        text: 'Last 3 months',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                            picker.$emit('pick', [start, end]);
+                        },
+                    },
+                    {
+                        text: 'Last 6 months',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 180);
+                            picker.$emit('pick', [start, end]);
+                        },
+                    },
+                    {
+                        text: 'Last 9 months',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 270);
+                            picker.$emit('pick', [start, end]);
+                        },
+                    },
+                    {
+                        text: 'Last year',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 365);
+                            picker.$emit('pick', [start, end]);
+                        },
+                    },
+                    {
+                        text: 'Last 2 year',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 730);
+                            picker.$emit('pick', [start, end]);
+                        },
+                    },
+                ],
+            },
         };
     },
     mounted() {
@@ -64,16 +148,18 @@ export default {
                 } else {
                     let authResponse = await auth2.currentUser.get().reloadAuthResponse();
                     let accessToken = _.get(authResponse, 'access_token', '');
+                    let id_token = _.get(authResponse, 'id_token', '');
                     self.accessToken = accessToken;
+                    self.bearerToken = id_token;
                     if (!!accessToken) {
-                        await this.fetchMediaItems(accessToken);
+                        await this.fetchMediaItems(accessToken, this.pageToken);
                     }
                 }
             }
         });
     },
     methods: {
-        ...mapActions('google', ['getMediaItems']),
+        ...mapActions('google', ['getMediaItems', 'filterMediaItems']),
         ...mapMutations({
             setLoadingState: 'dashboard/setLoadingState',
         }),
@@ -82,61 +168,80 @@ export default {
             Vue.GoogleAuth.then(async (auth2) => {
                 if (auth2.isSignedIn.get()) {
                     await auth2.grantOfflineAccess({
-                        scope: 'profile email https://www.googleapis.com/auth/photoslibrary'
+                        scope: 'profile email https://www.googleapis.com/auth/photoslibrary',
                     });
                     authResponse = auth2.currentUser.get().getAuthResponse();
                 } else {
                     await auth2.signIn({
-                        scope: 'profile email https://www.googleapis.com/auth/photoslibrary'
+                        scope: 'profile email https://www.googleapis.com/auth/photoslibrary',
                     });
                     authResponse = auth2.currentUser.get().getAuthResponse();
                 }
-                const accessToken = _.get(authResponse, 'access_token')
+                const accessToken = _.get(authResponse, 'access_token');
                 if (accessToken) {
                     await this.fetchMediaItems(accessToken);
                 }
-            })
-
-
+            });
         },
         async fetchMediaItems(accessToken, pageToken = null) {
-            let self = this
+            let self = this;
             if (!!accessToken) {
-                this.setLoadingState(true)
+                this.setLoadingState(true);
                 try {
-                    const {imgsArr} = self
+                    const {imgsArr} = self;
                     const response = await this.getMediaItems({accessToken, pageToken});
-                    const {mediaItems} = response.data
-                    const {nextPageToken} = response.data
+                    const {mediaItems} = response.data;
+                    const {nextPageToken} = response.data;
                     if (!!mediaItems) {
-                        // const appendImgs = mediaItems.map(function (o) {
-                        //     return o.baseUrl;
-                        // });
-                        this.imgsArr = [...imgsArr, ...mediaItems]
+                        this.imgsArr = [...imgsArr, ...mediaItems];
                     }
 
                     if (!!nextPageToken) {
                         self.pageToken = nextPageToken;
                     }
                 } catch (e) {
-                    console.log(e.message)
+                    console.log(e.message);
                 }
-                this.setLoadingState(false)
+                this.setLoadingState(false);
             }
         },
         async getMoreMedia() {
             try {
-                this.moreLoading = true
-                await this.fetchMediaItems(this.accessToken, this.pageToken)
-                this.moreLoading = false
+                this.moreLoading = true;
+                await this.fetchMediaItems(this.accessToken, this.pageToken);
+                this.moreLoading = false;
             } catch (e) {
-                console.log(e.message)
+                console.log(e.message);
             }
-        }
+        },
+        async handleFilterMediaItems() {
+            try {
+                let self = this;
+                if (!!self.accessToken) {
+                    self.setLoadingState(true);
+                    try {
+                        const {imgsArr, pageToken, accessToken, filterParams} = self;
+                        const response = await self.filterMediaItems({accessToken, pageToken, filterParams});
+                        const {mediaItems} = response.data;
+                        const {nextPageToken} = response.data;
+                        if (!!mediaItems) {
+                            this.imgsArr = [...imgsArr, ...mediaItems];
+                        }
+
+                        if (!!nextPageToken) {
+                            self.pageToken = nextPageToken;
+                        }
+                    } catch (e) {
+                        console.log(e.message);
+                    }
+                    self.setLoadingState(false);
+                }
+            } catch (e) {
+                console.log(e.message);
+            }
+        },
     },
-}
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

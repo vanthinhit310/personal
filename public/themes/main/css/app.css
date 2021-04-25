@@ -27227,6 +27227,10 @@ li.ant-tree-treenode-disabled > .ant-tree-node-content-wrapper:hover {
   height: 30px;
 }
 
+.el-date-editor .el-range-separator {
+  width: 22px;
+}
+
 .ag-theme-alpine {
   font-family: "Nunito", sans-serif !important;
   font-size: 13px;
@@ -27585,6 +27589,21 @@ button.is-disabled {
 
 .mansory-image {
   margin-bottom: 5px;
+}
+.mansory-image .hover-rotate {
+  overflow: hidden;
+  margin: 0;
+  min-width: 240px;
+  max-width: 320px;
+  width: 100%;
+}
+.mansory-image .hover-rotate img {
+  transition: all 0.3s;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+.mansory-image .hover-rotate:hover img {
+  transform: scale(1.3) rotate(5deg);
 }
 .mansory-image img {
   display: block;
