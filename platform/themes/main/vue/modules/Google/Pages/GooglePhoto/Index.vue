@@ -16,7 +16,7 @@
 <script>
 import Vue from 'vue'
 import GAuth from 'vue-google-oauth2'
-import { LoaderPlugin } from 'vue-google-login';
+import {LoaderPlugin} from 'vue-google-login';
 
 const gauthOption = {
     clientId: '736218758525-aag0djin4ktbvi66cvuiljggj33sn8ke.apps.googleusercontent.com',
@@ -31,22 +31,39 @@ export default {
     data() {
         return {
             isSignIn: false,
-            auth2 : ''
+            auth2: ''
         };
     },
-    async mounted(){
+    async mounted() {
+        Vue.GoogleAuth.then(async (auth2) => {
+            if (auth2.isSignedIn.get()) {
+                await auth2.signOut();
+            }
+        })
     },
     methods: {
-        async handleAccessScopePhoto(){
+        async handleAccessScopePhoto() {
+            let authResponse;
             Vue.GoogleAuth.then(async (auth2) => {
-                if(auth2.isSignedIn.get()){
-                    const authCode = await auth2.grantOfflineAccess({
+                if (auth2.isSignedIn.get()) {
+
+                    await auth2.grantOfflineAccess({
                         scope: 'profile email https://www.googleapis.com/auth/photoslibrary'
                     });
-                    console.log('====================================');
-                    console.log(authCode);
-                    console.log('====================================');
+
+                    authResponse = auth2.currentUser.get().getAuthResponse();
+                } else {
+
+                    await auth2.signIn({
+                        scope: 'profile email https://www.googleapis.com/auth/photoslibrary'
+                    });
+                    
+                    authResponse = auth2.currentUser.get().getAuthResponse();
                 }
+                console.log('====================================');
+                console.log(authResponse);
+                console.log(auth2.currentUser.get());
+                console.log('====================================');
             })
 
         }
