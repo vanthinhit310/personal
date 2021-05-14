@@ -9,34 +9,20 @@
                             <a-col :span="3">
                                 <el-button size="large" icon="el-icon-key" @click="handleAccessScopePhoto" round>Grant permission</el-button>
                             </a-col>
-                            <a-col :span="15">
-                                <div class="filter">
-                                    <el-date-picker size="large" v-model="filterParams" type="daterange" format="dd/MM/yyyy" value-format="dd/MM/yyyy" align="right" unlink-panels range-separator="To" start-placeholder="Start date" end-placeholder="End date" :picker-options="pickerOptions">
-                                    </el-date-picker>
-                                    <el-button @click.prevent="handleFilterMediaItems" size="large" icon="el-icon-check" :native-type="'button'" type="primary" round>Apply</el-button>
-                                </div>
-                            </a-col>
                         </a-row>
                     </a-col>
 
                     <a-col :span="24">
                         <masonry :cols="{default: 5, 1000: 4, 700: 3, 400: 1}" :gutter="{default: '5px'}">
-                            <div v-for="(item, index) in imgsArr" :key="index">
-                                <a class="d-block mansory-image" data-fancybox="google-photo-images" :href="`${item.baseUrl}=w2048-h1024`">
-                                    <figure class="hover-rotate">
-                                        <img class="img-fluid" :src="_.get(item, 'baseUrl')" alt="Image" />
-                                    </figure>
-                                </a>
-                            </div>
+                            <a v-for="(item, index) in mediaItems" :key="index" class="d-block mansory-image" data-fancybox="google-photo-images" :href="`${item.baseUrl}=w2048-h1024`">
+                                <figure class="hover-rotate">
+                                    <img class="img-fluid" :src="_.get(item, 'baseUrl')" alt="Image" />
+                                </figure>
+                            </a>
                         </masonry>
                     </a-col>
-                    <a-col :span="24" style="text-align: center">
+                     <a-col v-show="this.mediaItems.length > 0" :span="24" style="text-align: center">
                         <el-button :native-type="'button'" type="primary" icon="el-icon-plus" @click="getMoreMedia" :loading="moreLoading">Show more</el-button>
-                    </a-col>
-                    <a-col :span="24">
-                        <video>
-                            <source src="https://drive.google.com/uc?export=download&id=ACxzyGHW0SznBOePKDOowvIre-ny8XQZmYCoRbC56czqvOABB9iLVtg7_3C48h2Lx2xMy49VKH-PV24PMsN13v98RCdATuojxQ" type="video/mp4" />
-                        </video>
                     </a-col>
                 </a-row>
             </div>
@@ -61,7 +47,7 @@ export default {
         return {
             imgsArr: [],
             accessToken: '',
-            bearerToken : '',
+            bearerToken: '',
             pageToken: '',
             moreLoading: false,
             filterParams: '',
@@ -133,6 +119,13 @@ export default {
                 ],
             },
         };
+    },
+    computed: {
+        mediaItems() {
+            return this.imgsArr.filter((o) => {
+                return _.get(o, 'mimeType', '') != 'video/mp4';
+            });
+        },
     },
     mounted() {
         Vue.GoogleAuth.then(async (auth2) => {
@@ -210,32 +203,6 @@ export default {
                 this.moreLoading = true;
                 await this.fetchMediaItems(this.accessToken, this.pageToken);
                 this.moreLoading = false;
-            } catch (e) {
-                console.log(e.message);
-            }
-        },
-        async handleFilterMediaItems() {
-            try {
-                let self = this;
-                if (!!self.accessToken) {
-                    self.setLoadingState(true);
-                    try {
-                        const {imgsArr, pageToken, accessToken, filterParams} = self;
-                        const response = await self.filterMediaItems({accessToken, pageToken, filterParams});
-                        const {mediaItems} = response.data;
-                        const {nextPageToken} = response.data;
-                        if (!!mediaItems) {
-                            this.imgsArr = [...imgsArr, ...mediaItems];
-                        }
-
-                        if (!!nextPageToken) {
-                            self.pageToken = nextPageToken;
-                        }
-                    } catch (e) {
-                        console.log(e.message);
-                    }
-                    self.setLoadingState(false);
-                }
             } catch (e) {
                 console.log(e.message);
             }

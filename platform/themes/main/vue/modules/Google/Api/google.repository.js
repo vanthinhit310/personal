@@ -50,11 +50,18 @@ export default {
         if (!!pageToken) {
             params = { ...params, pageToken: pageToken };
         }
-        console.log(`params`, params);
-        return googlePhoto.post(`v1/mediaItems:search`, params, {
-            headers: {
-                Authorization: "Bearer " + accessToken
+        return googlePhoto.post(
+            `v1/mediaItems:search`,
+            {
+                jsonrpc: "2.0",
+                params: params
+            },
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + accessToken
+                }
             }
-        });
+        );
     }
 };
